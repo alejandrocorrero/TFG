@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TFG</string>
+    <string name="mnuPatient">Expediente</string>
+    <string name="mnuRecipes">Recetas</string>
+    <string name="mnuCitation">Cita</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mnuDiary">Agenda</string>
+    <string name="mnuConsult">Consultas</string>
+    <string name="mnuEConsult">eConsultas</string>
+    <string name="mnuSearch">Buscar</string>
+</resources>

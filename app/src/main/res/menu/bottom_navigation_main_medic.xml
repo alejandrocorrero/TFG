@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+
+        android:id="@+id/mnuDiary"
+        android:enabled="true"
+        android:icon="@drawable/ic_access_time_white_24dp"
+        android:title="@string/mnuDiary"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mnuConsult"
+        android:enabled="true"
+        android:icon="@drawable/ic_send_white_24dp"
+        android:title="@string/mnuConsult"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/mnuEConsult"
+        android:enabled="true"
+        android:icon="@drawable/ic_local_hospital_white_24dp"
+        android:title="@string/mnuEConsult"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/mnuSearch"
+        android:enabled="true"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/mnuSearch"
+        app:showAsAction="ifRoom" />
+</menu>
