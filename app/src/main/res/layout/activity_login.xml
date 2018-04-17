@@ -9,7 +9,7 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtDni"
+        android:id="@+id/tilDni"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -21,15 +21,18 @@
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtDni"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Dni"
-            android:textSize="36sp" />
+            android:lines="1"
+            android:inputType="text"
+            android:textSize="18sp" />
 
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/txtPassword"
+        android:id="@+id/tilPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -43,6 +46,7 @@
         app:layout_constraintVertical_weight="1">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Contraseña"
@@ -57,7 +61,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtDni"
+        app:layout_constraintBottom_toTopOf="@+id/tilDni"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
