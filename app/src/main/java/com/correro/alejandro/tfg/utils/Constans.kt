@@ -1,5 +1,11 @@
 package com.correro.alejandro.tfg.utils
 
+import android.app.Activity
+import android.content.Context
+import android.support.v7.app.AlertDialog
+import android.view.View
+import kotlinx.android.synthetic.main.activity_login.*
+
 class Constants {
     companion object {
         const val TYPE = "password"
@@ -7,3 +13,4 @@ class Constants {
         const val CLIENT_SECRET = "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k"
     }
 }
+
