@@ -7,7 +7,7 @@
     tools:context="com.correro.alejandro.tfg.patient.MainActivityPatient">
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigationView"
+        android:id="@+id/navPatient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -20,7 +20,7 @@
         android:id="@+id/frmMainPatient"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigationView"
+        app:layout_constraintBottom_toTopOf="@+id/navPatient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

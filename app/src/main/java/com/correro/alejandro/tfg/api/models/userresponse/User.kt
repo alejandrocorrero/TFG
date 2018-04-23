@@ -4,43 +4,41 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
+
 data class User(
-        @SerializedName("id") val id: Int,
-        @SerializedName("username") val username: String,
-        @SerializedName("username_canonical") val usernameCanonical: String,
-        @SerializedName("email") val email: String,
-        @SerializedName("email_canonical") val emailCanonical: String,
-        @SerializedName("enabled") val enabled: Boolean,
-        @SerializedName("salt") val salt: String,
-        @SerializedName("password") val password: String,
-        @SerializedName("groups") val groups: List<Any>,
-        @SerializedName("roles") val roles: List<String>,
+        @SerializedName("id") val id: String,
         @SerializedName("nombre") val nombre: String,
         @SerializedName("apellido") val apellido: String,
+        @SerializedName("email") val email: String,
         @SerializedName("direccion") val direccion: String,
         @SerializedName("fecha_nacimiento") val fechaNacimiento: String,
         @SerializedName("telefono") val telefono: String,
-        @SerializedName("movil") val movil: Int,
-        @SerializedName("pais") val pais: String,
-        @SerializedName("sexo") val sexo: String
+        @SerializedName("movil") val movil: String,
+        @SerializedName("pais_nacimiento") val paisNacimiento: String,
+        @SerializedName("sexo") val sexo: String,
+        @SerializedName("estado_civil") val estadoCivil: String,
+        @SerializedName("ocupacion") val ocupacion: String,
+        @SerializedName("notas") val notas: String,
+        @SerializedName("foto") val foto: String,
+        @SerializedName("nombre_medico") val nombreMedico: String,
+        @SerializedName("id_medico") val idMedico: String
+
 ) : Parcelable {
     constructor(source: Parcel) : this(
-            source.readInt(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            1 == source.readInt(),
-            source.readString(),
-            source.readString(),
-            ArrayList<Any>().apply { source.readList(this, Any::class.java.classLoader) },
-            source.createStringArrayList(),
             source.readString(),
             source.readString(),
             source.readString(),
             source.readString(),
             source.readString(),
-            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
             source.readString(),
             source.readString()
     )
@@ -48,24 +46,22 @@ data class User(
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeInt(id)
-        writeString(username)
-        writeString(usernameCanonical)
-        writeString(email)
-        writeString(emailCanonical)
-        writeInt((if (enabled) 1 else 0))
-        writeString(salt)
-        writeString(password)
-        writeList(groups)
-        writeStringList(roles)
+        writeString(id)
         writeString(nombre)
         writeString(apellido)
+        writeString(email)
         writeString(direccion)
         writeString(fechaNacimiento)
         writeString(telefono)
-        writeInt(movil)
-        writeString(pais)
+        writeString(movil)
+        writeString(paisNacimiento)
         writeString(sexo)
+        writeString(estadoCivil)
+        writeString(ocupacion)
+        writeString(notas)
+        writeString(foto)
+        writeString(nombreMedico)
+        writeString(idMedico)
     }
 
     companion object {

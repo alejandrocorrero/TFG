@@ -25,7 +25,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         mviewmodel = ViewModelProviders.of(this).get(LoginActivityViewModel::class.java)
         btnLogin.setOnClickListener { loginButton() }
-
+        txtDni.setText("12345678G")
+        txtPassword.setText("1234")
 
         /*setSupportActionBar(toolbar.findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)*/

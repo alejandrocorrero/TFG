@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.correro.alejandro.tfg.login.LoginActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@drawable/gradient_login">
 
 
     <android.support.design.widget.TextInputLayout
@@ -25,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Dni"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:lines="1"
             android:inputType="text"
             android:textSize="18sp" />
@@ -50,6 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Contraseña"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
