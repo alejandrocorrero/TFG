@@ -13,6 +13,8 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 fun Activity.errorRequest(errorResponse: Int, contx: Context) {
     btnLogin.isEnabled = true
@@ -51,4 +53,5 @@ fun FragmentManager.executeTransaction(operations: FragmentTransaction.() -> Uni
         transaction.operations()
         transaction.commit()
     }
+
 }

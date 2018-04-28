@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".medic.diaryfragment.DiaryDetailActivity">
+    tools:context=".ui.medic.diaryfragment.DiaryDetailActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton3"

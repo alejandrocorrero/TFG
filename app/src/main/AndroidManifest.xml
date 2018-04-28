@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".login.LoginActivity">
+        <activity android:name="com.correro.alejandro.tfg.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,24 +17,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".patient.MainActivityPatient"
+            android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient"
             android:theme="@style/AppTheme" />
-        <activity android:name=".patient.patientfragment.historialfragment.HistorialDetailActivity" />
-        <activity android:name=".patient.citatefragment.CitationActivity" />
-        <activity android:name=".patient.consultfragment.ConsultActivity" />
-        <activity android:name=".patient.consultfragment.ConsultDetailActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity" />
         <activity
-            android:name=".medic.MainMedicActivity"
+            android:name="com.correro.alejandro.tfg.ui.medic.MainMedicActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".medic.diaryfragment.DiaryDetailActivity" />
-        <activity android:name=".medic.econsultfragment.EConsultDetailActivity" />
-        <activity android:name=".medic.econsultfragment.EConsultAddActivity" />
-        <activity android:name=".medic.searchfragment.SearchDetailActivity">
+        <activity android:name="com.correro.alejandro.tfg.ui.medic.diaryfragment.DiaryDetailActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.medic.econsultfragment.EConsultDetailActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.medic.econsultfragment.EConsultAddActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.medic.searchfragment.SearchDetailActivity">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".medic.SearchResultsActivity">
+        <activity android:name="com.correro.alejandro.tfg.ui.medic.SearchResultsActivity">
         <intent-filter>
             <action android:name="android.intent.action.SEARCH" />
         </intent-filter>
