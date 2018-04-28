@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.correro.alejandro.tfg.R
+import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivity
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
@@ -38,13 +39,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun responseCall(userResponse: UserResponse) {
-        if (userResponse.type == 1)
-            startActivity(MainActivityPatient.newIntent(this, userResponse.user))
-        else
+
+        if (userResponse.type == 1) {
+            mviewmodel.getHistoricals()
+            mviewmodel.historicalResponse.observe(this, Observer<HistoricalResponse> { hr -> startPacient(hr!!, userResponse) })
+        } else
             startActivity(Intent(this, MainMedicActivity::class.java))
         //Toast.makeText(this, if (userResponse.type == 1) "SOY UN PACIENTE" else "SOY UN MEDICO", Toast.LENGTH_LONG).show()
 
 
+    }
+
+    private fun startPacient(historicalResponse: HistoricalResponse, userResponse: UserResponse) {
+        startActivity(MainActivityPatient.newIntent(this, userResponse.user, historicalResponse.historicals))
     }
 
 
