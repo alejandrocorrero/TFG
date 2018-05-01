@@ -25,6 +25,9 @@ fun Activity.errorRequest(errorResponse: Int, contx: Context) {
         404 -> AlertDialog.Builder(contx).setMessage("Fallo en la conexion").setTitle("Aviso").create().show()
     }
 }
+fun Activity.error(contx: Context,message:String,tittle:String){
+    AlertDialog.Builder(contx).setMessage(message).setTitle(tittle).create().show()
+}
 
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.disableShiftMode() {

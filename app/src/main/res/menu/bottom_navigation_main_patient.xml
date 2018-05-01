@@ -29,6 +29,6 @@
         android:id="@+id/mnuConsultation"
         android:enabled="true"
         android:icon="@drawable/ic_local_hospital_white_24dp"
-        android:title="@string/mnuCitation"
+        android:title="@string/mnuConsult"
         app:showAsAction="ifRoom" />
 </menu>

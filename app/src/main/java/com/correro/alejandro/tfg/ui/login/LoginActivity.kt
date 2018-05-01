@@ -32,17 +32,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginButton() {
         mviewmodel.login(txtDni.text.toString(), txtPassword.text.toString())
-        mviewmodel.userResponse.observe(this, Observer<UserResponse> { userresponse -> responseCall(userresponse!!) })
+        mviewmodel.allValues.observe(this, Observer<Boolean> { b -> responseCall(b!!) })
         mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!, this) })
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
     }
 
-    private fun responseCall(userResponse: UserResponse) {
-
-        if (userResponse.type == 1) {
-            mviewmodel.getHistoricals()
-            mviewmodel.historicalResponse.observe(this, Observer<HistoricalResponse> { hr -> startPacient(hr!!, userResponse) })
+    private fun responseCall(b: Boolean) {
+        if (b) {
+           if( mviewmodel.userResponse.type==1){
+               MainActivityPatient.start(this, mviewmodel.userResponse.user, mviewmodel.historicalResponse,mviewmodel.chronicsResponse)
+           }
         } else
             startActivity(Intent(this, MainMedicActivity::class.java))
         //Toast.makeText(this, if (userResponse.type == 1) "SOY UN PACIENTE" else "SOY UN MEDICO", Toast.LENGTH_LONG).show()
@@ -50,9 +50,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun startPacient(historicalResponse: HistoricalResponse, userResponse: UserResponse) {
-        startActivity(MainActivityPatient.newIntent(this, userResponse.user, historicalResponse.historicals))
-    }
 
 
 }

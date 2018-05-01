@@ -6,7 +6,11 @@ import android.arch.lifecycle.MutableLiveData
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.LoginResponse
+import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
+import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
+import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
+import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,14 +23,16 @@ import java.net.SocketTimeoutException
 class LoginActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var token: String
-    lateinit var userResponse: MutableLiveData<UserResponse>
+    lateinit var userResponse: UserResponse
     lateinit var errorCode: MutableLiveData<Int>
     var cox: Application = application
-    lateinit var historicalResponse: MutableLiveData<HistoricalResponse>
+    lateinit var historicalResponse: ArrayList<Historical>
+     lateinit var chronicsResponse: ArrayList<Chronic>
+    lateinit var allValues: MutableLiveData<Boolean>
 
     fun login(username: String, password: String) {
-        userResponse = MutableLiveData()
         errorCode = MutableLiveData()
+        allValues = MutableLiveData()
         apiService.login(username, password, Constants.TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setLogin, this::setError)
     }
 
@@ -41,26 +47,30 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     private fun setLogin(loginResponse: LoginResponse) {
         token = loginResponse.accessToken
-        getUser()
-    }
-
-    fun getUser() {
+        Constants.token="Bearer "+loginResponse.accessToken
         apiService.getUser("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
 
     }
-    fun getHistoricals(){
-        historicalResponse= MutableLiveData()
-        apiService.getHistorical("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
-    }
 
+
+    fun setChronics(chronicResponse: ChronicResponse) {
+        this.chronicsResponse = chronicResponse.chronics
+        allValues.value = true
+    }
 
 
     private fun setHistoricals(historicalResponse: HistoricalResponse) {
-        this.historicalResponse.value=historicalResponse
+        this.historicalResponse = historicalResponse.historicals
+        apiService.getChronics("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setChronics, this::setError)
     }
 
     private fun setUser(userResponse: UserResponse) {
-        this.userResponse.value = userResponse
+        this.userResponse = userResponse
+        apiService.getHistorical("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
+    }
+
+    init {
+        val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     }
 
 

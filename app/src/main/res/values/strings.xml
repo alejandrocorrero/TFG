@@ -2,7 +2,7 @@
     <string name="app_name">TFG</string>
     <string name="mnuPatient">Expediente</string>
     <string name="mnuRecipes">Recetas</string>
-    <string name="mnuCitation">Cita</string>
+    <string name="mnuCitation">Citas</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -10,4 +10,5 @@
     <string name="mnuConsult">Consultas</string>
     <string name="mnuEConsult">eConsultas</string>
     <string name="mnuSearch">Buscar</string>
+    <string name="date">%1$s %2$s</string>
 </resources>

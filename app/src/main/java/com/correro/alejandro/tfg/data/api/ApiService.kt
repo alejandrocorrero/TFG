@@ -1,7 +1,10 @@
 package com.correro.alejandro.tfg.data.api
 
 import com.correro.alejandro.tfg.data.api.models.LoginResponse
+import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
+import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
+import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -17,6 +20,16 @@ interface ApiService {
 
     @GET("api/patient/historical")
     fun getHistorical(@Header("Authorization") token: String): Observable<HistoricalResponse>
+
+    @GET("api/patient/chronic")
+    fun getChronics(@Header("Authorization") token: String): Observable<ChronicResponse>
+
+    @GET("api/patient/recipeshistorical/{id}")
+    fun getRecipesHistorical(@Header("Authorization") token: String, @Path("id") id:Int): Observable<RecipesResponse>
+
+    @GET("api/patient/citations")
+    fun getCitationsPatient(@Header("Authorization") token: String): Observable<CitationResponse>
+
 }
 
 

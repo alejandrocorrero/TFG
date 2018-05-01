@@ -29,26 +29,24 @@ class PatientFragment : Fragment() {
     val FRAGMENT_CHRONIC = "FRAGMENT_CHRONIC"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity?.supportFragmentManager?.executeTransaction({replace(R.id.frnExpedient, ExpedientFragment(), FRAGMENT_EXPEDIENT)},FRAGMENT_EXPEDIENT)
         var viewgroup = inflater.inflate(R.layout.fragment_patient, container, false)
-        viewgroup.patientTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        viewgroup.patientTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab) {}
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
             override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.position){
-                    0->activity?.supportFragmentManager?.executeTransaction({replace(R.id.frnExpedient, ExpedientFragment(), FRAGMENT_EXPEDIENT)},FRAGMENT_EXPEDIENT)
-                    1->activity?.supportFragmentManager?.executeTransaction({replace(R.id.frnExpedient, HistorialFragment(), FRAGMENT_HISTORIAL)},FRAGMENT_HISTORIAL)
-                    2->activity?.supportFragmentManager?.executeTransaction({replace(R.id.frnExpedient, ChronicFragment(), FRAGMENT_CHRONIC)},FRAGMENT_CHRONIC)
+                when (tab.position) {
+                    0 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, ExpedientFragment(), FRAGMENT_EXPEDIENT) }, FRAGMENT_EXPEDIENT)
+                    1 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, HistorialFragment(), FRAGMENT_HISTORIAL) }, FRAGMENT_HISTORIAL)
+                    3 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, ChronicFragment(), FRAGMENT_CHRONIC) }, FRAGMENT_CHRONIC)
 
                 }
-
             }
         })
-
+        viewgroup.patientTab.getTabAt(0)!!.select()
+        //TODO REPARAR FALLO TAB
         return viewgroup
     }
-
-
 
 
 }// Required empty public constructor
