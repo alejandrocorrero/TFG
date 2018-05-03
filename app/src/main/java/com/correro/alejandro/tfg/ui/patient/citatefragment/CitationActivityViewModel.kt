@@ -11,6 +11,7 @@ import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import java.io.File
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -38,4 +39,6 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
             is IOException -> errorMessage.value = "IO error"
         }
     }
+
+
 }

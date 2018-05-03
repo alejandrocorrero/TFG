@@ -22,10 +22,10 @@ class ExpedientFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: FragmentExpedientBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expedient, container, false)
-        val view = binding.root
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         binding.patient = mviewmodel.user
-        return view
+
+        return binding.root
     }
 
 }// Required empty public constructor

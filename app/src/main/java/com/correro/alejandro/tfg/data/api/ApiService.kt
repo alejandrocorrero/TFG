@@ -1,13 +1,18 @@
 package com.correro.alejandro.tfg.data.api
 
+import android.net.Uri
 import com.correro.alejandro.tfg.data.api.models.LoginResponse
+import com.correro.alejandro.tfg.data.api.models.adjuntotest.AdjuntoResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
+import java.io.File
 
 
 interface ApiService {
@@ -30,6 +35,9 @@ interface ApiService {
     @GET("api/patient/citations")
     fun getCitationsPatient(@Header("Authorization") token: String): Observable<CitationResponse>
 
+    @Multipart
+    @POST("api/patient/adjunto/new")
+    fun postTest(@Header("Authorization") token: String,@Part file: MultipartBody.Part): Observable<AdjuntoResponse>
 }
 
 

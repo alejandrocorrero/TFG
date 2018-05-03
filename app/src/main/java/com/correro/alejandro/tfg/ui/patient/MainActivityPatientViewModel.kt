@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.patient
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import android.net.Uri
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
@@ -15,7 +16,10 @@ import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
+import java.io.File
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -62,5 +66,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
             citatitons.value = citationResponse.citations
         }
     }
-
+    fun postPrueba(file:  MultipartBody.Part,name: RequestBody){
+        apiService.postTest(Constants.token,file).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
+    }
 }

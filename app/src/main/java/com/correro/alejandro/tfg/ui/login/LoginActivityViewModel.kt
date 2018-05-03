@@ -13,6 +13,7 @@ import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalRes
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.utils.Constants
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
