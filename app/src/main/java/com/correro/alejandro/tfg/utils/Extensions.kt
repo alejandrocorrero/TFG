@@ -13,8 +13,6 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 fun Activity.errorRequest(errorResponse: Int, contx: Context) {
     btnLogin.isEnabled = true
@@ -25,8 +23,8 @@ fun Activity.errorRequest(errorResponse: Int, contx: Context) {
         404 -> AlertDialog.Builder(contx).setMessage("Fallo en la conexion").setTitle("Aviso").create().show()
     }
 }
-fun Activity.error(contx: Context,message:String,tittle:String){
-    AlertDialog.Builder(contx).setMessage(message).setTitle(tittle).create().show()
+fun Activity.error(message: String, tittle: String){
+    AlertDialog.Builder(this).setMessage(message).setTitle(tittle).create().show()
 }
 
 @SuppressLint("RestrictedApi")

@@ -32,13 +32,14 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var recipes: MutableLiveData<ArrayList<Recipe>>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
+
     fun gethistorialRecipes(id: Int) {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
         apiService.getRecipesHistorical(Constants.token, id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
     }
 
-    fun setRecipe(recipesResponse: RecipesResponse) {
+    private fun setRecipe(recipesResponse: RecipesResponse) {
         if (recipesResponse.status == Constants.HTTP_OK) {
             recipes.value = recipesResponse.recipes
         } else if (recipesResponse.status == Constants.HTTP_NOT_FOUND) {
@@ -68,5 +69,11 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
     fun postPrueba(file:  MultipartBody.Part,name: RequestBody){
         apiService.postTest(Constants.token,file).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
+    }
+
+    fun getRecipes() {
+        recipes = MutableLiveData()
+        errorMessage = MutableLiveData()
+        apiService.getRecipes(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe,this::setError)
     }
 }

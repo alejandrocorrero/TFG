@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +47,8 @@ class CitationFragment : Fragment() {
         mviewmodel.getCitations()
         mviewmodel.citatitons.observe(this, Observer(::setList))
         view.progressBar2.visibility = View.VISIBLE
-        validatePermissions()
+        view.fabAdd.setOnClickListener{startActivity(Intent(activity, CitationActivity::class.java))}
+        //validatePermissions()
         return view
     }
 

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgPhoto"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:text="Nombre"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/imgPhoto"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -39,6 +39,6 @@
         android:text="Ciudad"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/imgPhoto"
         app:layout_constraintTop_toBottomOf="@+id/textView56" />
 </android.support.constraint.ConstraintLayout>

@@ -14,6 +14,7 @@ import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.ui.patient.citatefragment.CitationFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
+import com.correro.alejandro.tfg.ui.patient.recipefragment.RecipesFragment
 import com.correro.alejandro.tfg.utils.disableShiftMode
 import com.correro.alejandro.tfg.utils.executeTransaction
 import kotlinx.android.synthetic.main.activity_main_patient.*
@@ -21,7 +22,9 @@ import kotlinx.android.synthetic.main.activity_main_patient.*
 class MainActivityPatient : AppCompatActivity() {
     val FRAGMENT_PATIENT = "FRAGMENT_PATIENT"
     val FRAGMENT_CITATION = "FRAGMENT_CITATION"
+    val FRAGMENT_RECIPES = "FRAGMENT_RECIPES"
     private lateinit var mviewmodel: MainActivityPatientViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +38,14 @@ class MainActivityPatient : AppCompatActivity() {
         navPatient.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.mnuPatient -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT)
-                R.id.mnuRecipes -> Toast.makeText(this, "Implementar", Toast.LENGTH_LONG).show()
+                R.id.mnuRecipes -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, RecipesFragment(), FRAGMENT_RECIPES) }, FRAGMENT_RECIPES)
                 R.id.mnuCitation -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, CitationFragment(), FRAGMENT_CITATION) }, FRAGMENT_CITATION)
                 R.id.mnuConsult -> Toast.makeText(this, "Implementar", Toast.LENGTH_LONG).show()
             }
             true
 
         }
-        navPatient.selectedItemId=R.id.mnuPatient
+        navPatient.selectedItemId = R.id.mnuPatient
     }
 
     companion object {
@@ -56,6 +59,10 @@ class MainActivityPatient : AppCompatActivity() {
             intent.putParcelableArrayListExtra(INTENT_CHRONICS, chronics)
             context.startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        //nada
     }
 
 

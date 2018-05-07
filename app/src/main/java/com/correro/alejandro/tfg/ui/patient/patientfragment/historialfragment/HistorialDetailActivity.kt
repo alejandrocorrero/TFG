@@ -4,19 +4,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.LinearLayout
 import com.correro.alejandro.tfg.R
-import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.Recipe
-import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.databinding.ActivityHistorialDetailBinding
-import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
+import com.correro.alejandro.tfg.ui.patient.recipefragment.RecipeAdapter
 import kotlinx.android.synthetic.main.activity_historial_detail.*
-import kotlinx.android.synthetic.main.fragment_historial.view.*
 
 class HistorialDetailActivity : AppCompatActivity() {
 
@@ -32,7 +29,7 @@ class HistorialDetailActivity : AppCompatActivity() {
         mviewmodel.recipes = intent.getParcelableArrayListExtra<Recipe>(INTENT_RECIPES) ?: throw IllegalStateException("field $INTENT_RECIPES missing in Intent")
         mBinding.historical = mviewmodel.historical
         rcyRecipesHistorial.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rcyRecipesHistorial.adapter = RecipesAdapter(mviewmodel.recipes)
+        rcyRecipesHistorial.adapter = RecipeAdapter(mviewmodel.recipes)
     }
 
     companion object {

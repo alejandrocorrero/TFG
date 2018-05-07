@@ -5,7 +5,9 @@ import com.correro.alejandro.tfg.data.api.models.LoginResponse
 import com.correro.alejandro.tfg.data.api.models.adjuntotest.AdjuntoResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
+import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
+import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
@@ -30,14 +32,23 @@ interface ApiService {
     fun getChronics(@Header("Authorization") token: String): Observable<ChronicResponse>
 
     @GET("api/patient/recipeshistorical/{id}")
-    fun getRecipesHistorical(@Header("Authorization") token: String, @Path("id") id:Int): Observable<RecipesResponse>
+    fun getRecipesHistorical(@Header("Authorization") token: String, @Path("id") id: Int): Observable<RecipesResponse>
+
+    @GET("api/patient/recipes")
+    fun getRecipes(@Header("Authorization") token: String): Observable<RecipesResponse>
 
     @GET("api/patient/citations")
     fun getCitationsPatient(@Header("Authorization") token: String): Observable<CitationResponse>
 
+    @GET("api/patient/medichorary")
+    fun getHoraryMedic(@Header("Authorization") token: String): Observable<MedicHoraryResponse>
+
+    @GET("api/patient/citationsmedic")
+    fun getCitationsMedicUsed(@Header("Authorization") token: String): Observable<CitationMedicResponse>
+
     @Multipart
     @POST("api/patient/adjunto/new")
-    fun postTest(@Header("Authorization") token: String,@Part file: MultipartBody.Part): Observable<AdjuntoResponse>
+    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part): Observable<AdjuntoResponse>
 }
 
 
