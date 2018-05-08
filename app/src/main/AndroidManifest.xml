@@ -20,8 +20,9 @@
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity" />
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity" android:theme="@style/AppTheme"/>
         <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity" />
         <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity" />
         <activity

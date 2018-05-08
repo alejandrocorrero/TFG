@@ -41,7 +41,6 @@ class HistorialFragment : Fragment() {
             mviewmodel.gethistorialRecipes(it.id.toInt())
             mviewmodel.recipes.observe(this, Observer { d -> detail(it, d!!) })
             mviewmodel.errorMessage.observe(this, Observer { b -> activity!!.error(b!!,"Alert") })
-            Toast.makeText(activity, it.id, Toast.LENGTH_SHORT).show()
         }
     }
 

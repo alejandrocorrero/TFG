@@ -8,13 +8,16 @@ import com.google.gson.annotations.SerializedName
 data class Historical(
         @SerializedName("id") val id: String,
         @SerializedName("causa") val causa: String,
+        @SerializedName("diagnostico") val diagnostico: String,
         @SerializedName("notas") val notas: String,
         @SerializedName("fecha") val fecha: String,
         @SerializedName("nombre_medico") val nombreMedico: String,
         @SerializedName("centro_salud") val centroSalud: String,
         @SerializedName("direccion_centro") val direccionCentro: String
+
 ) : Parcelable {
     constructor(source: Parcel) : this(
+            source.readString(),
             source.readString(),
             source.readString(),
             source.readString(),
@@ -29,6 +32,7 @@ data class Historical(
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(id)
         writeString(causa)
+        writeString(diagnostico)
         writeString(notas)
         writeString(fecha)
         writeString(nombreMedico)
