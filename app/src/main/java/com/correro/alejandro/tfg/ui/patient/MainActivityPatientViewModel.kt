@@ -67,8 +67,8 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
             citatitons.value = citationResponse.citations
         }
     }
-    fun postPrueba(file:  MultipartBody.Part,name: RequestBody){
-        apiService.postTest(Constants.token,file).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
+    fun postPrueba(file:  MultipartBody.Part,name: String){
+        apiService.postTest(Constants.token,file,name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
     }
 
     fun getRecipes() {

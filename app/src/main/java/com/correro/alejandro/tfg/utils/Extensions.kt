@@ -1,5 +1,6 @@
 package com.correro.alejandro.tfg.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -12,6 +13,14 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import com.correro.alejandro.tfg.R
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_login.*
 
 fun Activity.errorRequest(errorResponse: Int, contx: Context) {
@@ -23,9 +32,11 @@ fun Activity.errorRequest(errorResponse: Int, contx: Context) {
         404 -> AlertDialog.Builder(contx).setMessage("Fallo en la conexion").setTitle("Aviso").create().show()
     }
 }
-fun Activity.error(message: String, tittle: String){
+
+fun Activity.error(message: String, tittle: String) {
     AlertDialog.Builder(this).setMessage(message).setTitle(tittle).create().show()
 }
+
 fun Activity.createdDialog(message: String, tittle: String) {
     AlertDialog.Builder(this).setMessage(message).setTitle(tittle).setPositiveButton("Aceptar", { _, _ -> finish() }).setCancelable(false).create().show()
 }
@@ -51,11 +62,53 @@ fun BottomNavigationView.disableShiftMode() {
     }
 }
 
-fun FragmentManager.executeTransaction(operations: FragmentTransaction.() -> Unit,name:String) {
+fun FragmentManager.executeTransaction(operations: FragmentTransaction.() -> Unit, name: String) {
     if (findFragmentByTag(name) == null) {
         val transaction = beginTransaction()
         transaction.operations()
         transaction.commit()
     }
 
+}
+
+fun Activity.permissionWrite(operations: () -> Unit) {
+    Dexter.withActivity(this)
+            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                    operations()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?) {
+                    AlertDialog.Builder(this@permissionWrite)
+                            .setTitle(
+                                    R.string.storage_permission_rationale_title)
+                            .setMessage(
+                                    R.string.storage_permition_rationale_message)
+                            .setNegativeButton(
+                                    android.R.string.cancel,
+                                    { dialog, _ ->
+                                        dialog.dismiss()
+                                        token?.cancelPermissionRequest()
+                                    })
+                            .setPositiveButton(android.R.string.ok,
+                                    { dialog, _ ->
+                                        dialog.dismiss()
+                                        token?.continuePermissionRequest()
+                                    })
+                            .setOnDismissListener({
+                                token?.cancelPermissionRequest()
+                            })
+                            .show()
+                }
+
+                override fun onPermissionDenied(
+                        response: PermissionDeniedResponse?) {
+                    Log.v("Falla", "falla")
+                    Toast.makeText(this@permissionWrite, "test", Toast.LENGTH_LONG).show()
+                }
+            })
+            .check()
 }

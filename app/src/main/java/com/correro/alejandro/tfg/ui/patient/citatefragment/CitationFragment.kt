@@ -62,8 +62,7 @@ class CitationFragment : Fragment() {
         Dexter.withActivity(activity)
                 .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(
-                            response: PermissionGrantedResponse?) {
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
                         launchCamera()
                     }
 
@@ -140,8 +139,8 @@ class CitationFragment : Fragment() {
         val file = File(photoPath)
         val reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         val body = MultipartBody.Part.createFormData("file","image", reqFile);
-        val name = RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-        mviewmodel.postPrueba(body,name)
+        RequestBody.create(MediaType.parse("text/plain"), "upload_test");
+        mviewmodel.postPrueba(body,"nombre")
     }
 
 }
