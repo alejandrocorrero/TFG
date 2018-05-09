@@ -19,7 +19,7 @@ class ApiClient private constructor(context: Context) {
         builder.addInterceptor(ChuckInterceptor(context))
         val client: OkHttpClient = builder.build();
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.213/tfgapi/api/web/app_dev.php/")
+                .baseUrl("http://10.0.2.2/tfgapi/api/web/app_dev.php/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
