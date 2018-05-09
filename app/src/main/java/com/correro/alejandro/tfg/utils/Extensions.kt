@@ -26,6 +26,9 @@ fun Activity.errorRequest(errorResponse: Int, contx: Context) {
 fun Activity.error(message: String, tittle: String){
     AlertDialog.Builder(this).setMessage(message).setTitle(tittle).create().show()
 }
+fun Activity.createdDialog(message: String, tittle: String) {
+    AlertDialog.Builder(this).setMessage(message).setTitle(tittle).setPositiveButton("Aceptar", { _, _ -> finish() }).setCancelable(false).create().show()
+}
 
 @SuppressLint("RestrictedApi")
 fun BottomNavigationView.disableShiftMode() {

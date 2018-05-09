@@ -18,24 +18,25 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_citation.*
 import android.R.attr.data
+import android.text.TextUtils
 import android.widget.ArrayAdapter
+import com.correro.alejandro.tfg.utils.createdDialog
+import com.correro.alejandro.tfg.utils.error
 import java.time.LocalDate
 
 
 var days = SimpleDateFormat("yyyy-MM-dd")
+var time = SimpleDateFormat("HH:mm:ss")
 
 
-class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-
-    }
+class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        txtDay.text = SpannableStringBuilder(String.format("$dayOfMonth/%d/$year",monthOfYear+1))
-        var test=GregorianCalendar(year,monthOfYear,dayOfMonth).time
+        txtDay.text = SpannableStringBuilder(String.format("$dayOfMonth/%d/$year", monthOfYear + 1))
+        var test = GregorianCalendar(year, monthOfYear, dayOfMonth).time
         for (i in mviewmodel.horaryMedic) {
             for (j in mviewmodel.citatitons) {
-                var test2=days.format(test)
+                var test2 = days.format(test)
                 if (j.dia == test2) {
                     i.hours.remove(j.hora)
                 }
@@ -57,6 +58,16 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         mviewmodel.getCitationsMedic()
         //mviewmodel
         imageButton2.setOnClickListener { v -> mviewmodel.horary.observe(this, Observer(this::setCitationsUsed)) }
+        btnCreateCitation.setOnClickListener({ v ->
+            v.isEnabled = false
+            if (TextUtils.isEmpty(txtDay.text) || spinner.selectedItem == null) {
+                error("REvisa datos", "Revisa datos")
+            } else {
+                mviewmodel.createCitation(txtDay.text.toString(), spinner.selectedItem.toString())
+                mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error");v.isEnabled = true })
+                mviewmodel.citationCreated.observe(this, Observer { createdDialog("created", "Sucess");v.isEnabled = true })
+            }
+        })
 
 
     }

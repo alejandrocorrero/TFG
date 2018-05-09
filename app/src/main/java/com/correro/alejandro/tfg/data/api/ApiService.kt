@@ -6,6 +6,7 @@ import com.correro.alejandro.tfg.data.api.models.adjuntotest.AdjuntoResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicResponse
+import com.correro.alejandro.tfg.data.api.models.createcitationresponse.CitationCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
@@ -15,6 +16,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 import java.io.File
+import java.util.*
 
 
 interface ApiService {
@@ -49,6 +51,11 @@ interface ApiService {
     @Multipart
     @POST("api/patient/adjunto/new")
     fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part): Observable<AdjuntoResponse>
+
+    @FormUrlEncoded
+    @POST("api/patient/create_citation")
+    fun createCitation(@Header("Authorization") token: String, @Field("day") day: String, @Field("time") time: String): Observable<CitationCreatedResponse>
+
 }
 
 

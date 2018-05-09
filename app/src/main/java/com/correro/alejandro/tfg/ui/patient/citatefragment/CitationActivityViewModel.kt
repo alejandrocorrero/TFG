@@ -8,6 +8,7 @@ import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicUsed
 import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicResponse
+import com.correro.alejandro.tfg.data.api.models.createcitationresponse.CitationCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.Horary
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.utils.Constants
@@ -27,14 +28,13 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var citatitons: ArrayList<CitationMedicUsed>
     lateinit var horary: MutableLiveData<ArrayList<Horary>>
+    lateinit var citationCreated: MutableLiveData<Boolean>
     var minute = SimpleDateFormat("HH:mm:ss")
-    var minut2e = SimpleDateFormat("HH:mm:ss")
-    var days = SimpleDateFormat("dd/MM/yyyy")
     var nameDay = SimpleDateFormat("EEEE", Locale("es", "ES"))
     lateinit var horaryMedic: ArrayList<HoraryMedic>
 
     fun getCitationsMedic() {
-        horary= MutableLiveData()
+        horary = MutableLiveData()
         apiService.getCitationsMedicUsed(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
 
     }
@@ -46,7 +46,6 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
-    //TODO TERMINAR OBTENER HORARIO DIVIDIRLO ENTRE 12MINUTOS Y ELIMINAR LAS CITAS USADAS CREAR LIVEDATE DE CITAS DISPONIBLES
     private fun setHorary(medicHoraryResponse: MedicHoraryResponse) {
         if (medicHoraryResponse.status == Constants.HTTP_OK) {
             horaryMedic = ArrayList()
@@ -70,7 +69,7 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
                 }
                 today.add(Calendar.DATE, 1)
             }
-        horary.value=medicHoraryResponse.data
+            horary.value = medicHoraryResponse.data
         }
     }
 
@@ -82,5 +81,22 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
+    fun createCitation(date: String, time: String) {
+        if (!::citationCreated.isInitialized) {
+            citationCreated = MutableLiveData()
+        }
+        if (!::errorMessage.isInitialized) {
+            errorMessage = MutableLiveData()
+        }
+        apiService.createCitation(Constants.token, date, time).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCreate, this::setError)
+
+    }
+
+    private fun setCreate(response: CitationCreatedResponse) {
+        if (response.status == Constants.HTTP_CREATED)
+            citationCreated.value = true
+        if (response.status == Constants.HTTP_NOT_FOUND)
+            errorMessage.value = "La cita elegida ya existe"
+    }
 
 }
