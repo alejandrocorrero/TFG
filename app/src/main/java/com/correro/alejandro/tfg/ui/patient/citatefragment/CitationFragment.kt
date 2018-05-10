@@ -20,10 +20,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
+import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -41,21 +43,27 @@ class CitationFragment : Fragment() {
 
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
+    private lateinit var adapter: GenericAdapter<Citation>
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_citation, container, false)
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
         mviewmodel.getCitations()
-        mviewmodel.citatitons.observe(this, Observer(::setList))
+        mviewmodel.citatitons.observe(this, Observer({ setList(it) }))
         view.progressBar2.visibility = View.VISIBLE
-        view.fabAdd.setOnClickListener{startActivity(Intent(activity, CitationActivity::class.java))}
+        view.fabAdd.setOnClickListener { startActivity(Intent(activity, CitationActivity::class.java)) }
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item)
+        view.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        view.rcyCitations.adapter = adapter
         //validatePermissions()
         return view
     }
 
     private fun setList(list: ArrayList<Citation>?) {
         view!!.progressBar2.visibility = View.GONE
-        view!!.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        view!!.rcyCitations.adapter = CitationAdapter(list!!)
+        if (list != null) {
+            adapter.newItems(list)
+        }
     }
 
     private fun validatePermissions() {
@@ -138,9 +146,9 @@ class CitationFragment : Fragment() {
         cursor.close()
         val file = File(photoPath)
         val reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        val body = MultipartBody.Part.createFormData("file","image", reqFile);
+        val body = MultipartBody.Part.createFormData("file", "image", reqFile);
         RequestBody.create(MediaType.parse("text/plain"), "upload_test");
-        mviewmodel.postPrueba(body,"nombre")
+        mviewmodel.postPrueba(body, "nombre")
     }
 
 }
