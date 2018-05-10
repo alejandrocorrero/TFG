@@ -3,9 +3,11 @@ package com.correro.alejandro.tfg.ui.patient
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
-import android.net.Uri
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
+import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.Attachment
+import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentCreatedResponse
+import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
 import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
@@ -17,9 +19,7 @@ import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.HttpException
-import java.io.File
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -31,6 +31,8 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var recipes: MutableLiveData<ArrayList<Recipe>>
+    lateinit var attchments: MutableLiveData<ArrayList<Attachment>>
+
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
 
     fun gethistorialRecipes(id: Int) {
@@ -47,6 +49,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
+
     private fun setError(e: Throwable?) {
         when (e) {
             is HttpException -> errorMessage.value = "Try again"
@@ -54,7 +57,6 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
             is IOException -> errorMessage.value = "IO error"
         }
     }
-
 
     fun getCitations() {
         citatitons = MutableLiveData()
@@ -67,13 +69,25 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
             citatitons.value = citationResponse.citations
         }
     }
-    fun postPrueba(file:  MultipartBody.Part,name: String){
-        apiService.postTest(Constants.token,file,name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
+
+    fun postPrueba(file: MultipartBody.Part, name: String) {
+        apiService.postTest(Constants.token, file, name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
     }
 
     fun getRecipes() {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getRecipes(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe,this::setError)
+        apiService.getRecipes(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+    }
+
+    fun getAttchments() {
+        attchments = MutableLiveData()
+        errorMessage = MutableLiveData()
+        apiService.getAttachments(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+    }
+
+    private fun setAttachments(attachmentResponse: AttachmentResponse) {
+        this.attchments.value = attachmentResponse.attachments
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

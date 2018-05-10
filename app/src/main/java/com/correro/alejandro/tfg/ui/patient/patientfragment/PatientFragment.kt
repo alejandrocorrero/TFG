@@ -17,6 +17,7 @@ import android.util.Log
 import com.correro.alejandro.tfg.R.id.tabLayout
 import com.correro.alejandro.tfg.R.id.tabPacient
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
+import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.AttachmentsFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.chronicfragment.ChronicFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialFragment
 import com.squareup.picasso.Picasso
@@ -31,6 +32,7 @@ class PatientFragment : Fragment() {
     val FRAGMENT_EXPEDIENT = "FRAGMENT_EXPEDIENT"
     val FRAGMENT_HISTORIAL = "FRAGMENT_HISTORIAL"
     val FRAGMENT_CHRONIC = "FRAGMENT_CHRONIC"
+    val FRAGMENT_ATTACHMENT = "FRAGMENT_ATTACHMENT"
 
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
@@ -46,6 +48,7 @@ class PatientFragment : Fragment() {
                     0 -> activity!!.supportFragmentManager.beginTransaction().replace(R.id.frnExpedient, ExpedientFragment()).commit()
                     1 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, HistorialFragment(), FRAGMENT_HISTORIAL) }, FRAGMENT_HISTORIAL)
                     2 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, ChronicFragment(), FRAGMENT_CHRONIC) }, FRAGMENT_CHRONIC)
+                    3 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, AttachmentsFragment(), FRAGMENT_ATTACHMENT) }, FRAGMENT_ATTACHMENT)
 
                 }
             }
@@ -58,6 +61,7 @@ class PatientFragment : Fragment() {
                     0 -> activity!!.supportFragmentManager.beginTransaction().replace(R.id.frnExpedient, ExpedientFragment()).commit()
                     1 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, HistorialFragment(), FRAGMENT_HISTORIAL) }, FRAGMENT_HISTORIAL)
                     2 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, ChronicFragment(), FRAGMENT_CHRONIC) }, FRAGMENT_CHRONIC)
+                    3 -> activity?.supportFragmentManager?.executeTransaction({ replace(R.id.frnExpedient, AttachmentsFragment(), FRAGMENT_ATTACHMENT) }, FRAGMENT_ATTACHMENT)
 
                 }
             }

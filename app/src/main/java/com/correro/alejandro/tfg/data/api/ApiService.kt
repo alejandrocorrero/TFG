@@ -1,6 +1,7 @@
 package com.correro.alejandro.tfg.data.api
 
 import com.correro.alejandro.tfg.data.api.models.LoginResponse
+import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
@@ -46,12 +47,14 @@ interface ApiService {
 
     @Multipart
     @POST("api/patient/adjunto/new")
-    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part,@Field("name") name:String): Observable<AttachmentResponse>
+    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part,@Field("name") name:String): Observable<AttachmentCreatedResponse>
 
     @FormUrlEncoded
     @POST("api/patient/create_citation")
     fun createCitation(@Header("Authorization") token: String, @Field("day") day: String, @Field("time") time: String): Observable<CitationCreatedResponse>
 
+    @GET("api/patient/attachments")
+    fun getAttachments(@Header("Authorization") token: String): Observable<AttachmentResponse>
 }
 
 

@@ -10,12 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
+import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.Recipe
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
+import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.error
 import kotlinx.android.synthetic.main.fragment_historial.view.*
 
@@ -32,7 +33,9 @@ class HistorialFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_historial, container, false)
         view.rcyHistoricals.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        view.rcyHistoricals.adapter = HistoricalAdapter(mviewmodel.historical, clickItem())
+        view.rcyHistoricals.adapter = GenericAdapter(BR.historical, R.layout.fragment_historial_item, clickItem(),null, mviewmodel.historical)
+
+
         return view
     }
 
@@ -40,7 +43,7 @@ class HistorialFragment : Fragment() {
         return {
             mviewmodel.gethistorialRecipes(it.id.toInt())
             mviewmodel.recipes.observe(this, Observer { d -> detail(it, d!!) })
-            mviewmodel.errorMessage.observe(this, Observer { b -> activity!!.error(b!!,"Alert") })
+            mviewmodel.errorMessage.observe(this, Observer { b -> activity!!.error(b!!, "Alert") })
         }
     }
 
