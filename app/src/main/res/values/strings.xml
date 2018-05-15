@@ -17,4 +17,6 @@
     <string name="storage_permition_rationale_message">test</string>
     <string name="storage_permission_rationale_title">test</string>
     <string name="storage_permission_denied_message">test2</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="accept">Accept</string>
 </resources>

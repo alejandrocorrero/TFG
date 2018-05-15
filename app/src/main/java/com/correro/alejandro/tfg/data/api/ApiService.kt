@@ -6,14 +6,21 @@ import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentR
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicResponse
+import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
 import com.correro.alejandro.tfg.data.api.models.createcitationresponse.CitationCreatedResponse
+import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
+import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.SpecialtiesResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import retrofit2.http.*
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Streaming
 
 
 interface ApiService {
@@ -47,7 +54,7 @@ interface ApiService {
 
     @Multipart
     @POST("api/patient/adjunto/new")
-    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part,@Field("name") name:String): Observable<AttachmentCreatedResponse>
+    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part, @Field("name") name: String): Observable<AttachmentCreatedResponse>
 
     @FormUrlEncoded
     @POST("api/patient/create_citation")
@@ -55,6 +62,21 @@ interface ApiService {
 
     @GET("api/patient/attachments")
     fun getAttachments(@Header("Authorization") token: String): Observable<AttachmentResponse>
+
+    @Streaming
+    @GET("api/patient/file/{url}")
+    fun downloadFile(@Header("Authorization") token: String,@Path("url") fileUrl: String): Observable<Response<ResponseBody>>
+
+    @GET("api/patient/consults")
+    fun getConsults(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+
+    @GET("api/patient/specialties")
+    fun getSpecialties(@Header("Authorization") token: String): Observable<SpecialtiesResponse>
+
+    @FormUrlEncoded
+    @POST("api/patient/create_consult_medic")
+    fun createConsultMEdic(@Header("Authorization") token: String, @Field("description") description: String, @Field("id_medic") id_medic: Int): Observable<CreateConsultResponse>
+
 }
 
 

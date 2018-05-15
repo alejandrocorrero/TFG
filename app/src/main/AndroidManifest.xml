@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.correro.alejandro.tfg">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,10 +22,15 @@
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity"
-            android:theme="@style/AppTheme"/>
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity" />
+        <activity
+            android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity" />
         <activity
             android:name="com.correro.alejandro.tfg.ui.medic.MainMedicActivity"
@@ -37,10 +44,22 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name="com.correro.alejandro.tfg.ui.medic.SearchResultsActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.SEARCH" />
-        </intent-filter>
-    </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+
+        </provider>
     </application>
 
 </manifest>

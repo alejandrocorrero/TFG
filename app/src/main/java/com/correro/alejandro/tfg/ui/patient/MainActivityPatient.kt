@@ -13,6 +13,7 @@ import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.ui.patient.citatefragment.CitationFragment
+import com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
 import com.correro.alejandro.tfg.ui.patient.recipefragment.RecipesFragment
 import com.correro.alejandro.tfg.utils.disableShiftMode
@@ -23,6 +24,7 @@ class MainActivityPatient : AppCompatActivity() {
     val FRAGMENT_PATIENT = "FRAGMENT_PATIENT"
     val FRAGMENT_CITATION = "FRAGMENT_CITATION"
     val FRAGMENT_RECIPES = "FRAGMENT_RECIPES"
+    val FRAGMENT_CONSULT = "FRAGMENT_CONSULT"
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
 
@@ -40,7 +42,7 @@ class MainActivityPatient : AppCompatActivity() {
                 R.id.mnuPatient -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT)
                 R.id.mnuRecipes -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, RecipesFragment(), FRAGMENT_RECIPES) }, FRAGMENT_RECIPES)
                 R.id.mnuCitation -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, CitationFragment(), FRAGMENT_CITATION) }, FRAGMENT_CITATION)
-                R.id.mnuConsult -> Toast.makeText(this, "Implementar", Toast.LENGTH_LONG).show()
+                R.id.mnuConsultation -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, ConsultFragment(), FRAGMENT_CONSULT) }, FRAGMENT_CONSULT)
             }
             true
 
