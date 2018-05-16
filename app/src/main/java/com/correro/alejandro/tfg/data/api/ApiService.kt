@@ -16,6 +16,7 @@ import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.Specialties
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -65,7 +66,7 @@ interface ApiService {
 
     @Streaming
     @GET("api/patient/file/{url}")
-    fun downloadFile(@Header("Authorization") token: String,@Path("url") fileUrl: String): Observable<Response<ResponseBody>>
+    fun downloadFile(@Header("Authorization") token: String, @Path("url") fileUrl: String): Observable<Response<ResponseBody>>
 
     @GET("api/patient/consults")
     fun getConsults(@Header("Authorization") token: String): Observable<ConsultsListResponse>
@@ -73,9 +74,9 @@ interface ApiService {
     @GET("api/patient/specialties")
     fun getSpecialties(@Header("Authorization") token: String): Observable<SpecialtiesResponse>
 
-    @FormUrlEncoded
+
     @POST("api/patient/create_consult_medic")
-    fun createConsultMEdic(@Header("Authorization") token: String, @Field("description") description: String, @Field("id_medic") id_medic: Int): Observable<CreateConsultResponse>
+    fun createConsultMEdic(@Header("Authorization") token: String,@Body body: RequestBody?): Observable<CreateConsultResponse>
 
 }
 

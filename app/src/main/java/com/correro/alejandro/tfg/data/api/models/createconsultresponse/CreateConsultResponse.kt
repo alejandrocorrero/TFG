@@ -6,5 +6,5 @@ data class CreateConsultResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val message: String,
     @SerializedName("type") val type: Int,
-    @SerializedName("data") val data: Int
+    @SerializedName("data") val data: String
 )

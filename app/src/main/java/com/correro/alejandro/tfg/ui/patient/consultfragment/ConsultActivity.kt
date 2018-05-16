@@ -20,6 +20,7 @@ import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
 import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.Specialty
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
+import com.correro.alejandro.tfg.utils.createdDialog
 import com.correro.alejandro.tfg.utils.error
 import com.correro.alejandro.tfg.utils.permissionWrite
 import kotlinx.android.synthetic.main.activity_consult_add.*
@@ -64,26 +65,27 @@ class ConsultActivity : AppCompatActivity() {
     }
 
     private fun checkvalues() {
-        if(TextUtils.isEmpty(txtConsult.text)){
-            error("LA descripcion no puede estar vacia","Error")
-        }else{
-            if(spinner2.selectedItemPosition==0){
-                mviewmodel.createConsultMedic(txtConsult.text.toString(),mviewmodel.user.idMedico)
+        if (TextUtils.isEmpty(txtConsult.text)) {
+            error("LA descripcion no puede estar vacia", "Error")
+        } else {
+            if (spinner2.selectedItemPosition == 0) {
+                mviewmodel.createConsultMedic(txtConsult.text.toString(), mviewmodel.user.idMedico)
                 mviewmodel.createConsult.observe(this, Observer { createConsultResponse(it) })
-            }else{
-                for(it:Specialty in mviewmodel.speacilties.value!!){
-                    if(it.nombre == spinner2.selectedItem){
-                       var test= mviewmodel.createConsultSpecialty(txtConsult.text.toString(),it.id)
+            } else {
+                /*for (it: Specialty in mviewmodel.speacilties.value!!) {
+                    if (it.nombre == spinner2.selectedItem) {
+                        var test = mviewmodel.createConsultSpecialty(txtConsult.text.toString(), it.id)
                         break
                     }
-                }
+                }*/
             }
-            mviewmodel.errorMessage.observe(this, Observer { error(it!!,"Warning") })
+            mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
 
         }
     }
 
-    private fun createConsultResponse(it: CreateConsultResponse?) {
+    private fun createConsultResponse(it: Boolean?) {
+        createdDialog("Created consult", "Success")
 
     }
 
