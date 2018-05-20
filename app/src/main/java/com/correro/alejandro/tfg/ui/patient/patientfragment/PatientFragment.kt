@@ -40,7 +40,7 @@ class PatientFragment : Fragment() {
         var viewgroup = inflater.inflate(R.layout.fragment_patient, container, false)
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
-        Picasso.with(context).load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
+        Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
 
         viewgroup.patientTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab) {

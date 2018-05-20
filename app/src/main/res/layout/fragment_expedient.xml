@@ -16,6 +16,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/backgroundProfile"
             tools:context=".ui.patient.patientfragment.expedientfragment.ExpedientFragment">
 
             <!-- TODO: Update blank fragment layout -->
@@ -25,317 +26,410 @@
                 android:id="@+id/lblName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.nombre}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblN"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/lblFirstName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.apellido}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblF"
-                app:layout_constraintTop_toBottomOf="@+id/lblName" />
+                app:layout_constraintStart_toStartOf="@+id/lblName"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <TextView
                 android:id="@+id/lblMedic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.nombreMedico}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblM"
+                app:layout_constraintStart_toStartOf="@+id/lblFirstName"
                 app:layout_constraintTop_toBottomOf="@+id/lblFirstName" />
 
             <TextView
                 android:id="@+id/lblAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.direccion}"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblA"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@+id/lblMedic" />
 
             <TextView
                 android:id="@+id/lblPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.telefono}"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblP"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/lblCountry" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblName" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblFirstName" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblMedic" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblAddress" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblPhone" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblSmartphone" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblGender" />
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblBorn" />
+
+            <View
+                android:id="@+id/view10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
+
+            <View
+                android:id="@+id/view11"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblMariage" />
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblCountry" />
 
             <TextView
                 android:id="@+id/lblSmartphone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.movil}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblMP"
-                app:layout_constraintTop_toBottomOf="@+id/lblPhone" />
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
 
             <TextView
                 android:id="@+id/lblCountry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.paisNacimiento}"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblC"
-                app:layout_constraintTop_toBottomOf="@+id/lblSmartphone" />
+                app:layout_constraintStart_toStartOf="@+id/lblAddress"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
 
             <TextView
                 android:id="@+id/lblGender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.sexo}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblG"
-                app:layout_constraintTop_toBottomOf="@+id/lblCountry" />
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/view7" />
 
             <TextView
                 android:id="@+id/lblBorn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.fechaNacimiento}"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblB"
-                app:layout_constraintTop_toBottomOf="@+id/lblGender" />
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
 
 
             <TextView
                 android:id="@+id/lblEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.email}"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblE"
-                app:layout_constraintTop_toBottomOf="@+id/lblBorn" />
+                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintTop_toBottomOf="@+id/view9" />
 
             <TextView
                 android:id="@+id/lblMariage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.estadoCivil}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblMa"
-                app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
+                app:layout_constraintStart_toStartOf="@+id/lblEmail"
+                app:layout_constraintTop_toBottomOf="@+id/view10" />
 
             <TextView
                 android:id="@+id/lblOcupation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.ocupacion}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lblO"
-                app:layout_constraintTop_toBottomOf="@+id/lblMariage" />
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toBottomOf="@+id/view11" />
 
             <TextView
                 android:id="@+id/lblNotes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:padding="4dp"
                 android:text="@{patient.notas}"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblNo" />
 
             <TextView
-                android:id="@+id/lblN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Name"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/lblF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:layout_marginTop="8dp"
-                android:textStyle="bold"
-                android:text="Lastname"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblN" />
-
-            <TextView
-                android:id="@+id/lblM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:text="Medic"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblF" />
-
-            <TextView
-                android:id="@+id/lblA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textStyle="bold"
-                android:text="Address"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblMedic" />
-
-            <TextView
-                android:id="@+id/lblP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Phone"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblAddress" />
-
-            <TextView
-                android:id="@+id/lblMP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textStyle="bold"
-                android:text="Mobile Phone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblPhone" />
-
-            <TextView
-                android:id="@+id/lblC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:text="Country"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblMP" />
-
-            <TextView
-                android:id="@+id/lblG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textStyle="bold"
-                android:text="Gender"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblCountry" />
-
-            <TextView
-                android:id="@+id/lblB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:text="Birth date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblGender" />
-
-            <TextView
-                android:id="@+id/lblE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Email"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblBorn" />
-
-            <TextView
-                android:id="@+id/lblMa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:text="Mariage"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
-
-            <TextView
-                android:id="@+id/lblO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:text="Ocupation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblMariage" />
-
-            <TextView
                 android:id="@+id/lblNo"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:background="@color/test"
+                android:padding="4dp"
                 android:text="Notas"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblOcupation" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toTopOf="@+id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_person_red_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lblMedic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:srcCompat="@drawable/ic_local_hospital_white_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblMedic"
+                app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblSmartphone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblPhone"
+                app:srcCompat="@drawable/ic_phone_android_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblPhone"
+                app:layout_constraintStart_toStartOf="@+id/view4"
+                app:layout_constraintTop_toTopOf="@+id/lblPhone"
+                app:srcCompat="@drawable/ic_phone_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblGender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblSmartphone"
+                app:srcCompat="@drawable/ic_person_pin_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblBorn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblGender"
+                app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblBorn"
+                app:srcCompat="@drawable/ic_email_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/lblOcupation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lblOcupation"
+                app:srcCompat="@drawable/ic_work_black_24dp" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

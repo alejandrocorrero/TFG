@@ -20,7 +20,7 @@ import java.net.SocketTimeoutException
 import kotlin.collections.ArrayList
 
 
-class ConsultActivityViewmodel(application: Application) : AndroidViewModel(application) {
+class ConsultViewmodel(application: Application) : AndroidViewModel(application) {
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var speacilties: MutableLiveData<ArrayList<Specialty>>
@@ -70,6 +70,25 @@ class ConsultActivityViewmodel(application: Application) : AndroidViewModel(appl
 
 
 
+
+
+
+
+    }
+    fun createConsultSpecialty(descripcion: String,idSpecialty: String) {
+        createConsult = MutableLiveData()
+        errorMessage = MutableLiveData()
+        val builder = MultipartBody.Builder()
+        builder.addFormDataPart("description", descripcion)
+        builder.addFormDataPart("id_speciality", idSpecialty)
+        builder.setType(MultipartBody.FORM)
+        if (photos.size!=0) {
+            for (i in photos.size - 1 downTo 0) {
+                builder.addFormDataPart("file[$i]", "adjunto consulta", photos[i].photo.body())
+            }
+        }
+        val finalRequestBody = builder.build()
+        apiService.createConsultSpecialty(Constants.token,finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
 
 
 

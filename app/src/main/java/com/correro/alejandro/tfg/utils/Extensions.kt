@@ -21,6 +21,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 
 fun Activity.errorRequest(errorResponse: Int, contx: Context) {
@@ -112,3 +115,4 @@ fun Activity.permissionWrite(operations: () -> Unit) {
             })
             .check()
 }
+

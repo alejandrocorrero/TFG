@@ -3,7 +3,6 @@ package com.correro.alejandro.tfg.ui.patient.consultfragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -41,7 +40,7 @@ class ConsultFragment : Fragment() {
 
     fun click(): (ConsultsList) -> Unit {
         return {
-            //mviewmodel.get
+            ConsultDetailActivity.start(activity!!, it.id.toInt())
         }
 
     }

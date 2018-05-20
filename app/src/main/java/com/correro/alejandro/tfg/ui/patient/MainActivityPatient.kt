@@ -35,7 +35,7 @@ class MainActivityPatient : AppCompatActivity() {
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
         mviewmodel.historical = intent.getParcelableArrayListExtra<Historical>(INTENT_HISTORICAL) ?: throw IllegalStateException("field $INTENT_HISTORICAL missing in Intent")
         mviewmodel.chronics = intent.getParcelableArrayListExtra<Chronic>(INTENT_CHRONICS) ?: throw IllegalStateException("field $INTENT_CHRONICS missing in Intent")
-        //Toast.makeText(this, user.nombre, Toast.LENGTH_LONG).show()
+        setSupportActionBar(toolbar2)
         navPatient.disableShiftMode()
         navPatient.setOnNavigationItemSelectedListener {
             when (it.itemId) {

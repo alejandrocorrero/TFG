@@ -1,106 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.patient.consultfragment.ConsultDetailActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+<data>
 
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Descripcion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <variable
+        name="consult"
+        type="com.correro.alejandro.tfg.data.api.models.consultpatientresponse.Consult" />
+</data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.patient.consultfragment.ConsultDetailActivity">
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nstPhotos">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblDescription"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{consult.descripcion}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.v7.widget.RecyclerView
+        <EditText
+            android:id="@+id/txtResponse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnSend"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcyResponses"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/txtResponse"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/progressBar4"
+            tools:listitem="@layout/fragment_consult_medic_type_item"
+
+/>
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_send" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nstPhotos"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:fillViewport="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDescription">
+
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+                android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcyPhotos"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:numColumns="2"
+                    android:stretchMode="columnWidth"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:listitem="@layout/imagegrid_item" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nstPhotos"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="8dp"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView38">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <GridView
-                android:id="@+id/gridPhotos"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:numColumns="2"
-                android:stretchMode="columnWidth"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

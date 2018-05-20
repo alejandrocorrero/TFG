@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class ApiClient private constructor(context: Context) {
 
@@ -17,8 +18,11 @@ class ApiClient private constructor(context: Context) {
     init {
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
         builder.addInterceptor(ChuckInterceptor(context))
+        builder.connectTimeout(1, TimeUnit.MINUTES)
+        builder.readTimeout(1, TimeUnit.MINUTES)
         val client: OkHttpClient = builder.build();
         val retrofit = Retrofit.Builder()
+
                 .baseUrl("http://192.168.1.213/tfgapi/api/web/app_dev.php/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
@@ -26,8 +30,9 @@ class ApiClient private constructor(context: Context) {
                 .build()
         service = retrofit.create<ApiService>(ApiService::class.java)
     }
+
     companion object Factory {
-        private var ourInstance: ApiClient?=null
+        private var ourInstance: ApiClient? = null
 
         @Synchronized
         fun getInstance(contxt: Context): ApiClient {
@@ -37,6 +42,7 @@ class ApiClient private constructor(context: Context) {
             return ourInstance as ApiClient
         }
     }
+
     fun getService(): ApiService {
         return service
     }

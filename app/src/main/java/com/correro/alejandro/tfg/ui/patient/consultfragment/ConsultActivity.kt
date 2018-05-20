@@ -17,7 +17,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import com.correro.alejandro.tfg.R
-import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
 import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.Specialty
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.utils.createdDialog
@@ -31,14 +30,14 @@ import java.io.File
 
 class ConsultActivity : AppCompatActivity() {
 
-    private lateinit var mviewmodel: ConsultActivityViewmodel
+    private lateinit var mviewmodel: ConsultViewmodel
 
     private lateinit var adapter: AdapterPhotos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consult_add)
-        mviewmodel = ViewModelProviders.of(this).get(ConsultActivityViewmodel::class.java)
+        mviewmodel = ViewModelProviders.of(this).get(ConsultViewmodel::class.java)
         mviewmodel.getSpecialties().observe(this, Observer(this::setSpiner))
         fabAddPhoto.setOnClickListener { permissionWrite { launchCamera() } }
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
@@ -66,18 +65,20 @@ class ConsultActivity : AppCompatActivity() {
 
     private fun checkvalues() {
         if (TextUtils.isEmpty(txtConsult.text)) {
-            error("LA descripcion no puede estar vacia", "Error")
+            error("La descripcion no puede estar vacia", "Error")
         } else {
             if (spinner2.selectedItemPosition == 0) {
                 mviewmodel.createConsultMedic(txtConsult.text.toString(), mviewmodel.user.idMedico)
                 mviewmodel.createConsult.observe(this, Observer { createConsultResponse(it) })
             } else {
-                /*for (it: Specialty in mviewmodel.speacilties.value!!) {
+                for (it: Specialty in mviewmodel.speacilties.value!!) {
                     if (it.nombre == spinner2.selectedItem) {
-                        var test = mviewmodel.createConsultSpecialty(txtConsult.text.toString(), it.id)
+                        mviewmodel.createConsultSpecialty(txtConsult.text.toString(), it.id.toString())
+                        mviewmodel.createConsult.observe(this, Observer { createConsultResponse(it) })
+
                         break
                     }
-                }*/
+                }
             }
             mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
 

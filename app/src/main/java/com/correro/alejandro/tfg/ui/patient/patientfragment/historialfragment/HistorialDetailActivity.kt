@@ -13,7 +13,6 @@ import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.Recipe
 import com.correro.alejandro.tfg.databinding.ActivityHistorialDetailBinding
-import com.correro.alejandro.tfg.ui.patient.recipefragment.RecipeAdapter
 import com.correro.alejandro.tfg.utils.GenericAdapter
 import kotlinx.android.synthetic.main.activity_historial_detail.*
 

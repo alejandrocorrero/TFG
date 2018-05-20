@@ -29,7 +29,7 @@ class AdapterPhotos(private val click: (ImageItem) -> Boolean, var items: ArrayL
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: ImageItem, click: (ImageItem) -> Boolean) = with(itemView) {
-        Picasso.with(context).load(item.path).resize(500, 500).into(imgPhoto)
+        Picasso.get().load(item.path).resize(500, 500).into(imgPhoto)
         popup.setOnClickListener { v -> showMenu(v, click, item) }
 
 

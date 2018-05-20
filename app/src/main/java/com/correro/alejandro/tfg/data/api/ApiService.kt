@@ -6,9 +6,11 @@ import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentR
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicResponse
+import com.correro.alejandro.tfg.data.api.models.consultpatientresponse.ConsultPatientResponse
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
 import com.correro.alejandro.tfg.data.api.models.createcitationresponse.CitationCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
+import com.correro.alejandro.tfg.data.api.models.createdResponse.ResponseResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
@@ -76,8 +78,19 @@ interface ApiService {
 
 
     @POST("api/patient/create_consult_medic")
-    fun createConsultMEdic(@Header("Authorization") token: String,@Body body: RequestBody?): Observable<CreateConsultResponse>
+    fun createConsultMEdic(@Header("Authorization") token: String, @Body body: RequestBody?): Observable<CreateConsultResponse>
+
+    @POST("api/patient/create_consult_specialties")
+    fun createConsultSpecialty(@Header("Authorization") token: String, @Body body: RequestBody?): Observable<CreateConsultResponse>
+
+    @GET("api/patient/consults/{id}")
+    fun getConsult(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
+
+    @FormUrlEncoded
+    @POST("api/patient/response")
+    fun createResponsePacient(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
 
 }
+
 
 

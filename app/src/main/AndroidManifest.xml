@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        >
         <activity android:name="com.correro.alejandro.tfg.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +22,7 @@
         </activity>
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient"
-            android:theme="@style/AppTheme" />
+            />
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity"
             android:theme="@style/AppTheme" />
@@ -31,7 +32,10 @@
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity" />
+        <activity
+            android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.correro.alejandro.tfg.ui.medic.MainMedicActivity"
             android:theme="@style/AppTheme.NoActionBar" />
