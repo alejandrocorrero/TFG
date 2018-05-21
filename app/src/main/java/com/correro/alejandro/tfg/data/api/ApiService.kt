@@ -90,6 +90,11 @@ interface ApiService {
     @POST("api/patient/response")
     fun createResponsePacient(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
 
+    @GET("api/medic/consultspatiens")
+    fun getConsultsPatiens(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+
+    @GET("api/medic/consultspecialty")
+    fun getConsultsSpecialty(@Header("Authorization") token: String): Observable<ConsultsListResponse>
 }
 
 

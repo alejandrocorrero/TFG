@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Dni"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:lines="1"
             android:inputType="text"
             android:textSize="18sp" />
@@ -53,8 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Contraseña"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 

@@ -7,7 +7,7 @@ data class ConsultsList(
     @SerializedName("fecha") val fecha: String,
     @SerializedName("descripcion") val descripcion: String,
     @SerializedName("nombre") val nombre: String,
-    @SerializedName("nombre_medico") val nombreMedico: String,
+    @SerializedName("nombre_respuesta") val nombreRespuesta: String,
     @SerializedName("fecharespuesta") val fecharespuesta: String,
     @SerializedName("respuesta") val respuesta: String,
     @SerializedName("leido") val leido: String

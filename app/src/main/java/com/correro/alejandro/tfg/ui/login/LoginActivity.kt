@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
+import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivity
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
@@ -32,17 +33,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginButton() {
         mviewmodel.login(txtDni.text.toString(), txtPassword.text.toString())
-        mviewmodel.allValues.observe(this, Observer<Boolean> { b -> responseCall(b!!) })
+        mviewmodel.userResponse.observe(this, Observer { t -> responseCall(t!!) })
         mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!, this) })
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
     }
 
-    private fun responseCall(b: Boolean) {
-        if (b) {
-           if( mviewmodel.userResponse.type==1){
-               MainActivityPatient.start(this, mviewmodel.userResponse.user, mviewmodel.historicalResponse,mviewmodel.chronicsResponse)
-           }
+    private fun responseCall(userResponse: UserResponse) {
+
+        if (userResponse.type == 1) {
+            mviewmodel.getValues().observe(this, Observer { initPatient(it) })
+
         } else
             startActivity(Intent(this, MainMedicActivity::class.java))
         //Toast.makeText(this, if (userResponse.type == 1) "SOY UN PACIENTE" else "SOY UN MEDICO", Toast.LENGTH_LONG).show()
@@ -50,6 +51,12 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun initPatient(it: Boolean?) {
+        if (it == true) {
+            MainActivityPatient.start(this, mviewmodel.userResponse.value!!.user, mviewmodel.historicalResponse, mviewmodel.chronicsResponse)
+
+        }
+    }
 
 
 }

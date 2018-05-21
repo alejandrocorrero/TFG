@@ -24,16 +24,16 @@ import java.net.SocketTimeoutException
 class LoginActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var token: String
-    lateinit var userResponse: UserResponse
+    lateinit var userResponse: MutableLiveData<UserResponse>
     lateinit var errorCode: MutableLiveData<Int>
     var cox: Application = application
     lateinit var historicalResponse: ArrayList<Historical>
-     lateinit var chronicsResponse: ArrayList<Chronic>
+    lateinit var chronicsResponse: ArrayList<Chronic>
     lateinit var allValues: MutableLiveData<Boolean>
 
     fun login(username: String, password: String) {
         errorCode = MutableLiveData()
-        allValues = MutableLiveData()
+        userResponse = MutableLiveData()
         apiService.login(username, password, Constants.TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setLogin, this::setError)
     }
 
@@ -48,7 +48,8 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     private fun setLogin(loginResponse: LoginResponse) {
         token = loginResponse.accessToken
-        Constants.token="Bearer "+loginResponse.accessToken
+
+        Constants.token = "Bearer " + loginResponse.accessToken
         apiService.getUser("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
 
     }
@@ -66,12 +67,13 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private fun setUser(userResponse: UserResponse) {
-        this.userResponse = userResponse
-        apiService.getHistorical("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
+        this.userResponse.value = userResponse
     }
 
-    init {
-        val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
+    public fun getValues(): MutableLiveData<Boolean> {
+        allValues = MutableLiveData()
+        apiService.getHistorical("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
+        return allValues
     }
 
 

@@ -39,7 +39,7 @@ class MainActivityPatient : AppCompatActivity() {
         navPatient.disableShiftMode()
         navPatient.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.mnuPatient -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT)
+                R.id.mnuDiary -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT)
                 R.id.mnuRecipes -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, RecipesFragment(), FRAGMENT_RECIPES) }, FRAGMENT_RECIPES)
                 R.id.mnuCitation -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, CitationFragment(), FRAGMENT_CITATION) }, FRAGMENT_CITATION)
                 R.id.mnuConsultation -> supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, ConsultFragment(), FRAGMENT_CONSULT) }, FRAGMENT_CONSULT)
