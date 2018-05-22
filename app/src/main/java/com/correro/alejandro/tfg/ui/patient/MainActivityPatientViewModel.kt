@@ -4,8 +4,6 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
-import android.net.Uri
-import android.os.Environment
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.Attachment
@@ -26,15 +24,12 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
-import okio.Okio
 import android.view.View
 import io.reactivex.Observable
 import java.io.File
-import android.content.Intent
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
 import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.FileWithType
-import kotlin.concurrent.fixedRateTimer
 
 
 class MainActivityPatientViewModel(application: Application) : AndroidViewModel(application) {
@@ -42,6 +37,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var historical: ArrayList<Historical>
     lateinit var chronics: ArrayList<Chronic>
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
+    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var recipes: MutableLiveData<ArrayList<Recipe>>
     lateinit var attchments: MutableLiveData<ArrayList<Attachment>>
@@ -52,7 +48,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun getConsults() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsults(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
@@ -67,7 +63,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun gethistorialRecipes(id: Int) {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getRecipesHistorical(Constants.token, id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        apiService.getRecipesHistorical(pref.getString(Constants.TOKEN_CONSTANT,""), id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
     }
 
     private fun setRecipe(recipesResponse: RecipesResponse) {
@@ -89,7 +85,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     fun getCitations() {
         citatitons = MutableLiveData()
-        apiService.getCitationsPatient(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
+        apiService.getCitationsPatient(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
 
     }
 
@@ -99,20 +95,16 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun postPrueba(file: MultipartBody.Part, name: String) {
-        apiService.postTest(Constants.token, file, name).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe()
-    }
-
     fun getRecipes() {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getRecipes(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        apiService.getRecipes(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
     }
 
     fun getAttchments() {
         attchments = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getAttachments(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
     }
 
     private fun setAttachments(attachmentResponse: AttachmentResponse) {
@@ -123,7 +115,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun downloadFile(url: String, v: View?): MutableLiveData<FileWithType> {
         if (!::archivo.isInitialized) {
             archivo = MutableLiveData()
-            apiService.downloadFile(Constants.token, url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
+            apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT,""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
         }
         return archivo
     }

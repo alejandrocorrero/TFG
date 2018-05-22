@@ -14,7 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MultipartBody
 import retrofit2.HttpException
-import retrofit2.http.Part
 import java.io.IOException
 import java.net.SocketTimeoutException
 import kotlin.collections.ArrayList
@@ -27,12 +26,13 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
     lateinit var createConsult: MutableLiveData<Boolean>
     var photos: ArrayList<ImageItem> = ArrayList()
     lateinit var user: User
+    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
 
     fun getSpecialties(): MutableLiveData<ArrayList<Specialty>> {
         if (!::speacilties.isInitialized) {
             errorMessage = MutableLiveData()
             speacilties = MutableLiveData()
-            apiService.getSpecialties(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setSpecialties, this::setError)
+            apiService.getSpecialties(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setSpecialties, this::setError)
         }
         return speacilties
     }
@@ -64,7 +64,7 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
             }
         }
         val finalRequestBody = builder.build()
-        apiService.createConsultMEdic(Constants.token,finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
+        apiService.createConsultMEdic(pref.getString(Constants.TOKEN_CONSTANT,""),finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
 
 
 
@@ -88,7 +88,7 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
             }
         }
         val finalRequestBody = builder.build()
-        apiService.createConsultSpecialty(Constants.token,finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
+        apiService.createConsultSpecialty(pref.getString(Constants.TOKEN_CONSTANT,""),finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
 
 
 

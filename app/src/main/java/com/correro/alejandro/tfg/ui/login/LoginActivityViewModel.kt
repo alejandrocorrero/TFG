@@ -10,10 +10,9 @@ import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
-import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.utils.Constants
-import io.reactivex.Observable
+import com.correro.alejandro.tfg.utils.Constants.Companion.PREFERENCES
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
@@ -48,8 +47,8 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     private fun setLogin(loginResponse: LoginResponse) {
         token = loginResponse.accessToken
+        cox.getSharedPreferences(PREFERENCES,0).edit().putString(Constants.TOKEN_CONSTANT, "Bearer $token").apply()
 
-        Constants.token = "Bearer " + loginResponse.accessToken
         apiService.getUser("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
 
     }
@@ -68,6 +67,7 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     private fun setUser(userResponse: UserResponse) {
         this.userResponse.value = userResponse
+        cox.getSharedPreferences(PREFERENCES,0).edit().putInt(Constants.TYPE_CONSTAN,userResponse.type).apply()
     }
 
     public fun getValues(): MutableLiveData<Boolean> {

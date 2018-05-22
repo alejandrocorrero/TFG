@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity"
     android:fitsSystemWindows="true"
-  >
+    tools:context=".ui.login.LoginActivity"
+    android:background="@color/login">
 
 
     <android.support.design.widget.TextInputLayout
@@ -14,8 +14,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:background="@color/backgroundProfile"
+
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,11 +27,13 @@
             android:id="@+id/txtDni"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/ic_person_grey_24dp"
             android:hint="Dni"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:lines="1"
             android:inputType="text"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
             android:textSize="18sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -39,9 +43,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:background="@color/backgroundProfile"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,10 +57,12 @@
             android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:drawablePadding="4dp"
+            android:drawableStart="@drawable/ic_vpn_key_black_24dp"
             android:hint="Contraseña"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black" />
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
@@ -75,11 +82,13 @@
 
     <Button
         android:id="@+id/btnLogin"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/custom.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,11 +117,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:indeterminate="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:indeterminate="true"
-        android:visibility="invisible"
         app:layout_constraintVertical_bias="0.57" />
 </android.support.constraint.ConstraintLayout>

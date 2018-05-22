@@ -55,10 +55,6 @@ interface ApiService {
     @GET("api/patient/citationsmedic")
     fun getCitationsMedicUsed(@Header("Authorization") token: String): Observable<CitationMedicResponse>
 
-    @Multipart
-    @POST("api/patient/adjunto/new")
-    fun postTest(@Header("Authorization") token: String, @Part file: MultipartBody.Part, @Field("name") name: String): Observable<AttachmentCreatedResponse>
-
     @FormUrlEncoded
     @POST("api/patient/create_citation")
     fun createCitation(@Header("Authorization") token: String, @Field("day") day: String, @Field("time") time: String): Observable<CitationCreatedResponse>
@@ -86,6 +82,9 @@ interface ApiService {
     @GET("api/patient/consults/{id}")
     fun getConsult(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
 
+    @GET("api/medic/consults/{id}")
+    fun getConsultMedic(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
+
     @FormUrlEncoded
     @POST("api/patient/response")
     fun createResponsePacient(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
@@ -95,6 +94,11 @@ interface ApiService {
 
     @GET("api/medic/consultspecialty")
     fun getConsultsSpecialty(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+
+    @FormUrlEncoded
+    @POST("api/medic/responseconsult")
+    fun createResponseMedicConsult(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
+
 }
 
 

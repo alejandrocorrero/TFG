@@ -29,7 +29,9 @@
     <style name="AppTheme.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-
+    <style name="custom.Button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 
     <!-- Estilo para que el menú de overflow en la toolbar se muestre claro -->
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

@@ -29,11 +29,17 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
     lateinit var consult: MutableLiveData<ConsultInfo>
     var archivo: ArrayList<MutableLiveData<FileWithType>> = ArrayList()
     lateinit var responseCreated: MutableLiveData<Respuesta>
+    var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
 
     fun getconsult() {
         errorMessage = MutableLiveData()
         consult = MutableLiveData()
-        apiService.getConsult(Constants.token, idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsult, this::setError)
+        val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
+        when (type) {
+            1 -> apiService.getConsult(pref.getString(Constants.TOKEN_CONSTANT, ""), idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsult, this::setError)
+            2 -> apiService.getConsultMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsult, this::setError)
+
+        }
     }
 
     private fun setError(e: Throwable?) {
@@ -53,7 +59,7 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
     fun downloadFile(url: String, v: Context): MutableLiveData<FileWithType> {
         archivo.add(MutableLiveData())
         var position = archivo.size - 1
-        apiService.downloadFile(Constants.token, url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe({ f -> setfile(f, position) }, this::setError)
+        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe({ f -> setfile(f, position) }, this::setError)
         return archivo[position]
     }
 
@@ -79,8 +85,13 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
         responseCreated = MutableLiveData()
 
         if (idConsult != -1) {
-            apiService.createResponsePacient(Constants.token, text, idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setResponse, this::setError)
+            val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
+            when (type) {
+                1 -> apiService.createResponsePacient(pref.getString(Constants.TOKEN_CONSTANT, ""), text, idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setResponse, this::setError)
+                2 -> apiService.createResponseMedicConsult(pref.getString(Constants.TOKEN_CONSTANT, ""), text, idConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setResponse, this::setError)
 
+
+            }
         } else {
             errorMessage.value = "Try again"
         }

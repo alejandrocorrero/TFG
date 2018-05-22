@@ -19,17 +19,18 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var errorMessage: MutableLiveData<String>
+    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
 
     fun getConsultsPatiens() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsPatiens(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsPatiens(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
     fun getConsultSspecialty() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsSpecialty(Constants.token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
