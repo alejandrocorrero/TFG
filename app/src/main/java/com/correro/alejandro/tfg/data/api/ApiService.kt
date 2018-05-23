@@ -1,7 +1,6 @@
 package com.correro.alejandro.tfg.data.api
 
 import com.correro.alejandro.tfg.data.api.models.LoginResponse
-import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.AttachmentResponse
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
@@ -13,11 +12,11 @@ import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateCon
 import com.correro.alejandro.tfg.data.api.models.createdResponse.ResponseResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
+import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUserResponse
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.RecipesResponse
 import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.SpecialtiesResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import io.reactivex.Observable
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 import okhttp3.ResponseBody
@@ -89,6 +88,8 @@ interface ApiService {
     @POST("api/patient/response")
     fun createResponsePacient(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
 
+
+    // ------------- MEDIC-----------
     @GET("api/medic/consultspatiens")
     fun getConsultsPatiens(@Header("Authorization") token: String): Observable<ConsultsListResponse>
 
@@ -98,6 +99,13 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/medic/responseconsult")
     fun createResponseMedicConsult(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
+
+    @GET("api/medic/citations")
+    fun getCitationsMedic(@Header("Authorization") token: String): Observable<CitationResponse>
+
+    @GET("api/medic/users")
+    fun getUsers(@Header("Authorization") token: String, @Query("filter") filter: String?): Observable<MedicUserResponse>
+
 
 }
 

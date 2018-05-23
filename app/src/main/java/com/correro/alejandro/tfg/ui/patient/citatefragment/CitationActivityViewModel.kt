@@ -47,7 +47,6 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
     private fun setHorary(medicHoraryResponse: MedicHoraryResponse) {
         if (medicHoraryResponse.status == Constants.HTTP_OK) {
             horaryMedic = ArrayList()
-            medicHoraryResponse.data[0].dia
             val today = Calendar.getInstance()
             for (i in 0..7) {
                 for (y in medicHoraryResponse.data) {

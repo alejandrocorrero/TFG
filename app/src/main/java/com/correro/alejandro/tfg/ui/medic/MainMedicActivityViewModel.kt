@@ -5,8 +5,12 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
+import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
+import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
+import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUser
+import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUserResponse
 import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,32 +23,64 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var errorMessage: MutableLiveData<String>
-    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
+    lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
+    lateinit var users: MutableLiveData<ArrayList<MedicUser>>
+
+    var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
 
     fun getConsultsPatiens() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsPatiens(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsPatiens(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
+
     fun getConsultSspecialty() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
+
+    fun getCitations() {
+        citatitons = MutableLiveData()
+        apiService.getCitationsMedic(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
+
+    }
+
+    private fun setCitations(citationResponse: CitationResponse) {
+        if (citationResponse.status == Constants.HTTP_OK) {
+            citatitons.value = citationResponse.citations
+        }
+    }
+
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
             consults.value = consultsListResponse.consults
-        }else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
+        } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }
     }
+
     private fun setError(e: Throwable?) {
         when (e) {
             is HttpException -> errorMessage.value = "Try again"
             is SocketTimeoutException -> errorMessage.value = "Try again"
             is IOException -> errorMessage.value = "IO error"
+        }
+    }
+
+
+    fun getUsers(filter: String?): MutableLiveData<ArrayList<MedicUser>> {
+        users = MutableLiveData()
+
+        apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError)
+        return users
+    }
+
+    private fun setusers(userResponse: MedicUserResponse) {
+        if (userResponse.status == Constants.HTTP_OK) {
+            users.value = userResponse.users
         }
     }
 }

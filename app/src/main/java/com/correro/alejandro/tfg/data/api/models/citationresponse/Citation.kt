@@ -10,7 +10,7 @@ data class Citation(
         @SerializedName("id_paciente") val idPaciente: String,
         @SerializedName("dia") val dia: String,
         @SerializedName("hora") val hora: String,
-        @SerializedName("nombre_medico") val nombreMedico: String,
+        @SerializedName("nombre_cita") val nombreCita: String,
         @SerializedName("centro") val centro: String
 ) : Parcelable {
     constructor(source: Parcel) : this(
@@ -31,7 +31,7 @@ data class Citation(
         writeString(idPaciente)
         writeString(dia)
         writeString(hora)
-        writeString(nombreMedico)
+        writeString(nombreCita)
         writeString(centro)
     }
 

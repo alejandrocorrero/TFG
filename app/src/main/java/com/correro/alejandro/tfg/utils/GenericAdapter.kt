@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.utils
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,10 @@ class GenericAdapter<T>(private val modelBR: Int, private val idBinding: Int, pr
         items = newitems
         notifyDataSetChanged()
 
+    }
+    fun lastitems(newitems: ArrayList<T>){
+        items.addAll(newitems)
+        notifyDataSetChanged()
     }
 }
 
