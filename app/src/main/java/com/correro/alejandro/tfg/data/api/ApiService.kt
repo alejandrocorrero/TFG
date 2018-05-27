@@ -10,6 +10,8 @@ import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsLi
 import com.correro.alejandro.tfg.data.api.models.createcitationresponse.CitationCreatedResponse
 import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
 import com.correro.alejandro.tfg.data.api.models.createdResponse.ResponseResponse
+import com.correro.alejandro.tfg.data.api.models.econsultdetailresponse.EconsultDetailResponse
+import com.correro.alejandro.tfg.data.api.models.econsultresponse.EconsultResponse
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.MedicHoraryResponse
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUserResponse
@@ -81,12 +83,10 @@ interface ApiService {
     @GET("api/patient/consults/{id}")
     fun getConsult(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
 
-    @GET("api/medic/consults/{id}")
-    fun getConsultMedic(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
 
     @FormUrlEncoded
     @POST("api/patient/response")
-    fun createResponsePacient(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
+    fun createResponsePacient(@Header("Authorization") token: String, @Field("response") response: String, @Field("id_consult") id_consult: Int): Observable<ResponseResponse>
 
 
     // ------------- MEDIC-----------
@@ -96,9 +96,12 @@ interface ApiService {
     @GET("api/medic/consultspecialty")
     fun getConsultsSpecialty(@Header("Authorization") token: String): Observable<ConsultsListResponse>
 
+    @GET("api/medic/consults/{id}")
+    fun getConsultMedic(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
+
     @FormUrlEncoded
     @POST("api/medic/responseconsult")
-    fun createResponseMedicConsult(@Header("Authorization") token: String,@Field("response") response:String,@Field("id_consult") id_consult:Int): Observable<ResponseResponse>
+    fun createResponseMedicConsult(@Header("Authorization") token: String, @Field("response") response: String, @Field("id_consult") id_consult: Int): Observable<ResponseResponse>
 
     @GET("api/medic/citations")
     fun getCitationsMedic(@Header("Authorization") token: String): Observable<CitationResponse>
@@ -106,6 +109,24 @@ interface ApiService {
     @GET("api/medic/users")
     fun getUsers(@Header("Authorization") token: String, @Query("filter") filter: String?): Observable<MedicUserResponse>
 
+    @GET("api/medic/econsults")
+    fun getEConsults(@Header("Authorization") token: String): Observable<EconsultResponse>
+
+    @GET("api/medic/econsultspecialty")
+    fun getEConsultsSpecialty(@Header("Authorization") token: String): Observable<EconsultResponse>
+
+    @GET("api/medic/econsults/{id}")
+    fun getEconsultDetail(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<EconsultDetailResponse>
+
+    @FormUrlEncoded
+    @POST("api/medic/responseeconsult")
+    fun createResponseEconsult(@Header("Authorization") token: String, @Field("response") response: String, @Field("id_econsult") id_econsult: Int): Observable<ResponseResponse>
+
+    @POST("api/medic/create_econsult")
+    fun createEconsult(@Header("Authorization") token: String, @Body body: RequestBody?): Observable<CreateConsultResponse>
+
+    @GET("api/medic/user/{id}")
+    fun getUserMedic(@Header("Authorization") token: String, @Path("id") idUser: Int): Observable<UserResponse>
 
 }
 

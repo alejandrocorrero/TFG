@@ -28,7 +28,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-class ConsultActivity : AppCompatActivity() {
+class  ConsultActivity : AppCompatActivity() {
 
     private lateinit var mviewmodel: ConsultViewmodel
 
@@ -86,7 +86,7 @@ class ConsultActivity : AppCompatActivity() {
     }
 
     private fun createConsultResponse(it: Boolean?) {
-        createdDialog("Created consult", "Success")
+        createdDialog("Created EConsultDetail", "Success")
 
     }
 

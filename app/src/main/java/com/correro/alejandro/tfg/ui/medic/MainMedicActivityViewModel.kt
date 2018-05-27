@@ -9,6 +9,8 @@ import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
 import com.correro.alejandro.tfg.data.api.models.citationresponse.CitationResponse
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
+import com.correro.alejandro.tfg.data.api.models.econsultresponse.Econsult
+import com.correro.alejandro.tfg.data.api.models.econsultresponse.EconsultResponse
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUser
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUserResponse
 import com.correro.alejandro.tfg.utils.Constants
@@ -21,13 +23,33 @@ import java.net.SocketTimeoutException
 class MainMedicActivityViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
+    lateinit var econsults: MutableLiveData<ArrayList<Econsult>>
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var users: MutableLiveData<ArrayList<MedicUser>>
 
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
+    fun getEConsults() {
+        errorMessage = MutableLiveData()
+        econsults = MutableLiveData()
+        apiService.getEConsults(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
 
+    }
+
+    fun getEConsultSspecialty() {
+        errorMessage = MutableLiveData()
+        econsults = MutableLiveData()
+        apiService.getEConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
+
+    }
+    private fun setEConsults(econsultResponse: EconsultResponse) {
+        if (econsultResponse.status == Constants.HTTP_OK) {
+            econsults.value = econsultResponse.econsults
+        } else if (econsultResponse.status == Constants.HTTP_NOT_FOUND) {
+            errorMessage.value = econsultResponse.message
+        }
+    }
     fun getConsultsPatiens() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
@@ -73,7 +95,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
 
     fun getUsers(filter: String?): MutableLiveData<ArrayList<MedicUser>> {
         users = MutableLiveData()
-
+        errorMessage = MutableLiveData()
         apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError)
         return users
     }
@@ -81,6 +103,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     private fun setusers(userResponse: MedicUserResponse) {
         if (userResponse.status == Constants.HTTP_OK) {
             users.value = userResponse.users
+
         }
     }
 }

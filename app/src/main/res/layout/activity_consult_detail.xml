@@ -62,10 +62,9 @@
             app:layout_constraintBottom_toTopOf="@+id/txtResponse"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/progressBar4"
-            tools:listitem="@layout/fragment_consult_medic_type_item"
+            app:layout_constraintTop_toBottomOf="@+id/nstPhotos"
 
-/>
+            tools:listitem="@layout/fragment_consult_medic_type_item" />
 
         <ImageButton
             android:id="@+id/btnSend"

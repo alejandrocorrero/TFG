@@ -1,6 +1,7 @@
 package com.correro.alejandro.tfg.ui.patient.patientfragment
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -20,6 +21,7 @@ import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
 import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.AttachmentsFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.chronicfragment.ChronicFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialFragment
+import com.correro.alejandro.tfg.utils.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_patient.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -33,15 +35,26 @@ class PatientFragment : Fragment() {
     val FRAGMENT_HISTORIAL = "FRAGMENT_HISTORIAL"
     val FRAGMENT_CHRONIC = "FRAGMENT_CHRONIC"
     val FRAGMENT_ATTACHMENT = "FRAGMENT_ATTACHMENT"
+    var pref = activity!!.application.getSharedPreferences(Constants.PREFERENCES, 0)!!
 
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var viewgroup = inflater.inflate(R.layout.fragment_patient, container, false)
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
-        viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
-        Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
+        if (pref.getInt(Constants.TYPE_CONSTAN, 0) == 2) {
+            mviewmodel.userMedicId = arguments!!.getInt("id_user", 0)
+            mviewmodel.getUserMedic()
+            mviewmodel.userMedic.observe(this, Observer {
+                viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido)
+                Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
 
+            })
+
+        } else {
+            viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
+            Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
+        }
         viewgroup.patientTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab) {
                 when (tab.position) {
@@ -73,5 +86,14 @@ class PatientFragment : Fragment() {
         return viewgroup
     }
 
+    fun newInstance(idUser: Int): PatientFragment {
+        val myFragment = PatientFragment()
+
+        val args = Bundle()
+        args.putInt("id_user", idUser)
+        myFragment.arguments = args
+
+        return myFragment
+    }
 
 }// Required empty public constructor

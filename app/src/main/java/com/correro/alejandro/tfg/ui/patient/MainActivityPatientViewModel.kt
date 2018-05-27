@@ -29,6 +29,7 @@ import io.reactivex.Observable
 import java.io.File
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
+import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.FileWithType
 
 
@@ -39,17 +40,35 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
     lateinit var errorMessage: MutableLiveData<String>
+    lateinit var userMedic: MutableLiveData<User>
     lateinit var recipes: MutableLiveData<ArrayList<Recipe>>
     lateinit var attchments: MutableLiveData<ArrayList<Attachment>>
     lateinit var archivo: MutableLiveData<FileWithType>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
+    val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
+    var userMedicId: Int = 0
 
     fun getConsults() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
         apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
+    }
+
+
+
+    fun getUserMedic(){
+        errorMessage = MutableLiveData()
+        userMedic = MutableLiveData()
+        apiService.getUserMedic(pref.getString(Constants.TOKEN_CONSTANT,""),userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUserResponse, this::setError)
+
+    }
+
+    private fun setUserResponse(userResponse: UserResponse) {
+        if(userResponse.status==Constants.HTTP_OK){
+            userMedic.value=userResponse.user
+        }
     }
 
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
