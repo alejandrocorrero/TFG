@@ -27,7 +27,7 @@ class ConsultDetailPhotoAdapter(private val click: (FileWithType) -> Unit, var i
 class ViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: FileWithType, click: (FileWithType) -> Unit) = with(itemView) {
         this.popup.visibility = View.INVISIBLE
-        Picasso.get().load(item.file).resize(500, 500).into(imgPhoto)
+        Picasso.get().load(item.file).placeholder(R.color.backgroundProfile).resize(500, 500).into(imgPhoto)
         setOnClickListener { click(item) }
 
 

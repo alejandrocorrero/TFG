@@ -11,6 +11,7 @@
     <string name="mnuEConsult">eConsultas</string>
     <string name="mnuSearch">Buscar</string>
     <string name="date">%1$s %2$s</string>
+    <string name="text_subrayado"><u>%1$s</u></string>
     <string name="duration">Duracion: %1$s Dias</string>
     <string name="dosis">%1$s cada %2$s horas </string>
     <string name="fecha">Fecha: %1$s</string>
@@ -20,4 +21,5 @@
     <string name="eliminar">Eliminar</string>
     <string name="accept">Accept</string>
     <string name="Warning">Warning_message</string>
+    <string name="person">ShowPerson</string>
 </resources>

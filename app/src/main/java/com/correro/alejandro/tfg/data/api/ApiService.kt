@@ -128,6 +128,18 @@ interface ApiService {
     @GET("api/medic/user/{id}")
     fun getUserMedic(@Header("Authorization") token: String, @Path("id") idUser: Int): Observable<UserResponse>
 
+    @GET("api/medic/user/{user}/historical")
+    fun getHistoricalUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<HistoricalResponse>
+
+    @GET("api/medic/user/{user}/chronic")
+    fun getChronicsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<ChronicResponse>
+
+    @GET("api/medic/user/{user}/recipeshistorical/{id}")
+    fun getRecipesHistoricalUserMedic(@Header("Authorization") token: String, @Path("id") id: Int, @Path("user") idUser: Int): Observable<RecipesResponse>
+    @GET("api/medic/user/{user}/attachments")
+    fun getAttachmentsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<AttachmentResponse>
+
+
 }
 
 

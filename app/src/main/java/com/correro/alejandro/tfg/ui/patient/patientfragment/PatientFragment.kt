@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.patient.patientfragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -15,6 +16,7 @@ import com.correro.alejandro.tfg.utils.executeTransaction
 import kotlinx.android.synthetic.main.fragment_patient.view.*
 import android.support.design.widget.TabLayout.OnTabSelectedListener
 import android.util.Log
+import android.view.WindowManager
 import com.correro.alejandro.tfg.R.id.tabLayout
 import com.correro.alejandro.tfg.R.id.tabPacient
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
@@ -35,22 +37,31 @@ class PatientFragment : Fragment() {
     val FRAGMENT_HISTORIAL = "FRAGMENT_HISTORIAL"
     val FRAGMENT_CHRONIC = "FRAGMENT_CHRONIC"
     val FRAGMENT_ATTACHMENT = "FRAGMENT_ATTACHMENT"
-    var pref = activity!!.application.getSharedPreferences(Constants.PREFERENCES, 0)!!
+
 
     private lateinit var mviewmodel: MainActivityPatientViewModel
+
+    private lateinit var pref: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var viewgroup = inflater.inflate(R.layout.fragment_patient, container, false)
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
+        pref = activity!!.application.getSharedPreferences(Constants.PREFERENCES, 0)!!
         if (pref.getInt(Constants.TYPE_CONSTAN, 0) == 2) {
             mviewmodel.userMedicId = arguments!!.getInt("id_user", 0)
+            activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             mviewmodel.getUserMedic()
-            mviewmodel.userMedic.observe(this, Observer {
-                viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido)
-                Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
+            viewgroup.progressBar9.visibility = View.VISIBLE
+            mviewmodel.status.observe(this, Observer {
+                activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
+                mviewmodel.userMedic.observe(this, Observer {
+                    viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido)
+                    Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
+
+                    viewgroup.progressBar9.visibility = View.INVISIBLE
+                })
             })
-
         } else {
             viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
             Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);

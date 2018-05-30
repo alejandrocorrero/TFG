@@ -19,13 +19,14 @@ import kotlinx.android.synthetic.main.fragment_expedient.view.*
 
 class ExpedientFragment : Fragment() {
 
-    var pref = activity!!.application.getSharedPreferences(Constants.PREFERENCES, 0)!!
+
 
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: FragmentExpedientBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expedient, container, false)
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
+        val pref = activity!!.application.getSharedPreferences(Constants.PREFERENCES, 0)!!
         if (pref.getInt(Constants.TYPE_CONSTAN, 0) == 2) {
             mviewmodel.userMedic.observe(this, Observer { binding.patient = it })
         } else {

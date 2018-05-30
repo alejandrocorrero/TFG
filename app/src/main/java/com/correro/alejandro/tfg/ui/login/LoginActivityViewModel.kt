@@ -29,7 +29,7 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
     lateinit var historicalResponse: ArrayList<Historical>
     lateinit var chronicsResponse: ArrayList<Chronic>
     lateinit var allValues: MutableLiveData<Boolean>
-
+    private var usertype: Int = 0
     fun login(username: String, password: String) {
         errorCode = MutableLiveData()
         userResponse = MutableLiveData()
@@ -62,11 +62,15 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     private fun setHistoricals(historicalResponse: HistoricalResponse) {
         this.historicalResponse = historicalResponse.historicals
+
         apiService.getChronics("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setChronics, this::setError)
     }
 
+
+
     private fun setUser(userResponse: UserResponse) {
         this.userResponse.value = userResponse
+        this.usertype=userResponse.type
         cox.getSharedPreferences(PREFERENCES,0).edit().putInt(Constants.TYPE_CONSTAN,userResponse.type).apply()
     }
 

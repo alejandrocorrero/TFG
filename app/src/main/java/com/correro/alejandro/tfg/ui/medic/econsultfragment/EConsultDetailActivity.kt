@@ -12,14 +12,18 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import com.correro.alejandro.tfg.BR
 import com.correro.alejandro.tfg.BuildConfig
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.consultpatientresponse.Respuesta
+import com.correro.alejandro.tfg.data.api.models.econsultdetailresponse.EConsultDetail
 import com.correro.alejandro.tfg.data.api.models.econsultdetailresponse.EconsultDetailResponse
 import com.correro.alejandro.tfg.data.api.models.econsultdetailresponse.EconsultInfo
 import com.correro.alejandro.tfg.databinding.ActivityEconsultDetailBinding
+import com.correro.alejandro.tfg.ui.medic.searchfragment.SearchDetailActivity
 import com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailPhotoAdapter
 import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.FileWithType
 import com.correro.alejandro.tfg.utils.GenericAdapter
@@ -49,6 +53,8 @@ class EConsultDetailActivity : AppCompatActivity() {
 
     private lateinit var adapterResponses: GenericAdapter<Respuesta>
 
+    private lateinit var consultI: EConsultDetail
+
     private fun initViews(econsultInfo: EconsultInfo) {
         adapter = ConsultDetailPhotoAdapter(setlist())
         gridPhotosEconsult.layoutManager = GridLayoutManager(this, 2)
@@ -62,7 +68,27 @@ class EConsultDetailActivity : AppCompatActivity() {
         rcyResponsesEconsult.layoutManager = layoutManager
         rcyResponsesEconsult.adapter = adapterResponses
         btnSend.setOnClickListener { clickValues() }
-        mBinding.econsultdetail=econsultInfo.EConsult
+        mBinding.econsultdetail = econsultInfo.EConsult
+        consultI = econsultInfo.EConsult
+        item!!.isVisible = true
+        // mBinding.lblPatient.setOnClickListener { SearchDetailActivity.start(this,econsultInfo.EConsult.idPaciente.toInt()) }
+    }
+
+    private var item: MenuItem? = null
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var inflator = menuInflater
+        inflator.inflate(R.menu.consult_detail, menu)
+        item = menu!!.findItem(R.id.mnuDetail)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.mnuDetail -> SearchDetailActivity.start(this, consultI.idPaciente.toInt())
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
     private fun clickValues() {
@@ -74,7 +100,7 @@ class EConsultDetailActivity : AppCompatActivity() {
     }
 
     private fun setresult(it: Respuesta?) {
-        adapterResponses.items.add(0,it!!)
+        adapterResponses.items.add(0, it!!)
         adapterResponses.notifyItemInserted(0)
         rcyResponsesEconsult.scrollToPosition(0)
 
@@ -86,7 +112,7 @@ class EConsultDetailActivity : AppCompatActivity() {
             val intent = Intent()
             intent.action = Intent.ACTION_VIEW
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            val uri = FileProvider.getUriForFile(this,  BuildConfig.APPLICATION_ID, it.file);
+            val uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, it.file);
             intent.setDataAndType(uri, it.type)
             this.permissionWrite { this.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1) }
         }

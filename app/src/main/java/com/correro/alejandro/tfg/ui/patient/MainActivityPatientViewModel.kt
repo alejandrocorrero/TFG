@@ -25,10 +25,12 @@ import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 import android.view.View
+import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import io.reactivex.Observable
 import java.io.File
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsListResponse
+import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.FileWithType
 
@@ -38,7 +40,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var historical: ArrayList<Historical>
     lateinit var chronics: ArrayList<Chronic>
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
-    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
+    var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var userMedic: MutableLiveData<User>
     lateinit var recipes: MutableLiveData<ArrayList<Recipe>>
@@ -46,35 +48,54 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var archivo: MutableLiveData<FileWithType>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
+    lateinit var status:MutableLiveData<Boolean>
     val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
     var userMedicId: Int = 0
 
     fun getConsults() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+
+        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
 
-
-    fun getUserMedic(){
+    fun getUserMedic() {
         errorMessage = MutableLiveData()
         userMedic = MutableLiveData()
-        apiService.getUserMedic(pref.getString(Constants.TOKEN_CONSTANT,""),userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUserResponse, this::setError)
-
+        status=MutableLiveData()
+        apiService.getUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUserResponse, this::setError)
     }
 
     private fun setUserResponse(userResponse: UserResponse) {
-        if(userResponse.status==Constants.HTTP_OK){
-            userMedic.value=userResponse.user
+        if (userResponse.status == Constants.HTTP_OK) {
+            userMedic.value = userResponse.user
+            apiService.getHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::sethistorical, this::setError)
+
+        }
+    }
+
+    private fun sethistorical(historicalResponse: HistoricalResponse) {
+        if (historicalResponse.status == Constants.HTTP_OK) {
+            historical = historicalResponse.historicals
+            apiService.getChronicsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCronics, this::setError)
+
+        }
+    }
+
+    private fun setCronics(chronicResponse: ChronicResponse) {
+        if (chronicResponse.status == Constants.HTTP_OK) {
+            chronics = chronicResponse.chronics
+            status.value=true
+
         }
     }
 
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
             consults.value = consultsListResponse.consults
-        }else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
+        } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }
     }
@@ -82,7 +103,11 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun gethistorialRecipes(id: Int) {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getRecipesHistorical(pref.getString(Constants.TOKEN_CONSTANT,""), id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        if (type == 1) {
+            apiService.getRecipesHistorical(pref.getString(Constants.TOKEN_CONSTANT, ""), id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        } else {
+            apiService.getRecipesHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), id, userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        }
     }
 
     private fun setRecipe(recipesResponse: RecipesResponse) {
@@ -104,7 +129,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     fun getCitations() {
         citatitons = MutableLiveData()
-        apiService.getCitationsPatient(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
+        apiService.getCitationsPatient(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
 
     }
 
@@ -117,13 +142,17 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun getRecipes() {
         recipes = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getRecipes(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        apiService.getRecipes(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
     }
 
     fun getAttchments() {
         attchments = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        if (type == 1) {
+            apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        } else {
+            apiService.getAttachmentsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        }
     }
 
     private fun setAttachments(attachmentResponse: AttachmentResponse) {
@@ -134,7 +163,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun downloadFile(url: String, v: View?): MutableLiveData<FileWithType> {
         if (!::archivo.isInitialized) {
             archivo = MutableLiveData()
-            apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT,""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
+            apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
         }
         return archivo
     }

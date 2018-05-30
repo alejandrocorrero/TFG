@@ -18,7 +18,9 @@ import android.text.TextUtils
 import android.widget.LinearLayout
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUser
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivityViewModel
+import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
 import com.correro.alejandro.tfg.utils.GenericAdapter
+import kotlinx.android.synthetic.main.activity_main_medic.*
 
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -50,6 +52,7 @@ class SearchFragment : Fragment() {
 
     fun click(): (MedicUser) -> Unit {
         return {
+            SearchDetailActivity.start(activity!!, it.id.toInt())
         }
 
     }
