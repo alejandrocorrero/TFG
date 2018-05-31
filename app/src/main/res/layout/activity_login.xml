@@ -4,109 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_login"
     android:fitsSystemWindows="true"
-    tools:context=".ui.login.LoginActivity"
-    android:background="@color/login">
+    tools:context=".ui.login.LoginActivity">
 
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilDni"
+    <EditText
+        android:id="@+id/txtDni"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:background="@color/backgroundProfile"
-
+        android:background="@drawable/raund_edittext"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_person_grey_24dp"
+        android:hint="Dni"
+        android:inputType="text"
+        android:lines="1"
+        android:padding="10dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_color"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/txtDni"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/ic_person_grey_24dp"
-            android:hint="Dni"
-            android:inputType="text"
-            android:lines="1"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/black"
-            android:textSize="18sp" />
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilPassword"
+    <EditText
+        android:id="@+id/txtPassword"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/backgroundProfile"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        android:background="@drawable/raund_edittext"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_vpn_key_black_24dp"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:padding="10dp"
+        android:textColor="@color/text_color"
+        android:textColorHint="@color/text_color"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_weight="1">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/txtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/ic_vpn_key_black_24dp"
-            android:hint="Contraseña"
-            android:inputType="textPassword"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/black" />
-    </android.support.design.widget.TextInputLayout>
+        app:layout_constraintVertical_weight="1" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tilDni"
-        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintBottom_toTopOf="@+id/txtDni"
+        app:layout_constraintDimensionRatio="2.5:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.71"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle"
+        app:srcCompat="@drawable/icono" />
 
     <Button
         android:id="@+id/btnLogin"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/custom.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="32dp"
+
         android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
         android:text="Login"
+        android:theme="@style/custom.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.64" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7553816" />
+        app:layout_constraintGuide_percent="0.65" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -116,12 +117,28 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.74" />
+
+    <TextView
+        android:id="@+id/lblTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Sanica"
+        android:textColor="@color/text_color"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.18" />
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.correro.alejandro.tfg.ui.patient.consultfragment
 
-import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +26,7 @@ class ConsultDetailPhotoAdapter(private val click: (FileWithType) -> Unit, var i
 class ViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: FileWithType, click: (FileWithType) -> Unit) = with(itemView) {
         this.popup.visibility = View.INVISIBLE
-        Picasso.get().load(item.file).placeholder(R.color.backgroundProfile).resize(500, 500).into(imgPhoto)
+        Picasso.get().load(item.file).placeholder(R.color.backgroundWhiteDark).resize(500, 500).into(imgPhoto)
         setOnClickListener { click(item) }
 
 

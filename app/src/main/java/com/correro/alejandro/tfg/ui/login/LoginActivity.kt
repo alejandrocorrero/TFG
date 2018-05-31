@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.login
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -26,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener { loginButton() }
         txtDni.setText("12345678G")
         txtPassword.setText("1234")
-
+        lblTitle.typeface= Typeface.createFromAsset(assets,"fonts/Billabong.ttf")
         /*setSupportActionBar(toolbar.findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
     }

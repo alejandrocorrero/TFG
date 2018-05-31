@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient" />
+        <activity android:name="com.correro.alejandro.tfg.ui.patient.MainActivityPatient" android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.patientfragment.historialfragment.HistorialDetailActivity"
             android:theme="@style/AppTheme" />

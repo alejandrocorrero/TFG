@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -34,10 +35,12 @@ class AttachmentsFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         view.progressBar3.visibility = View.VISIBLE
         mviewmodel.getAttchments()
-        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, this::click,null,ArrayList(),view.emptyView)
+        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, this::click, null, ArrayList(), view.emptyView)
         view.rcyAttachment.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyAttachment.adapter = adapter
-        mviewmodel.attchments.observe(this, Observer { setRcy(it, view) })
+
+        (activity as AppCompatActivity).supportActionBar!!.title="Attachments"
+
         return view
     }
 
@@ -57,7 +60,7 @@ class AttachmentsFragment : Fragment() {
         val intent = Intent()
         intent.action = Intent.ACTION_VIEW
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        val uri =FileProvider.getUriForFile(activity!!, BuildConfig.APPLICATION_ID, it!!.file);
+        val uri = FileProvider.getUriForFile(activity!!, BuildConfig.APPLICATION_ID, it!!.file);
         intent.setDataAndType(uri, it.type)
         activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1) }
 

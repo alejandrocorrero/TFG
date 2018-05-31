@@ -4,6 +4,7 @@ package com.correro.alejandro.tfg.ui.patient.patientfragment.chronicfragment
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,8 @@ class ChronicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_chronic, container, false)
         view.rcyChronics.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyChronics.adapter=GenericAdapter(BR.chronic,R.layout.fragment_chronic_item,null,null,mviewmodel.chronics)
+        (activity as AppCompatActivity).supportActionBar!!.title="Allergies and Diseases"
+
         return view
     }
 }
