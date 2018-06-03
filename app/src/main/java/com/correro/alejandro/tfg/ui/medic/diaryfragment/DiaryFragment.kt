@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.medic.diaryfragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -36,7 +37,7 @@ class DiaryFragment : Fragment() {
         mviewmodel.citatitons.observe(this, Observer({ setList(it) }))
         view.progressBar2.visibility = View.VISIBLE
         view.fabAdd.setOnClickListener {Toast.makeText(activity,"Implementar",Toast.LENGTH_SHORT).show()}
-        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, click(),null,ArrayList(),view.emptyView)
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, click() as ((Citation, ViewDataBinding?) -> Unit)?,null,ArrayList(),view.emptyView)
         view.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyCitations.adapter = adapter
 

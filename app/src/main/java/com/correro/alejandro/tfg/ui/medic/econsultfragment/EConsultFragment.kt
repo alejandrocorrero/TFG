@@ -4,6 +4,7 @@ package com.correro.alejandro.tfg.ui.medic.econsultfragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -31,7 +32,7 @@ class EConsultFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainMedicActivityViewModel::class.java)
 
         val view = inflater.inflate(R.layout.fragment_e_consult, container, false)
-        adapter = GenericAdapter(BR.econsult, R.layout.fragment_econsult__item, click())
+        adapter = GenericAdapter(BR.econsult, R.layout.fragment_econsult__item, click() as ((Econsult, ViewDataBinding?) -> Unit)?)
         view.rcyEconsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyEconsults.adapter = adapter
         view.fabAddEconsult.setOnClickListener { activity!!.startActivity(Intent(activity, EConsultAddActivity::class.java)) }

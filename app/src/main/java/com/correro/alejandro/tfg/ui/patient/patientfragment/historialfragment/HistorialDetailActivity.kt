@@ -14,6 +14,7 @@ import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.Recipe
 import com.correro.alejandro.tfg.databinding.ActivityHistorialDetailBinding
 import com.correro.alejandro.tfg.utils.GenericAdapter
+import com.correro.alejandro.tfg.utils.SimpleDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_historial_detail.*
 
 class HistorialDetailActivity : AppCompatActivity() {
@@ -24,13 +25,20 @@ class HistorialDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_historial_detail)
+        setSupportActionBar(toolbar2)
+
         mviewmodel = ViewModelProviders.of(this).get(HistoricalDetailViewModel::class.java)
         mviewmodel.historical = intent.getParcelableExtra(INTENT_HISTORICAL) ?: throw IllegalStateException("field $INTENT_HISTORICAL missing in Intent")
         mviewmodel.recipes = intent.getParcelableArrayListExtra<Recipe>(INTENT_RECIPES) ?: throw IllegalStateException("field $INTENT_RECIPES missing in Intent")
         mBinding.historical = mviewmodel.historical
         rcyRecipesHistorial.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rcyRecipesHistorial.addItemDecoration(SimpleDividerItemDecoration(this));
+       supportActionBar!!.title="Detalle historial"
+
         rcyRecipesHistorial.adapter = GenericAdapter(BR.recipe, R.layout.fragment_recipes_item, null, null, mviewmodel.recipes)
+
     }
 
     companion object {

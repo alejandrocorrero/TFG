@@ -2,9 +2,11 @@ package com.correro.alejandro.tfg.ui.medic.consultfragment
 
 
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.correro.alejandro.tfg.utils.GenericAdapter
 
 
 import kotlinx.android.synthetic.main.fragment_consult_medic.view.*
+import kotlinx.android.synthetic.main.fragment_patient.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +44,7 @@ class ConsultFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainMedicActivityViewModel::class.java)
 
         val view = inflater.inflate(R.layout.fragment_consult_medic, container, false)
-        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click())
+        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click() as ((ConsultsList, ViewDataBinding?) -> Unit)?)
         view.rcyConsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyConsults.adapter = adapter
 

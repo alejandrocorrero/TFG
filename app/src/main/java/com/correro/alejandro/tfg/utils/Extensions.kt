@@ -26,13 +26,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 
-fun Activity.errorRequest(errorResponse: Int, contx: Context) {
+fun Activity.errorRequest(errorResponse: Int) {
     btnLogin.isEnabled = true
     progressBar.visibility = View.INVISIBLE
     when (errorResponse) {
-        400 -> AlertDialog.Builder(contx).setMessage("Datos incorrectos").setTitle("Aviso").create().show()
-        408 -> AlertDialog.Builder(contx).setMessage("TIMEOUT").setTitle("Aviso").create().show()
-        404 -> AlertDialog.Builder(contx).setMessage("Fallo en la conexion").setTitle("Aviso").create().show()
+        400 -> AlertDialog.Builder(this).setMessage("Datos incorrectos").setTitle("Aviso").create().show()
+        408 -> AlertDialog.Builder(this).setMessage("TIMEOUT").setTitle("Aviso").create().show()
+        404 -> AlertDialog.Builder(this).setMessage("Fallo en la conexion").setTitle("Aviso").create().show()
     }
 }
 

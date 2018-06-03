@@ -3,8 +3,12 @@ package com.correro.alejandro.tfg.ui.patient.consultfragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +18,11 @@ import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
+import com.correro.alejandro.tfg.databinding.FragmentConsultItemBinding
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
 import com.correro.alejandro.tfg.utils.GenericAdapter
+import com.correro.alejandro.tfg.utils.SimpleDividerItemDecoration
+import com.correro.alejandro.tfg.utils.error
 import kotlinx.android.synthetic.main.fragment_consult.view.*
 
 
@@ -29,17 +36,21 @@ class ConsultFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
 
         val view = inflater.inflate(R.layout.fragment_consult, container, false)
-        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click())
+        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click() as ((ConsultsList, ViewDataBinding?) -> Unit)?)
+
+        view.rcyConsults.addItemDecoration(SimpleDividerItemDecoration(activity!!));
         view.rcyConsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        (activity as AppCompatActivity).supportActionBar!!.title="Consultas"
         view.rcyConsults.adapter = adapter
-        mviewmodel.getConsults()
-        mviewmodel.consults.observe(this, Observer { t -> adapter.newItems(t!!) })
+        mviewmodel.getConsults(); view.progressBar10.visibility = View.VISIBLE
+        mviewmodel.consults.observe(this, Observer { t -> adapter.newItems(t!!); view.progressBar10.visibility = View.INVISIBLE })
+        mviewmodel.errorMessage.observe(this, Observer { t -> activity!!.error(t!!, "Aviso"); view.progressBar10.visibility = View.INVISIBLE })
         view.fabAddConsult.setOnClickListener { ConsultActivity.start(activity!!, mviewmodel.user) }
         return view
     }
 
-    fun click(): (ConsultsList) -> Unit {
-        return {
+    fun click(): ((ConsultsList, FragmentConsultItemBinding) -> Unit)? {
+        return { it: ConsultsList, _: FragmentConsultItemBinding? ->
             ConsultDetailActivity.start(activity!!, it.id.toInt())
         }
 

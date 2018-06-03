@@ -4,6 +4,7 @@ package com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
@@ -17,6 +18,7 @@ import com.correro.alejandro.tfg.BR
 import com.correro.alejandro.tfg.BuildConfig
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.Attachment
+import com.correro.alejandro.tfg.databinding.FragmentAttachmentsItemBinding
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
 import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.permissionWrite
@@ -35,10 +37,11 @@ class AttachmentsFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         view.progressBar3.visibility = View.VISIBLE
         mviewmodel.getAttchments()
-        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, this::click, null, ArrayList(), view.emptyView)
+        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, click() as ((Attachment, ViewDataBinding?) -> Unit)?, null, ArrayList(), view.emptyView)
+
         view.rcyAttachment.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyAttachment.adapter = adapter
-
+        mviewmodel.attchments.observe(this, Observer { setRcy(it, view) })
         (activity as AppCompatActivity).supportActionBar!!.title="Attachments"
 
         return view
@@ -51,8 +54,9 @@ class AttachmentsFragment : Fragment() {
         view!!.progressBar3.visibility = View.INVISIBLE
     }
 
-    private fun click(it: Attachment) {
-        mviewmodel.downloadFile(it.adjunto, view).observe(this, Observer { it -> setlist(it) })
+    private fun click(): (Attachment,FragmentAttachmentsItemBinding)-> Unit {
+        return{ it: Attachment, _: FragmentAttachmentsItemBinding? ->
+        mviewmodel.downloadFile(it.adjunto, view).observe(this, Observer { it -> setlist(it) })}
     }
 
     private fun setlist(it: FileWithType?) {

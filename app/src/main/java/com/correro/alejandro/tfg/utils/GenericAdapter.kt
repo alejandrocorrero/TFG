@@ -11,7 +11,7 @@ import android.view.ViewGroup
 
 
 
-class GenericAdapter<T>(private val modelBR: Int, private val idBinding: Int, private val click: ((T) -> Unit)? = null, private val clickLong: ((T) -> Boolean)? = null, var items: ArrayList<T> = ArrayList(), var empty: View? = null) : RecyclerView.Adapter<ViewHolder<T>>() {
+class GenericAdapter<T>(private val modelBR: Int, private val idBinding: Int, private val click: ((T,ViewDataBinding?) -> Unit)? = null, private val clickLong: ((T) -> Boolean)? = null, var items: ArrayList<T> = ArrayList(), var empty: View? = null) : RecyclerView.Adapter<ViewHolder<T>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<T> {
 
@@ -52,11 +52,11 @@ class GenericAdapter<T>(private val modelBR: Int, private val idBinding: Int, pr
 
 class ViewHolder<T>(var binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: T, click: ((T) -> Unit)?, clickLong: ((T) -> Boolean)?, modelBR: Int) = with(binding.root) {
+    fun bind(item: T, click: ((T,ViewDataBinding?) -> Unit)?, clickLong: ((T) -> Boolean)?, modelBR: Int) = with(binding.root) {
         binding.setVariable(modelBR, item)
         binding.executePendingBindings()
         if (click != null) {
-            setOnClickListener { click(item) }
+            setOnClickListener { click(item,binding) }
         }
         if (clickLong != null) {
             setOnLongClickListener { clickLong.invoke(item) }

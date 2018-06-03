@@ -1,12 +1,16 @@
 package com.correro.alejandro.tfg.ui.login
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Typeface
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.animation.Animation
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
@@ -25,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         mviewmodel = ViewModelProviders.of(this).get(LoginActivityViewModel::class.java)
         btnLogin.setOnClickListener { loginButton() }
+        //btnLogin.setOnClickListener { AlertDialog.Builder(this).setMessage("Datos incorrectos").setTitle("Aviso").create().show() }
         txtDni.setText("12345678G")
         txtPassword.setText("1234")
         lblTitle.typeface= Typeface.createFromAsset(assets,"fonts/Billabong.ttf")
@@ -33,9 +38,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginButton() {
+        var t=imageView.drawable as AnimationDrawable
+        t.start()
         mviewmodel.login(txtDni.text.toString(), txtPassword.text.toString())
-        mviewmodel.userResponse.observe(this, Observer { t -> responseCall(t!!) })
-        mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!, this) })
+        mviewmodel.userResponse.observe(this, Observer { it -> responseCall(it!!) })
+        mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);t.stop() })
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
     }
@@ -47,7 +54,6 @@ class LoginActivity : AppCompatActivity() {
 
         } else
             startActivity(Intent(this, MainMedicActivity::class.java))
-        //Toast.makeText(this, if (userResponse.type == 1) "SOY UN PACIENTE" else "SOY UN MEDICO", Toast.LENGTH_LONG).show()
 
 
     }

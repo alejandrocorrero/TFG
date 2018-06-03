@@ -67,7 +67,7 @@
         app:layout_constraintHorizontal_bias="0.71"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle"
-        app:srcCompat="@drawable/icono" />
+        app:srcCompat="@drawable/trans" />
 
     <Button
         android:id="@+id/btnLogin"
