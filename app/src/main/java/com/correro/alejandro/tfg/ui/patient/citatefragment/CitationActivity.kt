@@ -4,25 +4,23 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
+import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableStringBuilder
-import android.widget.Toast
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import android.widget.LinearLayout
 import com.correro.alejandro.tfg.R
-import com.correro.alejandro.tfg.data.api.models.citattionsmedicresponse.CitationMedicUsed
 import com.correro.alejandro.tfg.data.api.models.medichoraryresponse.Horary
+import com.correro.alejandro.tfg.utils.SimpleDividerItemDecoration
+import com.correro.alejandro.tfg.utils.createdDialog
+import com.correro.alejandro.tfg.utils.error
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.android.synthetic.main.activity_citation.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import com.readystatesoftware.chuck.internal.ui.MainActivity
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_citation.*
-import android.R.attr.data
-import android.text.TextUtils
-import android.widget.ArrayAdapter
-import com.correro.alejandro.tfg.utils.createdDialog
-import com.correro.alejandro.tfg.utils.error
-import java.time.LocalDate
 
 
 var days = SimpleDateFormat("yyyy-MM-dd")
@@ -32,7 +30,7 @@ var time = SimpleDateFormat("HH:mm:ss")
 class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        txtDay.text = SpannableStringBuilder(String.format("$dayOfMonth/%d/$year", monthOfYear + 1))
+        btnDay.text = SpannableStringBuilder(String.format("$dayOfMonth/%d/$year", monthOfYear + 1))
         var test = GregorianCalendar(year, monthOfYear, dayOfMonth).time
         for (i in mviewmodel.horaryMedic) {
             for (j in mviewmodel.citatitons) {
@@ -42,34 +40,50 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 }
             }
 
-            val itemsAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, i.hours)
-            itemsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = itemsAdapter
+
+            adapter.updateItems(i.hours)
 
         }
 
     }
 
     private lateinit var mviewmodel: CitationActivityViewModel
+    private lateinit var adapter: TimeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_citation)
         mviewmodel = ViewModelProviders.of(this).get(CitationActivityViewModel::class.java)
         mviewmodel.getCitationsMedic()
+        progressBar11.visibility= View.VISIBLE
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        mviewmodel.horary.observe(this, Observer { progressBar11.visibility= View.INVISIBLE;  window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) })
+        adapter = TimeAdapter(ArrayList(), saveSelected())
+
+        rcyTime.addItemDecoration(SimpleDividerItemDecoration(this));
+        rcyTime.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rcyTime.adapter = adapter
         //mviewmodel
-        imageButton2.setOnClickListener { v -> mviewmodel.horary.observe(this, Observer(this::setCitationsUsed)) }
+        btnDay.setOnClickListener { v -> mviewmodel.horary.observe(this, Observer(this::setCitationsUsed)) }
         btnCreateCitation.setOnClickListener({ v ->
             v.isEnabled = false
-            if (TextUtils.isEmpty(txtDay.text) || spinner.selectedItem == null) {
-                error("REvisa datos", "Revisa datos")
+            if (TextUtils.isEmpty(btnDay.text) || mviewmodel.selectedItem == -1) {
+                error("Selecciona una fecha y hora", "Revisa datos")
             } else {
-                mviewmodel.createCitation(txtDay.text.toString(), spinner.selectedItem.toString())
+                mviewmodel.createCitation(btnDay.text.toString(), adapter.items[mviewmodel.selectedItem])
                 mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error");v.isEnabled = true })
                 mviewmodel.citationCreated.observe(this, Observer { createdDialog("created", "Sucess");v.isEnabled = true })
             }
         })
 
 
+    }
+
+    private fun saveSelected(): (Int) -> Unit {
+        return {
+            mviewmodel.selectedItem = it
+        }
     }
 
     private fun setCitationsUsed(t: ArrayList<Horary>?) {

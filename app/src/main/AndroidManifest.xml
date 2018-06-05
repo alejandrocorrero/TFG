@@ -25,7 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.citatefragment.CitationActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultActivity"
             android:theme="@style/AppTheme" />

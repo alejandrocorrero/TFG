@@ -40,8 +40,8 @@ class ConsultFragment : Fragment() {
 
         view.rcyConsults.addItemDecoration(SimpleDividerItemDecoration(activity!!));
         view.rcyConsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        (activity as AppCompatActivity).supportActionBar!!.title="Consultas"
         view.rcyConsults.adapter = adapter
+        (activity as AppCompatActivity).supportActionBar!!.title="Consultas"
         mviewmodel.getConsults(); view.progressBar10.visibility = View.VISIBLE
         mviewmodel.consults.observe(this, Observer { t -> adapter.newItems(t!!); view.progressBar10.visibility = View.INVISIBLE })
         mviewmodel.errorMessage.observe(this, Observer { t -> activity!!.error(t!!, "Aviso"); view.progressBar10.visibility = View.INVISIBLE })

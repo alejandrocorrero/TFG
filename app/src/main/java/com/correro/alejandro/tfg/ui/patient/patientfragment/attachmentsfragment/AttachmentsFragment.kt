@@ -21,6 +21,7 @@ import com.correro.alejandro.tfg.data.api.models.attachmentsresponse.Attachment
 import com.correro.alejandro.tfg.databinding.FragmentAttachmentsItemBinding
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
 import com.correro.alejandro.tfg.utils.GenericAdapter
+import com.correro.alejandro.tfg.utils.error
 import com.correro.alejandro.tfg.utils.permissionWrite
 import kotlinx.android.synthetic.main.fragment_attachments.view.*
 
@@ -42,7 +43,7 @@ class AttachmentsFragment : Fragment() {
         view.rcyAttachment.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyAttachment.adapter = adapter
         mviewmodel.attchments.observe(this, Observer { setRcy(it, view) })
-        (activity as AppCompatActivity).supportActionBar!!.title="Attachments"
+        (activity as AppCompatActivity).supportActionBar!!.title = "Attachments"
 
         return view
     }
@@ -54,19 +55,23 @@ class AttachmentsFragment : Fragment() {
         view!!.progressBar3.visibility = View.INVISIBLE
     }
 
-    private fun click(): (Attachment,FragmentAttachmentsItemBinding)-> Unit {
-        return{ it: Attachment, _: FragmentAttachmentsItemBinding? ->
-        mviewmodel.downloadFile(it.adjunto, view).observe(this, Observer { it -> setlist(it) })}
+    private fun click(): (Attachment, FragmentAttachmentsItemBinding) -> Unit {
+        return { it: Attachment, b: FragmentAttachmentsItemBinding? ->
+            b!!.progressAttachment.visibility = View.VISIBLE
+            mviewmodel.downloadFile(it.adjunto, view).observe(this, Observer { it2 -> openFile(it2); b.progressAttachment.visibility = View.INVISIBLE })
+            mviewmodel.errorMessage.observe(this, Observer { it2 -> activity!!.error(it2!!,"Warning"); b.progressAttachment.visibility = View.INVISIBLE })
+        }
+
     }
 
-    private fun setlist(it: FileWithType?) {
+    private fun openFile(it: FileWithType?) {
 
         val intent = Intent()
         intent.action = Intent.ACTION_VIEW
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         val uri = FileProvider.getUriForFile(activity!!, BuildConfig.APPLICATION_ID, it!!.file);
         intent.setDataAndType(uri, it.type)
-        activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1) }
+        activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, "Open photo"), 1) }
 
         //Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
     }

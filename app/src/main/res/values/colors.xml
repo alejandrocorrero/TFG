@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00b2a9</color>
+    <color name="colorCitations">#82c9c5</color>
     <color name="colorPrimaryDark">#00817a</color>
     <color name="colorAccent">#7dc134</color>
     <color name="tabColor">#00817a</color>

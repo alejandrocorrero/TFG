@@ -35,12 +35,18 @@ class HistorialDetailActivity : AppCompatActivity() {
         mBinding.historical = mviewmodel.historical
         rcyRecipesHistorial.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rcyRecipesHistorial.addItemDecoration(SimpleDividerItemDecoration(this));
-       supportActionBar!!.title="Detalle historial"
+        supportActionBar!!.title = "Detalle historial"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
 
         rcyRecipesHistorial.adapter = GenericAdapter(BR.recipe, R.layout.fragment_recipes_item, null, null, mviewmodel.recipes)
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     companion object {
         private const val INTENT_RECIPES = "INTENT_RECIPES"
         private const val INTENT_HISTORICAL = "INTENT_HISTORICAL"

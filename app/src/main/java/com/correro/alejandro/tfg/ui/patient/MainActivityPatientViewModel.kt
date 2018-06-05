@@ -48,7 +48,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var archivo: MutableLiveData<FileWithType>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var consults: MutableLiveData<ArrayList<ConsultsList>>
-    lateinit var status:MutableLiveData<Boolean>
+    lateinit var status: MutableLiveData<Boolean>
     val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
     var userMedicId: Int = 0
 
@@ -64,7 +64,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     fun getUserMedic() {
         errorMessage = MutableLiveData()
         userMedic = MutableLiveData()
-        status=MutableLiveData()
+        status = MutableLiveData()
         apiService.getUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUserResponse, this::setError)
     }
 
@@ -87,7 +87,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private fun setCronics(chronicResponse: ChronicResponse) {
         if (chronicResponse.status == Constants.HTTP_OK) {
             chronics = chronicResponse.chronics
-            status.value=true
+            status.value = true
 
         }
     }
@@ -161,10 +161,11 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
     fun downloadFile(url: String, v: View?): MutableLiveData<FileWithType> {
-        if (!::archivo.isInitialized) {
-            archivo = MutableLiveData()
-            apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
-        }
+
+        archivo = MutableLiveData()
+        errorMessage = MutableLiveData()
+        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
+
         return archivo
     }
 

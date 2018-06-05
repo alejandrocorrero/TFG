@@ -30,6 +30,7 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
     var minute = SimpleDateFormat("HH:mm:ss")
     var nameDay = SimpleDateFormat("EEEE", Locale("es", "ES"))
     lateinit var horaryMedic: ArrayList<HoraryMedic>
+    var selectedItem: Int = -1
 
     fun getCitationsMedic() {
         horary = MutableLiveData()
