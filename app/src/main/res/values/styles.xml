@@ -19,6 +19,11 @@
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:dropDownListViewStyle">@style/MatchSpinnerStyle</item>
+    </style>
+    <style name="MatchSpinnerStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">#123456</item>
+        <item name="android:dividerHeight">1dp</item>
     </style>
 
     <!-- Estilo para que la toolbar se muestre oscura -->

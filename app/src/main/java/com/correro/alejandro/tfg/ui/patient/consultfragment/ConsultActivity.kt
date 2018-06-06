@@ -15,6 +15,8 @@ import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.specialtiesresponse.Specialty
@@ -28,7 +30,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-class  ConsultActivity : AppCompatActivity() {
+class ConsultActivity : AppCompatActivity() {
 
     private lateinit var mviewmodel: ConsultViewmodel
 
@@ -38,7 +40,9 @@ class  ConsultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consult_add)
         mviewmodel = ViewModelProviders.of(this).get(ConsultViewmodel::class.java)
-        mviewmodel.getSpecialties().observe(this, Observer(this::setSpiner))
+        progressBar13.visibility = View.VISIBLE
+        mviewmodel.getSpecialties().observe(this, Observer { it -> setSpiner(it); progressBar13.visibility = View.INVISIBLE })
+        mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error"); progressBar13.visibility = View.VISIBLE })
         fabAddPhoto.setOnClickListener { permissionWrite { launchCamera() } }
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
         setSupportActionBar(toolbar2)
@@ -55,6 +59,7 @@ class  ConsultActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflator = menuInflater
         inflator.inflate(R.menu.consultactivitymenu, menu)
@@ -73,25 +78,32 @@ class  ConsultActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(txtConsult.text)) {
             error("La descripcion no puede estar vacia", "Error")
         } else {
+            progressBar13.visibility = View.VISIBLE
+            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
             if (spinner2.selectedItemPosition == 0) {
                 mviewmodel.createConsultMedic(txtConsult.text.toString(), mviewmodel.user.idMedico)
                 mviewmodel.createConsult.observe(this, Observer { createConsultResponse(it) })
             } else {
                 for (it: Specialty in mviewmodel.speacilties.value!!) {
                     if (it.nombre == spinner2.selectedItem) {
+
                         mviewmodel.createConsultSpecialty(txtConsult.text.toString(), it.id.toString())
-                        mviewmodel.createConsult.observe(this, Observer { createConsultResponse(it) })
+                        mviewmodel.createConsult.observe(this, Observer {
+                            createConsultResponse(it)
+                        })
 
                         break
                     }
                 }
             }
-            mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
+            mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning"); progressBar13.visibility = View.INVISIBLE;window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) })
 
         }
     }
 
     private fun createConsultResponse(it: Boolean?) {
+        progressBar13.visibility = View.INVISIBLE; window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         createdDialog("Created EConsultDetail", "Success")
 
     }
