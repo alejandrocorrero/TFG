@@ -1,6 +1,7 @@
 package com.correro.alejandro.tfg.ui.patient.citatefragment
 
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -25,18 +26,30 @@ class CitationFragment : Fragment() {
 
     private lateinit var adapter: GenericAdapter<Citation>
 
+    private lateinit var views: View
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_citation, container, false)
+        views = inflater.inflate(R.layout.fragment_citation, container, false)
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
-        mviewmodel.getCitations()
-        mviewmodel.citatitons.observe(this, Observer({ setList(it) }))
-        view.progressBar2.visibility = View.VISIBLE
-        view.fabAdd.setOnClickListener { startActivity(Intent(activity, CitationActivity::class.java)) }
-        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item,null,null,ArrayList(),view.emptyView)
-        view.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        view.rcyCitations.adapter = adapter
+        callAPiCitation()
+        views.fabAdd.setOnClickListener { startActivityForResult(Intent(activity, CitationActivity::class.java), 1) }
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList(), views.emptyView)
+        views.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        views.rcyCitations.adapter = adapter
         //validatePermissions()
-        return view
+        return views
+    }
+
+    private fun callAPiCitation() {
+        mviewmodel.getCitations()
+        views.progressBar2.visibility = View.VISIBLE
+        mviewmodel.citatitons.observe(this, Observer({ setList(it) }))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK)
+            callAPiCitation()
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setList(list: ArrayList<Citation>?) {

@@ -2,6 +2,7 @@ package com.correro.alejandro.tfg.data.api
 
 
 import android.content.Context
+import com.correro.alejandro.tfg.utils.Constants
 
 import com.readystatesoftware.chuck.ChuckInterceptor
 
@@ -23,7 +24,7 @@ class ApiClient private constructor(context: Context) {
         val client: OkHttpClient = builder.build();
         val retrofit = Retrofit.Builder()
 
-                .baseUrl("http://192.168.1.213/tfgapi/api/web/app_dev.php/")
+                .baseUrl(Constants.ADDRESS)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

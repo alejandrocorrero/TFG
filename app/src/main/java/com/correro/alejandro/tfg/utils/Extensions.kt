@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
@@ -41,7 +42,11 @@ fun Activity.error(message: String, tittle: String) {
 }
 
 fun Activity.createdDialog(message: String, tittle: String) {
-    AlertDialog.Builder(this).setMessage(message).setTitle(tittle).setPositiveButton("Aceptar", { _, _ -> finish() }).setCancelable(false).create().show()
+    AlertDialog.Builder(this).setMessage(message).setTitle(tittle).setPositiveButton("Aceptar", { _, _ ->
+        var returnIntent = Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish()
+    }).setCancelable(false).create().show()
 }
 
 @SuppressLint("RestrictedApi")

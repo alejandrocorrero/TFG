@@ -23,7 +23,7 @@ class MainMedicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_medic)
-        setSupportActionBar(toolbar3)
+        setSupportActionBar(toolbar2)
         navMedic.disableShiftMode()
         navMedic.setOnNavigationItemSelectedListener {
             when (it.itemId) {

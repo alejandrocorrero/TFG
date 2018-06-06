@@ -55,10 +55,13 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         setContentView(R.layout.activity_citation)
         mviewmodel = ViewModelProviders.of(this).get(CitationActivityViewModel::class.java)
         mviewmodel.getCitationsMedic()
-        progressBar11.visibility= View.VISIBLE
+        progressBar11.visibility = View.VISIBLE
+        setSupportActionBar(toolbar2)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        mviewmodel.horary.observe(this, Observer { progressBar11.visibility= View.INVISIBLE;  window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) })
+        mviewmodel.horary.observe(this, Observer { progressBar11.visibility = View.INVISIBLE; window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) })
         adapter = TimeAdapter(ArrayList(), saveSelected())
 
         rcyTime.addItemDecoration(SimpleDividerItemDecoration(this));
@@ -70,6 +73,7 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             v.isEnabled = false
             if (TextUtils.isEmpty(btnDay.text) || mviewmodel.selectedItem == -1) {
                 error("Selecciona una fecha y hora", "Revisa datos")
+                v.isEnabled = true
             } else {
                 mviewmodel.createCitation(btnDay.text.toString(), adapter.items[mviewmodel.selectedItem])
                 mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error");v.isEnabled = true })
@@ -80,6 +84,10 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     private fun saveSelected(): (Int) -> Unit {
         return {
             mviewmodel.selectedItem = it

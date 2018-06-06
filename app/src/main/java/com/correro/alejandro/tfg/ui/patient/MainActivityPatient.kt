@@ -50,6 +50,9 @@ class MainActivityPatient : AppCompatActivity() {
         navPatient.selectedItemId = R.id.mnuPatient
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
     companion object {
         private const val INTENT_USER = "INTENT_USER"
         private const val INTENT_HISTORICAL = "INTENT_HISTORICAL"

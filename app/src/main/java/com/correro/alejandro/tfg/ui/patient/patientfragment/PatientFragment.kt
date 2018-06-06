@@ -57,14 +57,14 @@ class PatientFragment : Fragment() {
 
                 mviewmodel.userMedic.observe(this, Observer {
                     viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido)
-                    Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
+                    Picasso.get().load(Constants.ADDRESS+"api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
 
                     viewgroup.progressBar9.visibility = View.INVISIBLE
                 })
             })
         } else {
             viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
-            Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
+            Picasso.get().load(Constants.ADDRESS+"api/web/uploads/adjuntos/" + mviewmodel.user.foto).into(viewgroup.imgPhoto);
         }
         viewgroup.patientTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab) {

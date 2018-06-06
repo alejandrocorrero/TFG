@@ -16,6 +16,7 @@ import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
+import com.correro.alejandro.tfg.databinding.FragmentCitationItemBinding
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivityViewModel
 import com.correro.alejandro.tfg.ui.medic.searchfragment.SearchDetailActivity
 import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
@@ -40,12 +41,11 @@ class DiaryFragment : Fragment() {
         adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, click() as ((Citation, ViewDataBinding?) -> Unit)?,null,ArrayList(),view.emptyView)
         view.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyCitations.adapter = adapter
-
         return view
     }
 
-    private fun click(): ((Citation) -> Unit)? {
-        return {
+    private fun click(): ((Citation,FragmentCitationItemBinding?) -> Unit)? {
+        return { it: Citation, vd: FragmentCitationItemBinding? ->
             SearchDetailActivity.start(activity!!,it.idPaciente.toInt())
         }
     }

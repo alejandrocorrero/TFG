@@ -41,7 +41,9 @@ class  ConsultActivity : AppCompatActivity() {
         mviewmodel.getSpecialties().observe(this, Observer(this::setSpiner))
         fabAddPhoto.setOnClickListener { permissionWrite { launchCamera() } }
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
-
+        setSupportActionBar(toolbar2)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
         adapter = AdapterPhotos(click())
         photosgrid.layoutManager = GridLayoutManager(this, 2)
         photosgrid.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -49,6 +51,10 @@ class  ConsultActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflator = menuInflater
         inflator.inflate(R.menu.consultactivitymenu, menu)
