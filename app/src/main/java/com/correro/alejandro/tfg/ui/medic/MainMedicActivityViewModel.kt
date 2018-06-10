@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.medic
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.citationresponse.Citation
@@ -31,6 +32,8 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var users: MutableLiveData<ArrayList<MedicUser>>
     lateinit var composite:CompositeDisposable
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
+    var selectedTab: Int = R.id.mnuDiary
+
     fun getEConsults() {
         errorMessage = MutableLiveData()
         econsults = MutableLiveData()

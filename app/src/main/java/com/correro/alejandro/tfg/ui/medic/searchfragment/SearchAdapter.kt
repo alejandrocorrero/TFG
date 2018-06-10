@@ -53,7 +53,7 @@ class SearchAdapter(var items: ArrayList<MedicUser?>, val listener: (MedicUser) 
 
 class ViewHolder2(var binding: FragmentSearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: MedicUser, listener: (MedicUser) -> Unit) = with(binding.root) {
-        Picasso.get().load(Constants.ADDRESS2+"uploads/adjuntos/" + item.foto).into(binding.imgPhoto);
+        Picasso.get().load(Constants.ADDRESS2+item.foto).into(binding.imgPhoto);
         binding.setVariable(BR.medicuser, item)
         binding.executePendingBindings()
         setOnClickListener { listener(item) }

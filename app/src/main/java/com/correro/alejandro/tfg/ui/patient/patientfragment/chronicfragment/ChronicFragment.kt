@@ -27,7 +27,7 @@ class ChronicFragment : Fragment() {
         view.rcyChronics.addItemDecoration(SimpleDividerItemDecoration(activity!!));
 
         view.rcyChronics.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        view.rcyChronics.adapter=GenericAdapter(BR.chronic,R.layout.fragment_chronic_item,null,null,mviewmodel.chronics)
+        view.rcyChronics.adapter=GenericAdapter(BR.chronic,R.layout.fragment_chronic_item,null,null,mviewmodel.chronics,view.emptyView)
         (activity as AppCompatActivity).supportActionBar!!.title="Allergies and Diseases"
 
         return view

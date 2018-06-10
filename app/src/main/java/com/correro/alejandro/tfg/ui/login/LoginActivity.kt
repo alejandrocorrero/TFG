@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
     private fun loginButton() {
         val animationLogin = imageView.drawable as AnimationDrawable
         animationLogin.start()
-        mviewmodel.login(txtDni.text.toString(), txtPassword.text.toString())
+        mviewmodel.loginCall(txtDni.text.toString(), txtPassword.text.toString())
         mviewmodel.userResponse.observe(this, Observer { it -> responseCall(it!!) })
         mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);animationLogin.stop() })
         progressBar.visibility = View.VISIBLE
@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     private fun loginButton2() {
         val animationLogin = imageView.drawable as AnimationDrawable
         animationLogin.start()
-        mviewmodel.login2()
+        mviewmodel.loginMedicCall()
         mviewmodel.userResponse.observe(this, Observer { it -> responseCall(it!!) })
         mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);animationLogin.stop() })
         progressBar.visibility = View.VISIBLE
@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun responseCall(userResponse: UserResponse) {
         if (userResponse.type == 1) {
-            mviewmodel.getValues().observe(this, Observer { initPatient(it) })
+            mviewmodel.responseValues().observe(this, Observer { initPatient(it) })
 
         } else
             AlertDialog.Builder(this).setMessage(getString(R.string.LoginActivity_medicLogin_dialog_message)).setTitle(getString(R.string.LoginActivity_medicLogin_dialog_tittle))
@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainMedicActivity::class.java))
 
                     }).setNegativeButton(getString(R.string.LoginActivity_medicLogin_dialog_negativeButton), { _, _ ->
-                        mviewmodel.getValues().observe(this, Observer { initPatient(it) })
+                        mviewmodel.responseValues().observe(this, Observer { initPatient(it) })
                     }).setCancelable(false).create().show()
 
 

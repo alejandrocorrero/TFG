@@ -20,10 +20,19 @@
     <string name="storage_permission_denied_message">test2</string>
     <string name="eliminar">Eliminar</string>
     <string name="accept">Accept</string>
-    <string name="Warning">Warning_message</string>
+    <string name="Warning_message">Aviso</string>
     <string name="person">ShowPerson</string>
     <string name="LoginActivity_medicLogin_dialog_message">¿Como deseas entrar?</string>
     <string name="LoginActivity_medicLogin_dialog_tittle">Seleccion</string>
     <string name="LoginActivity_medicLogin_dialog_positiveButton">Medico</string>
     <string name="LoginActivity_medicLogin_dialog_negativeButton">Usuario</string>
+    <string name="httpException_error">Try again</string>
+    <string name="SocketTimeOutException">Try again</string>
+    <string name="IOException_error">IO error</string>
+    <string name="HistorialFragment_toolbar_title">Historial</string>
+    <string name="HistorialDetailActivity_toolbar_tittle">Detalle historial</string>
+    <string name="ExpedientFragment_toolbar_tittle">Expediente</string>
+    <string name="AttachmentsFragment_toolbar_tittle">Attachments</string>
+    <string name="AttachmentsFragment_photo">Open photo</string>
+    <string name="ConsultFragment_toolbar_tittle">Consultas</string>
 </resources>

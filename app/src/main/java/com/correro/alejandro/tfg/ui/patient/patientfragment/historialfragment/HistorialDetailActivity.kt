@@ -35,7 +35,7 @@ class HistorialDetailActivity : AppCompatActivity() {
         mBinding.historical = mviewmodel.historical
         rcyRecipesHistorial.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rcyRecipesHistorial.addItemDecoration(SimpleDividerItemDecoration(this));
-        supportActionBar!!.title = "Detalle historial"
+        supportActionBar!!.title = getString(R.string.HistorialDetailActivity_toolbar_tittle)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         supportActionBar!!.setDisplayShowHomeEnabled(true);
 

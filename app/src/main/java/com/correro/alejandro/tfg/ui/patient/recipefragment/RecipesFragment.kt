@@ -11,10 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.reciperesponse.Recipe
+import com.correro.alejandro.tfg.databinding.FragmentRecipesItemBinding
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatientViewModel
+import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.error
 import kotlinx.android.synthetic.main.fragment_recipes.view.*
 
@@ -39,6 +42,7 @@ class RecipesFragment : Fragment() {
         view!!.progressBar.visibility = View.INVISIBLE
         view!!.rcyRecipes.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view!!.rcyRecipes.adapter = RecipeAdapter(recipe)
+        view!!.rcyRecipes.adapter = GenericAdapter(BR.recipe,R.layout.fragment_recipes_item,null,null,recipe,view!!.emptyRecipes)
     }
 
 

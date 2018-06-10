@@ -34,16 +34,15 @@ class AttachmentsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_attachments, container, false)
+        val view = inflater.inflate(R.layout.fragment_attachments, container, false)
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         view.progressBar3.visibility = View.VISIBLE
-        mviewmodel.getAttchments()
+        mviewmodel.callAttchments()
         adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, click() as ((Attachment, ViewDataBinding?) -> Unit)?, null, ArrayList(), view.emptyView)
-
         view.rcyAttachment.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyAttachment.adapter = adapter
         mviewmodel.attchments.observe(this, Observer { setRcy(it, view) })
-        (activity as AppCompatActivity).supportActionBar!!.title = "Attachments"
+        (activity as AppCompatActivity).supportActionBar!!.title = getString(R.string.AttachmentsFragment_toolbar_tittle)
 
         return view
     }
@@ -59,7 +58,7 @@ class AttachmentsFragment : Fragment() {
         return { it: Attachment, b: FragmentAttachmentsItemBinding? ->
             b!!.progressAttachment.visibility = View.VISIBLE
             mviewmodel.downloadFile(it.adjunto, view).observe(this, Observer { it2 -> openFile(it2); b.progressAttachment.visibility = View.INVISIBLE })
-            mviewmodel.errorMessage.observe(this, Observer { it2 -> activity!!.error(it2!!,"Warning"); b.progressAttachment.visibility = View.INVISIBLE })
+            mviewmodel.errorMessage.observe(this, Observer { it2 -> activity!!.error(it2!!,getString(R.string.Warning_message)); b.progressAttachment.visibility = View.INVISIBLE })
         }
 
     }
@@ -71,9 +70,7 @@ class AttachmentsFragment : Fragment() {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         val uri = FileProvider.getUriForFile(activity!!, BuildConfig.APPLICATION_ID, it!!.file);
         intent.setDataAndType(uri, it.type)
-        activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, "Open photo"), 1) }
-
-        //Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+        activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, getString(R.string.AttachmentsFragment_photo)), 1) }
     }
 
 

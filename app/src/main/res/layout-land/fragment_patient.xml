@@ -8,30 +8,18 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgPhoto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:src="@color/backgroundWhiteDark"
-        app:civ_border_color="#ee078e03"
-        app:civ_border_width="2dp"
-        app:layout_constraintDimensionRatio="w,1:4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/separator"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblName">
+        app:layout_constraintTop_toTopOf="parent">
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -42,17 +30,18 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPhoto" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/patientTab"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separator"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
         app:tabMode="fixed">
 
@@ -90,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/patientTab"
         app:layout_constraintVertical_bias="1.0">
 
@@ -102,11 +91,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/imgPhoto"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgPhoto" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgPhoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@color/backgroundWhiteDark"
+        app:civ_border_color="#ee078e03"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintDimensionRatio="1:2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

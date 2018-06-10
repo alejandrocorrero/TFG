@@ -43,7 +43,7 @@ class CitationFragment : Fragment() {
     }
 
     private fun callAPiCitation() {
-        mviewmodel.getCitations()
+        mviewmodel.callCitations()
         views.progressBar2.visibility = View.VISIBLE
         mviewmodel.citatitons.observe(this, Observer({ setList(it) }))
     }

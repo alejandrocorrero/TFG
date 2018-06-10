@@ -3,6 +3,7 @@ package com.correro.alejandro.tfg.ui.patient.consultfragment
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
+import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.ApiClient
 import com.correro.alejandro.tfg.data.api.ApiService
 import com.correro.alejandro.tfg.data.api.models.createconsultresponse.CreateConsultResponse
@@ -26,13 +27,14 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
     lateinit var createConsult: MutableLiveData<Boolean>
     var photos: ArrayList<ImageItem> = ArrayList()
     lateinit var user: User
-    var pref= application.getSharedPreferences(Constants.PREFERENCES,0)!!
+    var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
+    var context= application
 
     fun getSpecialties(): MutableLiveData<ArrayList<Specialty>> {
         if (!::speacilties.isInitialized) {
             errorMessage = MutableLiveData()
             speacilties = MutableLiveData()
-            apiService.getSpecialties(pref.getString(Constants.TOKEN_CONSTANT,"")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setSpecialties, this::setError)
+            apiService.getSpecialties(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setSpecialties, this::setError)
         }
         return speacilties
     }
@@ -45,9 +47,9 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
-            is IOException -> errorMessage.value = "IO error"
+            is HttpException -> errorMessage.value = context.getString(R.string.httpException_error)
+            is SocketTimeoutException -> errorMessage.value = context.getString(R.string.SocketTimeOutException)
+            is IOException -> errorMessage.value = context.getString(R.string.IOException_error)
         }
     }
 
@@ -58,43 +60,34 @@ class ConsultViewmodel(application: Application) : AndroidViewModel(application)
         builder.addFormDataPart("description", descripcion)
         builder.addFormDataPart("id_medic", idMedico)
         builder.setType(MultipartBody.FORM)
-        if (photos.size!=0) {
+        if (photos.size != 0) {
             for (i in photos.size - 1 downTo 0) {
                 builder.addFormDataPart("file[$i]", "adjunto consulta", photos[i].photo.body())
             }
         }
         val finalRequestBody = builder.build()
-        apiService.createConsultMEdic(pref.getString(Constants.TOKEN_CONSTANT,""),finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
-
-
-
-
-
-
-
+        apiService.createConsultMEdic(pref.getString(Constants.TOKEN_CONSTANT, ""), finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
 
 
     }
-    fun createConsultSpecialty(descripcion: String,idSpecialty: String) {
+
+    fun createConsultSpecialty(descripcion: String, idSpecialty: String) {
         createConsult = MutableLiveData()
         errorMessage = MutableLiveData()
         val builder = MultipartBody.Builder()
         builder.addFormDataPart("description", descripcion)
         builder.addFormDataPart("id_speciality", idSpecialty)
         builder.setType(MultipartBody.FORM)
-        if (photos.size!=0) {
+        if (photos.size != 0) {
             for (i in photos.size - 1 downTo 0) {
                 builder.addFormDataPart("file[$i]", "adjunto consulta", photos[i].photo.body())
             }
         }
         val finalRequestBody = builder.build()
-        apiService.createConsultSpecialty(pref.getString(Constants.TOKEN_CONSTANT,""),finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
-
-
+        apiService.createConsultSpecialty(pref.getString(Constants.TOKEN_CONSTANT, ""), finalRequestBody).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsulResponse, this::setError)
 
 
     }
-
 
     fun setConsulResponse(createConsultResponse: CreateConsultResponse) {
         if (createConsultResponse.status == Constants.HTTP_CREATED) {

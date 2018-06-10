@@ -18,13 +18,13 @@ import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 import android.view.View
+import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.ChronicResponse
 import io.reactivex.Observable
 import java.io.File
@@ -39,6 +39,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var user: User
     lateinit var historical: ArrayList<Historical>
     lateinit var chronics: ArrayList<Chronic>
+    var context= application
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
     lateinit var errorMessage: MutableLiveData<String>
@@ -51,8 +52,9 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     lateinit var status: MutableLiveData<Boolean>
     val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
     var userMedicId: Int = 0
+    var selectedTab: Int = R.id.mnuPatient
 
-    fun getConsults() {
+    fun callConsults() {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
 
@@ -60,12 +62,52 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     }
 
-
-    fun getUserMedic() {
+    fun callUserMedic() {
         errorMessage = MutableLiveData()
         userMedic = MutableLiveData()
         status = MutableLiveData()
         apiService.getUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUserResponse, this::setError)
+    }
+
+    fun callCitations() {
+        citatitons = MutableLiveData()
+        apiService.getCitationsPatient(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
+
+    }
+
+    fun callHistorialRecipes(id: Int) {
+        recipes = MutableLiveData()
+        errorMessage = MutableLiveData()
+        if (type == 1) {
+            apiService.getRecipesHistorical(pref.getString(Constants.TOKEN_CONSTANT, ""), id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        } else {
+            apiService.getRecipesHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), id, userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+        }
+    }
+
+    fun callAttchments() {
+        attchments = MutableLiveData()
+        errorMessage = MutableLiveData()
+        if (type == 1) {
+            apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        } else {
+            apiService.getAttachmentsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+        }
+    }
+
+    fun getRecipes() {
+        recipes = MutableLiveData()
+        errorMessage = MutableLiveData()
+        apiService.getRecipes(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
+    }
+
+    fun downloadFile(url: String, v: View?): MutableLiveData<FileWithType> {
+
+        archivo = MutableLiveData()
+        errorMessage = MutableLiveData()
+        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> downloasFileResponse(t, v) }).subscribe(this::responseFile, this::setError)
+
+        return archivo
     }
 
     private fun setUserResponse(userResponse: UserResponse) {
@@ -100,16 +142,6 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun gethistorialRecipes(id: Int) {
-        recipes = MutableLiveData()
-        errorMessage = MutableLiveData()
-        if (type == 1) {
-            apiService.getRecipesHistorical(pref.getString(Constants.TOKEN_CONSTANT, ""), id).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
-        } else {
-            apiService.getRecipesHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), id, userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
-        }
-    }
-
     private fun setRecipe(recipesResponse: RecipesResponse) {
         if (recipesResponse.status == Constants.HTTP_OK) {
             recipes.value = recipesResponse.recipes
@@ -118,19 +150,12 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
-            is IOException -> errorMessage.value = "IO error"
+            is HttpException -> errorMessage.value = context.getString(R.string.httpException_error)
+            is SocketTimeoutException -> errorMessage.value = context.getString(R.string.SocketTimeOutException)
+            is IOException -> errorMessage.value = context.getString(R.string.IOException_error)
         }
-    }
-
-    fun getCitations() {
-        citatitons = MutableLiveData()
-        apiService.getCitationsPatient(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
-
     }
 
     private fun setCitations(citationResponse: CitationResponse) {
@@ -139,50 +164,17 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun getRecipes() {
-        recipes = MutableLiveData()
-        errorMessage = MutableLiveData()
-        apiService.getRecipes(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setRecipe, this::setError)
-    }
-
-    fun getAttchments() {
-        attchments = MutableLiveData()
-        errorMessage = MutableLiveData()
-        if (type == 1) {
-            apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
-        } else {
-            apiService.getAttachmentsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
-        }
-    }
-
     private fun setAttachments(attachmentResponse: AttachmentResponse) {
         this.attchments.value = attachmentResponse.attachments
 
     }
 
-    fun downloadFile(url: String, v: View?): MutableLiveData<FileWithType> {
-
-        archivo = MutableLiveData()
-        errorMessage = MutableLiveData()
-        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe(this::setfile, this::setError)
-
-        return archivo
-    }
-
-    private fun test(response: Response<ResponseBody>, v: View?): Observable<FileWithType>? {
+    private fun downloasFileResponse(response: Response<ResponseBody>, v: View?): Observable<FileWithType>? {
         return Observable.create({
             val header = response.headers().get("Content-Disposition")
             val type = response.headers().get("Content-Type")
-            // this is specific case, it's up to you how you want to save your file
-            // if you are not downloading file from direct link, you might be lucky to obtain file name from header
             val fileName = header!!.replace("attachment; filename=", "").replace("\"", "")
-            // will create file in global Music directory, can be any other directory, just don't forget to handle permissions
             v?.context?.openFileOutput(fileName, Context.MODE_PRIVATE).use { it?.write(response.body()!!.source().readByteArray()) }
-            //val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absoluteFile, fileName)
-            //val sink = Okio.buffer(Okio.sink(file))
-            // you can access body of response
-            //sink.writeAll(response.body()!!.source())
-            //sink.close()
             val directory = v!!.context.filesDir
             val file = File(directory, fileName)
             it.onNext(FileWithType(file, type!!))
@@ -191,7 +183,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
 
-    private fun setfile(file: FileWithType) {
+    private fun responseFile(file: FileWithType) {
         archivo.value = file
     }
 

@@ -25,9 +25,6 @@ import com.correro.alejandro.tfg.utils.error
 import kotlinx.android.synthetic.main.fragment_historial.view.*
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class HistorialFragment : Fragment() {
 
 
@@ -37,26 +34,23 @@ class HistorialFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_historial, container, false)
         view.rcyHistoricals.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        view.rcyHistoricals.adapter = GenericAdapter(BR.historical, R.layout.fragment_historial_item, clickItem() as ((Historical, ViewDataBinding?) -> Unit)?,null, mviewmodel.historical)
-
-        (activity as AppCompatActivity).supportActionBar!!.title="Historial"
-
+        view.rcyHistoricals.adapter = GenericAdapter(BR.historical, R.layout.fragment_historial_item, clickItem() as ((Historical, ViewDataBinding?) -> Unit)?,null, mviewmodel.historical,view.emptyView)
+        (activity as AppCompatActivity).supportActionBar!!.title=getString(R.string.HistorialFragment_toolbar_title)
         return view
     }
 
     private fun clickItem(): ((Historical, FragmentHistorialItemBinding?) -> Unit)? {
         return { it: Historical, vd: FragmentHistorialItemBinding? ->
             activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
             vd!!.progresshis.visibility=View.VISIBLE
             vd.imageView13.visibility=View.INVISIBLE
-            mviewmodel.gethistorialRecipes(it.id.toInt())
-            mviewmodel.recipes.observe(this, Observer { d -> detail(it, d!!);vd.progresshis.visibility=View.INVISIBLE;vd.imageView13.visibility=View.VISIBLE ; activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)})
-            mviewmodel.errorMessage.observe(this, Observer { b -> activity!!.error(b!!, "Alert");vd.progresshis.visibility=View.INVISIBLE;vd.imageView13.visibility=View.VISIBLE; })
+            mviewmodel.callHistorialRecipes(it.id.toInt())
+            mviewmodel.recipes.observe(this, Observer { d -> detailHistorical(it, d!!);vd.progresshis.visibility=View.INVISIBLE;vd.imageView13.visibility=View.VISIBLE ; activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)})
+            mviewmodel.errorMessage.observe(this, Observer { b -> activity!!.error(b!!, getString(R.string.Warning_message));vd.progresshis.visibility=View.INVISIBLE;vd.imageView13.visibility=View.VISIBLE; })
         }
     }
 
-    fun detail(historical: Historical, recipe: ArrayList<Recipe>) {
+    private fun detailHistorical(historical: Historical, recipe: ArrayList<Recipe>) {
         HistorialDetailActivity.start(this.activity!!, historical, recipe)
     }
 

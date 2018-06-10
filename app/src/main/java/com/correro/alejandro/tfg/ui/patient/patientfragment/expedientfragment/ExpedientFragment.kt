@@ -33,9 +33,9 @@ class ExpedientFragment : Fragment() {
         } else {
             binding.patient = mviewmodel.user
         }
-        (activity!! as AppCompatActivity).supportActionBar!!.title="Expediente"
+        (activity!! as AppCompatActivity).supportActionBar!!.title=getString(R.string.ExpedientFragment_toolbar_tittle)
 
         return binding.root
     }
 
-}// Required empty public constructor
+}

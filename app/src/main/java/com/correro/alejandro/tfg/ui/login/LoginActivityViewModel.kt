@@ -30,16 +30,16 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
     lateinit var chronicsResponse: ArrayList<Chronic>
     lateinit var allValues: MutableLiveData<Boolean>
     private var usertype: Int = 0
-    fun login(username: String, password: String) {
+    fun loginCall(username: String, password: String) {
         errorCode = MutableLiveData()
         userResponse = MutableLiveData()
-        apiService.login(username, password, Constants.TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setLogin, this::setError)
+        apiService.login(username, password, Constants.TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseLogin, this::setError)
     }
 
-    fun login2() {
+    fun loginMedicCall() {
         errorCode = MutableLiveData()
         userResponse = MutableLiveData()
-        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
+        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseUser, this::setError)
 
     }
 
@@ -52,37 +52,37 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
     }
 
 
-    private fun setLogin(loginResponse: LoginResponse) {
+    private fun responseLogin(loginResponse: LoginResponse) {
         token = "Bearer " + loginResponse.accessToken
         cox.getSharedPreferences(PREFERENCES, 0).edit().putString(Constants.TOKEN_CONSTANT, token).apply()
 
-        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
+        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseUser, this::setError)
 
     }
 
 
-    fun setChronics(chronicResponse: ChronicResponse) {
+    fun responseChronics(chronicResponse: ChronicResponse) {
         this.chronicsResponse = chronicResponse.chronics
         allValues.value = true
     }
 
 
-    private fun setHistoricals(historicalResponse: HistoricalResponse) {
+    private fun responseHistoricals(historicalResponse: HistoricalResponse) {
         this.historicalResponse = historicalResponse.historicals
 
-        apiService.getChronics(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setChronics, this::setError)
+        apiService.getChronics(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseChronics, this::setError)
     }
 
 
-    private fun setUser(userResponse: UserResponse) {
+    private fun responseUser(userResponse: UserResponse) {
         this.userResponse.value = userResponse
         this.usertype = userResponse.type
         cox.getSharedPreferences(PREFERENCES, 0).edit().putInt(Constants.TYPE_CONSTAN, userResponse.type).apply()
     }
 
-    public fun getValues(): MutableLiveData<Boolean> {
+    public fun responseValues(): MutableLiveData<Boolean> {
         allValues = MutableLiveData()
-        apiService.getHistorical(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
+        apiService.getHistorical(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
         return allValues
     }
 

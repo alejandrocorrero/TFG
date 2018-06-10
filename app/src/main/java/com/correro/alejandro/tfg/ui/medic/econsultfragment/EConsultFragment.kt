@@ -49,7 +49,7 @@ class EConsultFragment : Fragment() {
 
                 }
                 mviewmodel.econsults.observe(activity!!, Observer { adapter.newItems(it!!); view.progressBar8.visibility = View.INVISIBLE; view.rcyEconsults.visibility = View.VISIBLE })
-                mviewmodel.errorMessage.observe(activity!!, Observer { view.progressBar8.visibility = View.INVISIBLE;activity!!.error(it!!, getString(R.string.Warning)); view.rcyEconsults.visibility = View.VISIBLE })
+                mviewmodel.errorMessage.observe(activity!!, Observer { view.progressBar8.visibility = View.INVISIBLE;activity!!.error(it!!, getString(R.string.Warning_message)); view.rcyEconsults.visibility = View.VISIBLE })
 
             }
 
@@ -69,7 +69,7 @@ class EConsultFragment : Fragment() {
                 mviewmodel.econsults.observe(activity!!, Observer {
                     adapter.newItems(it!!); view.progressBar8.visibility = View.INVISIBLE; view.rcyEconsults.visibility = View.VISIBLE
                 })
-                mviewmodel.errorMessage.observe(activity!!, Observer { view.progressBar8.visibility = View.INVISIBLE;activity!!.error(it!!, getString(R.string.Warning)); view.rcyEconsults.visibility = View.VISIBLE })
+                mviewmodel.errorMessage.observe(activity!!, Observer { view.progressBar8.visibility = View.INVISIBLE;activity!!.error(it!!, getString(R.string.Warning_message)); view.rcyEconsults.visibility = View.VISIBLE })
 
             }
 
