@@ -30,16 +30,20 @@ import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.error
 import com.correro.alejandro.tfg.utils.permissionWrite
 
+
 import kotlinx.android.synthetic.main.activity_econsult_detail.*
 
 class EConsultDetailActivity : AppCompatActivity() {
     private lateinit var mviewmodel: EConsultDetailActivityViewModel
 
     private lateinit var mBinding: ActivityEconsultDetailBinding
+    private lateinit var econsultI: EConsultDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_econsult_detail);
+        title="Econsulta"
+
         mviewmodel = ViewModelProviders.of(this).get(EConsultDetailActivityViewModel::class.java)
         mviewmodel.idEConsult = intent.getIntExtra(EXTRA_ID_ECONSULT, -1)
         mviewmodel.getEconsult()
@@ -53,39 +57,52 @@ class EConsultDetailActivity : AppCompatActivity() {
 
     private lateinit var adapterResponses: GenericAdapter<Respuesta>
 
-    private lateinit var consultI: EConsultDetail
+
 
     private fun initViews(econsultInfo: EconsultInfo) {
-        adapter = ConsultDetailPhotoAdapter(setlist())
-        gridPhotosEconsult.layoutManager = GridLayoutManager(this, 2)
-        gridPhotosEconsult.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        gridPhotosEconsult.adapter = adapter
+        econsultI=econsultInfo.EConsult
+        var params = nstPhotos.layoutParams
+        if (econsultInfo.attachments.size == 0)
+            params.height = 0
+        nstPhotos.layoutParams = params
 
+        adapter = ConsultDetailPhotoAdapter(setlist())
+        rcyPhotos.layoutManager = GridLayoutManager(this, 2)
+        rcyPhotos.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        rcyPhotos.adapter = adapter
+        setupToolbar()
         for (a in econsultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
         adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, econsultInfo.respuestas)
-        var layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, true)
-        rcyResponsesEconsult.layoutManager = layoutManager
-        rcyResponsesEconsult.adapter = adapterResponses
-        btnSend.setOnClickListener { clickValues() }
-        mBinding.econsultdetail = econsultInfo.EConsult
-        consultI = econsultInfo.EConsult
-        item!!.isVisible = true
-        // mBinding.lblPatient.setOnClickListener { SearchDetailActivity.start(this,econsultInfo.EConsult.idPaciente.toInt()) }
-    }
 
+        var layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, true)
+        rcyResponses.layoutManager = layoutManager
+        rcyResponses.adapter = adapterResponses
+
+        btnSend.setOnClickListener { clickValues() }
+
+        mBinding.econsultdetail = econsultInfo.EConsult
+
+    }
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar2)
+        supportActionBar!!.title = "Detalle Econsulta"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
+    }
     private var item: MenuItem? = null
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflator = menuInflater
         inflator.inflate(R.menu.consult_detail, menu)
         item = menu!!.findItem(R.id.mnuDetail)
+        item!!.isVisible = true
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.mnuDetail -> SearchDetailActivity.start(this, consultI.idPaciente.toInt())
+            R.id.mnuDetail -> SearchDetailActivity.start(this, econsultI.idPaciente.toInt())
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -102,7 +119,7 @@ class EConsultDetailActivity : AppCompatActivity() {
     private fun setresult(it: Respuesta?) {
         adapterResponses.items.add(0, it!!)
         adapterResponses.notifyItemInserted(0)
-        rcyResponsesEconsult.scrollToPosition(0)
+        rcyResponses.scrollToPosition(0)
 
     }
 
@@ -125,5 +142,9 @@ class EConsultDetailActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_ID_ECONSULT, id_consulta)
             context.startActivity(intent)
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

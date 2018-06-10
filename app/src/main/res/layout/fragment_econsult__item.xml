@@ -20,9 +20,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text='@{econsult.nombreRespuesta ?? econsult.nombre}'
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toStartOf="@+id/lblDate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Alejandro correro" />
 
         <TextView
             android:id="@+id/lblDate"
@@ -31,8 +34,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:text='@{econsult.fecharespuesta ?? econsult.fecha }'
+            android:textSize="10sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2018-05-26 20:11:05"  />
 
         <TextView
             android:id="@+id/lblResponse"
@@ -42,11 +48,27 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text='@{econsult.respuesta ?? econsult.descripcion}'
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintTop_toBottomOf="@+id/lblResponseName"
+            tools:text="ESTO ES UNA RESPUESTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <ImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblResponseName" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_local_hospital_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -36,6 +36,13 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
         apiService.login(username, password, Constants.TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setLogin, this::setError)
     }
 
+    fun login2() {
+        errorCode = MutableLiveData()
+        userResponse = MutableLiveData()
+        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
+
+    }
+
     private fun setError(e: Throwable?) {
         when (e) {
             is HttpException -> errorCode.value = e.response().code()
@@ -46,10 +53,10 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
 
     private fun setLogin(loginResponse: LoginResponse) {
-        token = loginResponse.accessToken
-        cox.getSharedPreferences(PREFERENCES,0).edit().putString(Constants.TOKEN_CONSTANT, "Bearer $token").apply()
+        token = "Bearer " + loginResponse.accessToken
+        cox.getSharedPreferences(PREFERENCES, 0).edit().putString(Constants.TOKEN_CONSTANT, token).apply()
 
-        apiService.getUser("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
+        apiService.getUser(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setUser, this::setError)
 
     }
 
@@ -63,20 +70,19 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
     private fun setHistoricals(historicalResponse: HistoricalResponse) {
         this.historicalResponse = historicalResponse.historicals
 
-        apiService.getChronics("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setChronics, this::setError)
+        apiService.getChronics(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setChronics, this::setError)
     }
-
 
 
     private fun setUser(userResponse: UserResponse) {
         this.userResponse.value = userResponse
-        this.usertype=userResponse.type
-        cox.getSharedPreferences(PREFERENCES,0).edit().putInt(Constants.TYPE_CONSTAN,userResponse.type).apply()
+        this.usertype = userResponse.type
+        cox.getSharedPreferences(PREFERENCES, 0).edit().putInt(Constants.TYPE_CONSTAN, userResponse.type).apply()
     }
 
     public fun getValues(): MutableLiveData<Boolean> {
         allValues = MutableLiveData()
-        apiService.getHistorical("Bearer $token").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
+        apiService.getHistorical(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setHistoricals, this::setError)
         return allValues
     }
 

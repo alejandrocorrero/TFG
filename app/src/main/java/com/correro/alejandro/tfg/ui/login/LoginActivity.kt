@@ -6,17 +6,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.animation.Animation
 import com.correro.alejandro.tfg.R
-import com.correro.alejandro.tfg.data.api.models.historialresponse.HistoricalResponse
-import com.correro.alejandro.tfg.data.api.models.userresponse.User
 import com.correro.alejandro.tfg.data.api.models.userresponse.UserResponse
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivity
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
+import com.correro.alejandro.tfg.utils.Constants
 import com.correro.alejandro.tfg.utils.errorRequest
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -28,44 +25,67 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mviewmodel = ViewModelProviders.of(this).get(LoginActivityViewModel::class.java)
+        lblTitle.typeface = Typeface.createFromAsset(assets, "fonts/Billabong.ttf")
+        var token = getSharedPreferences(Constants.PREFERENCES, MODE_PRIVATE).getString(Constants.TOKEN_CONSTANT, null)
+        if (token != null) {
+            mviewmodel.token = token
+            loginButton2()
+        }
         btnLogin.setOnClickListener { loginButton() }
-        //btnLogin.setOnClickListener { AlertDialog.Builder(this).setMessage("Datos incorrectos").setTitle("Aviso").create().show() }
-        txtDni.setText("12345678G")
+
+        //TODO TEST
+        txtDni.setText("12345678M")
         txtPassword.setText("1234")
-        lblTitle.typeface= Typeface.createFromAsset(assets,"fonts/Billabong.ttf")
-        /*setSupportActionBar(toolbar.findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
+
     }
 
     private fun loginButton() {
-        var t=imageView.drawable as AnimationDrawable
-        t.start()
+        val animationLogin = imageView.drawable as AnimationDrawable
+        animationLogin.start()
         mviewmodel.login(txtDni.text.toString(), txtPassword.text.toString())
         mviewmodel.userResponse.observe(this, Observer { it -> responseCall(it!!) })
-        mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);t.stop() })
+        mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);animationLogin.stop() })
+        progressBar.visibility = View.VISIBLE
+        btnLogin.isEnabled = false
+    }
+
+    private fun loginButton2() {
+        val animationLogin = imageView.drawable as AnimationDrawable
+        animationLogin.start()
+        mviewmodel.login2()
+        mviewmodel.userResponse.observe(this, Observer { it -> responseCall(it!!) })
+        mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);animationLogin.stop() })
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
     }
 
     private fun responseCall(userResponse: UserResponse) {
-
         if (userResponse.type == 1) {
             mviewmodel.getValues().observe(this, Observer { initPatient(it) })
 
         } else
-            startActivity(Intent(this, MainMedicActivity::class.java))
+            AlertDialog.Builder(this).setMessage(getString(R.string.LoginActivity_medicLogin_dialog_message)).setTitle(getString(R.string.LoginActivity_medicLogin_dialog_tittle))
+                    .setPositiveButton(getString(R.string.LoginActivity_medicLogin_dialog_positiveButton), { _, _ ->
+                        startActivity(Intent(this, MainMedicActivity::class.java))
+
+                    }).setNegativeButton(getString(R.string.LoginActivity_medicLogin_dialog_negativeButton), { _, _ ->
+                        mviewmodel.getValues().observe(this, Observer { initPatient(it) })
+                    }).setCancelable(false).create().show()
 
 
     }
 
     private fun initPatient(it: Boolean?) {
         if (it == true) {
+            getSharedPreferences(Constants.PREFERENCES, 0).edit().putInt(Constants.TYPE_CONSTAN, 1).apply()
             MainActivityPatient.start(this, mviewmodel.userResponse.value!!.user, mviewmodel.historicalResponse, mviewmodel.chronicsResponse)
 
         }
     }
 
+    override fun onBackPressed() {
 
+    }
 }
 
 

@@ -8,6 +8,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.econsultresponse.Econsult
+import com.correro.alejandro.tfg.databinding.FragmentEconsultItemBinding
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivityViewModel
 import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.error
@@ -30,6 +32,7 @@ class EConsultFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainMedicActivityViewModel::class.java)
+        (activity as AppCompatActivity).supportActionBar!!.title="Econsultas"
 
         val view = inflater.inflate(R.layout.fragment_e_consult, container, false)
         adapter = GenericAdapter(BR.econsult, R.layout.fragment_econsult__item, click() as ((Econsult, ViewDataBinding?) -> Unit)?)
@@ -75,8 +78,8 @@ class EConsultFragment : Fragment() {
         return view
     }
 
-    fun click(): (Econsult) -> Unit {
-        return {
+    fun click(): ((Econsult, FragmentEconsultItemBinding) -> Unit)? {
+        return { it: Econsult, _: FragmentEconsultItemBinding? ->
             EConsultDetailActivity.start(activity!!, it.id.toInt())
         }
 

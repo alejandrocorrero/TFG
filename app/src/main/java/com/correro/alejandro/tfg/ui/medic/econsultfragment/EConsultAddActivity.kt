@@ -47,7 +47,13 @@ class EConsultAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_econsult_add)
+        setSupportActionBar(toolbar2)
+        supportActionBar!!.title = "Realizar Econsulta"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
         mviewmodel = ViewModelProviders.of(this).get(EConsultAddViewmodel::class.java)
+        progressType.visibility=View.VISIBLE
+        progressPatients.visibility=View.VISIBLE
         mviewmodel.getSpecialties().observe(this, Observer(this::setSpiner))
         fabAddPhotos.setOnClickListener { permissionWrite { launchCamera() } }
         mviewmodel.getUsers(null).observe(this, Observer { t -> setSpinnerPatients(t) })
@@ -58,12 +64,17 @@ class EConsultAddActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
     private fun setSpinnerPatients(t: ArrayList<MedicUser>?) {
+        progressPatients.visibility = View.INVISIBLE
         val aa: ArrayAdapter<MedicUser> = object : ArrayAdapter<MedicUser>(this, R.layout.spinneradapter, t) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
                 var view = this@EConsultAddActivity.layoutInflater;
                 var convertView = view.inflate(R.layout.spinneradapter, parent, false)
-                convertView!!.txtName.text = String.format("%s %s",getItem(position).nombre,getItem(position).apellido)
+                convertView!!.txtName.text = String.format("%s %s", getItem(position).nombre, getItem(position).apellido)
                 return convertView
             }
 
@@ -76,7 +87,7 @@ class EConsultAddActivity : AppCompatActivity() {
                 if (convertView == null)
                     convertView = View.inflate(context, R.layout.spinneradapter, null)
                 val tvText1 = convertView!!.findViewById(R.id.txtName) as TextView
-                tvText1.text =  String.format("%s %s",getItem(position).nombre,getItem(position).apellido)
+                tvText1.text = String.format("%s %s", getItem(position).nombre, getItem(position).apellido)
                 return convertView
             }
         }
@@ -102,12 +113,14 @@ class EConsultAddActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(txtConsult.text)) {
             error("La descripcion no puede estar vacia", "Error")
         } else {
+            if (spinner2.selectedItem != null && spinner7.selectedItem != null) {
+                mviewmodel.createEconsult(txtConsult.text.toString(), (spinner2.selectedItem as Specialty).id.toString(), (spinner7.selectedItem as MedicUser).id)
+                mviewmodel.createEConsultResponse.observe(this, Observer { createEConsultResponse(it) })
 
-            mviewmodel.createEconsult(txtConsult.text.toString(), (spinner2.selectedItem as Specialty).id.toString(), (spinner7.selectedItem as MedicUser).id)
-            mviewmodel.createEConsultResponse.observe(this, Observer { createEConsultResponse(it) })
-
-            mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
-
+                mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
+            }else{
+                error("Try again","Error")
+            }
         }
     }
 
@@ -127,6 +140,8 @@ class EConsultAddActivity : AppCompatActivity() {
     }
 
     private fun setSpiner(t: ArrayList<Specialty>?) {
+        progressType.visibility = View.INVISIBLE
+
         val aa = object : ArrayAdapter<Specialty>(this, R.layout.spinneradapter, t) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 

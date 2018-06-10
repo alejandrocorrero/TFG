@@ -15,6 +15,7 @@ import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUser
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUserResponse
 import com.correro.alejandro.tfg.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.io.IOException
@@ -28,7 +29,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var users: MutableLiveData<ArrayList<MedicUser>>
-
+    lateinit var composite:CompositeDisposable
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
     fun getEConsults() {
         errorMessage = MutableLiveData()
@@ -66,6 +67,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
 
     fun getCitations() {
         citatitons = MutableLiveData()
+        errorMessage = MutableLiveData()
         apiService.getCitationsMedic(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCitations, this::setError)
 
     }
@@ -73,6 +75,8 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     private fun setCitations(citationResponse: CitationResponse) {
         if (citationResponse.status == Constants.HTTP_OK) {
             citatitons.value = citationResponse.citations
+        }else if (citationResponse.status == Constants.HTTP_NOT_FOUND) {
+            errorMessage.value = citationResponse.message
         }
     }
 
@@ -96,7 +100,8 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     fun getUsers(filter: String?): MutableLiveData<ArrayList<MedicUser>> {
         users = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError)
+        composite= CompositeDisposable()
+        composite.add(apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError))
         return users
     }
 

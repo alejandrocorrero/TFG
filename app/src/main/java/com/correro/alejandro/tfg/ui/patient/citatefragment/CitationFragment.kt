@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +37,8 @@ class CitationFragment : Fragment() {
         adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList(), views.emptyView)
         views.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         views.rcyCitations.adapter = adapter
-        //validatePermissions()
+        (activity as AppCompatActivity).supportActionBar!!.title="Citas"
+
         return views
     }
 

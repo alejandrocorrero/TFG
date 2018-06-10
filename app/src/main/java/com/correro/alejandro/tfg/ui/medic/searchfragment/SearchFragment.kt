@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
@@ -32,6 +33,8 @@ class SearchFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         mviewmodel = ViewModelProviders.of(this).get(MainMedicActivityViewModel::class.java)
         adapter = SearchAdapter(ArrayList(), click())
+        (activity as AppCompatActivity).supportActionBar!!.title="Pacientes"
+
         adapter.items.add(null)
         adapter.notifyItemInserted(adapter.items.size - 1)
         mviewmodel.getUsers(null).observe(this, Observer { setList(it) })
@@ -69,11 +72,13 @@ class SearchFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+
                 processQuery(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+
                 processQuery(newText)
                 return true
             }
@@ -83,9 +88,9 @@ class SearchFragment : Fragment() {
 //TODO CANCELAR LLAMDA ANTIGUA
     private fun processQuery(query: String?) {
         if (endCall) {
-            mviewmodel.users.removeObservers(this)
+            mviewmodel.composite.dispose()
+            mviewmodel.users.removeObservers(this@SearchFragment)
             if (TextUtils.isEmpty(query)) {
-                mviewmodel.users.removeObservers(this)
                 if (::listOld.isInitialized)
                     adapter.newItems(ArrayList(listOld))
             } else {

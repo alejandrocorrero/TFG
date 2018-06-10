@@ -6,16 +6,21 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.chronicresponse.Chronic
 import com.correro.alejandro.tfg.data.api.models.historialresponse.Historical
 import com.correro.alejandro.tfg.data.api.models.userresponse.User
+import com.correro.alejandro.tfg.ui.login.LoginActivity
 import com.correro.alejandro.tfg.ui.patient.citatefragment.CitationFragment
 import com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultFragment
 import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
 import com.correro.alejandro.tfg.ui.patient.recipefragment.RecipesFragment
+import com.correro.alejandro.tfg.utils.Constants
+import com.correro.alejandro.tfg.utils.Constants.Companion.PREFERENCES
 import com.correro.alejandro.tfg.utils.disableShiftMode
 import com.correro.alejandro.tfg.utils.executeTransaction
 import kotlinx.android.synthetic.main.activity_main_patient.*
@@ -32,6 +37,7 @@ class MainActivityPatient : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_patient)
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
+
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
         mviewmodel.historical = intent.getParcelableArrayListExtra<Historical>(INTENT_HISTORICAL) ?: throw IllegalStateException("field $INTENT_HISTORICAL missing in Intent")
         mviewmodel.chronics = intent.getParcelableArrayListExtra<Chronic>(INTENT_CHRONICS) ?: throw IllegalStateException("field $INTENT_CHRONICS missing in Intent")
@@ -50,9 +56,30 @@ class MainActivityPatient : AppCompatActivity() {
         navPatient.selectedItemId = R.id.mnuPatient
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var inflater = MenuInflater(this)
+        inflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.mnuLogOut -> logout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun logout() {
+        getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit().putString(Constants.TOKEN_CONSTANT, null).apply()
+        getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit().putInt(Constants.TYPE_CONSTAN, 0).apply()
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
     }
+
     companion object {
         private const val INTENT_USER = "INTENT_USER"
         private const val INTENT_HISTORICAL = "INTENT_HISTORICAL"

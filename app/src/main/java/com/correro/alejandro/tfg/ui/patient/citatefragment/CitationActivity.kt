@@ -60,14 +60,13 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         supportActionBar!!.setDisplayShowHomeEnabled(true);
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
+        supportActionBar!!.title="Pedir cita"
         mviewmodel.horary.observe(this, Observer { progressBar11.visibility = View.INVISIBLE; window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE) })
         adapter = TimeAdapter(ArrayList(), saveSelected())
 
         rcyTime.addItemDecoration(SimpleDividerItemDecoration(this));
         rcyTime.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rcyTime.adapter = adapter
-        //mviewmodel
         btnDay.setOnClickListener { v -> mviewmodel.horary.observe(this, Observer(this::setCitationsUsed)) }
         btnCreateCitation.setOnClickListener({ v ->
             v.isEnabled = false

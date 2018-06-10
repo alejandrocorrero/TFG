@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ class RecipesFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         view.progressBar.visibility = View.VISIBLE
         mviewmodel.getRecipes()
+        (activity as AppCompatActivity).supportActionBar!!.title="Recetas"
+
         mviewmodel.recipes.observe(this, Observer { setrecipe(it!!) })
         mviewmodel.errorMessage.observe(this, Observer { e -> activity!!.error(e!!, "Error"); view!!.progressBar.visibility = View.INVISIBLE })
         return view

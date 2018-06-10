@@ -20,7 +20,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@color/chatFont"
             app:civ_border_color="#ee078e03"
             app:civ_border_width="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{medicuser.nombre}"
+            android:text='@{medicuser.nombre + " " + medicuser.apellido }'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgPhoto"
             app:layout_constraintTop_toTopOf="parent" />

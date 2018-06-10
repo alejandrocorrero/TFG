@@ -57,15 +57,18 @@ class ConsultDetailActivity : AppCompatActivity() {
     private lateinit var consultI: Consult
 
     private fun initViews(consultInfo: ConsultInfo) {
+        consultI = consultInfo.consult
         var params = nstPhotos.layoutParams
         if (consultInfo.attachments.size == 0)
             params.height = 0
         nstPhotos.layoutParams = params
+
         adapter = ConsultDetailPhotoAdapter(setlist())
         rcyPhotos.layoutManager = GridLayoutManager(this, 2)
         rcyPhotos.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rcyPhotos.adapter = adapter
 
+        setupToolbar()
         for (a in consultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
         adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, consultInfo.respuestas)
@@ -74,11 +77,18 @@ class ConsultDetailActivity : AppCompatActivity() {
         rcyResponses.layoutManager = layoutManager
         rcyResponses.adapter = adapterResponses
         lblDescription.text = consultInfo.consult.descripcion
-        if (consultInfo.consult.paciente != null) item!!.isVisible = true
-        //lblNombre.paintFlags = lblNombre.paintFlags or Paint.UNDERLINE_TEXT_FLAG;
-        //lblNombre.setOnClickListener { SearchDetailActivity.start(this, consultInfo.consult.idPaciente.toInt()) }
+
+        if (consultInfo.consult.paciente != null && item!=null) item!!.isVisible = true
+
         btnSend.setOnClickListener { clickValues() }
-        consultI = consultInfo.consult
+
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar2)
+        supportActionBar!!.title = "Detalle consulta"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayShowHomeEnabled(true);
     }
 
     private var item: MenuItem? = null
@@ -87,6 +97,8 @@ class ConsultDetailActivity : AppCompatActivity() {
         var inflator = menuInflater
         inflator.inflate(R.menu.consult_detail, menu)
         item = menu!!.findItem(R.id.mnuDetail)
+        if (::consultI.isInitialized)
+            if (consultI.paciente != null) item!!.isVisible = true
         return true
     }
 
@@ -132,5 +144,9 @@ class ConsultDetailActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_ID_CONSULT, id_consulta)
             context.startActivity(intent)
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

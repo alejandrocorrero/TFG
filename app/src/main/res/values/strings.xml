@@ -22,4 +22,8 @@
     <string name="accept">Accept</string>
     <string name="Warning">Warning_message</string>
     <string name="person">ShowPerson</string>
+    <string name="LoginActivity_medicLogin_dialog_message">¿Como deseas entrar?</string>
+    <string name="LoginActivity_medicLogin_dialog_tittle">Seleccion</string>
+    <string name="LoginActivity_medicLogin_dialog_positiveButton">Medico</string>
+    <string name="LoginActivity_medicLogin_dialog_negativeButton">Usuario</string>
 </resources>

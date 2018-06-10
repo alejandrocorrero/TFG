@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.correro.alejandro.tfg.BR
 
 import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.consultslistresponse.ConsultsList
+import com.correro.alejandro.tfg.databinding.FragmentConsultItemBinding
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivityViewModel
 import com.correro.alejandro.tfg.ui.patient.consultfragment.ConsultDetailActivity
 import com.correro.alejandro.tfg.utils.GenericAdapter
@@ -47,6 +49,7 @@ class ConsultFragment : Fragment() {
         adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click() as ((ConsultsList, ViewDataBinding?) -> Unit)?)
         view.rcyConsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyConsults.adapter = adapter
+        (activity as AppCompatActivity).supportActionBar!!.title="Consultas"
 
        view.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -94,8 +97,8 @@ class ConsultFragment : Fragment() {
         return view
     }
 
-    fun click(): (ConsultsList) -> Unit {
-        return {
+    fun click(): ((ConsultsList, FragmentConsultItemBinding) -> Unit)? {
+        return { it: ConsultsList, _: FragmentConsultItemBinding? ->
             ConsultDetailActivity.start(activity!!, it.id.toInt())
         }
 

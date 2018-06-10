@@ -22,9 +22,9 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:text='@{consultlist.nombreRespuesta ?? consultlist.nombre}'
             android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
-            android:text='@{consultlist.nombreRespuesta ?? consultlist.nombre}'
             app:layout_constraintEnd_toStartOf="@+id/lblDate"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,10 +51,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:text='@{consultlist.respuesta ?? consultlist.descripcion}'
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/colorPrimaryDark"
-            android:text='@{consultlist.respuesta ?? consultlist.descripcion}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/circleImageView"

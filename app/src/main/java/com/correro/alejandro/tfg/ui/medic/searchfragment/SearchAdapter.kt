@@ -10,6 +10,8 @@ import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.data.api.models.medicusersresponse.MedicUser
 import com.correro.alejandro.tfg.databinding.FragmentSearchItemBinding
 import com.correro.alejandro.tfg.databinding.ProgressLayoutBinding
+import com.correro.alejandro.tfg.utils.Constants
+import com.squareup.picasso.Picasso
 
 
 class SearchAdapter(var items: ArrayList<MedicUser?>, val listener: (MedicUser) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -51,6 +53,7 @@ class SearchAdapter(var items: ArrayList<MedicUser?>, val listener: (MedicUser) 
 
 class ViewHolder2(var binding: FragmentSearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: MedicUser, listener: (MedicUser) -> Unit) = with(binding.root) {
+        Picasso.get().load(Constants.ADDRESS2+"uploads/adjuntos/" + item.foto).into(binding.imgPhoto);
         binding.setVariable(BR.medicuser, item)
         binding.executePendingBindings()
         setOnClickListener { listener(item) }
@@ -60,6 +63,8 @@ class ViewHolder2(var binding: FragmentSearchItemBinding) : RecyclerView.ViewHol
 
 class ProgressViewHolder(var binding: ProgressLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind() = with(binding.root) {
+
+
         binding.executePendingBindings()
 
 

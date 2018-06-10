@@ -46,6 +46,7 @@ class ConsultActivity : AppCompatActivity() {
         fabAddPhoto.setOnClickListener { permissionWrite { launchCamera() } }
         mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
         setSupportActionBar(toolbar2)
+        supportActionBar!!.title="Pedir consulta"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         supportActionBar!!.setDisplayShowHomeEnabled(true);
         adapter = AdapterPhotos(click())
@@ -170,7 +171,6 @@ class ConsultActivity : AppCompatActivity() {
         RequestBody.create(MediaType.parse("text/plain"), "upload_test");
         mviewmodel.photos.add(ImageItem(file, body))
         adapter.addItem(mviewmodel.photos)
-        //mviewmodel.postPrueba(body, "nombre")
     }
 
     companion object {

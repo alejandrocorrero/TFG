@@ -33,7 +33,7 @@ class ExpedientFragment : Fragment() {
         } else {
             binding.patient = mviewmodel.user
         }
-        (activity as AppCompatActivity).supportActionBar!!.title="Expedient"
+        (activity!! as AppCompatActivity).supportActionBar!!.title="Expediente"
 
         return binding.root
     }

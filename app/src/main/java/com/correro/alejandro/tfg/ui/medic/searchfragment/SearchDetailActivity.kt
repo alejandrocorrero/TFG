@@ -8,6 +8,7 @@ import com.correro.alejandro.tfg.R
 import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
 import com.correro.alejandro.tfg.ui.patient.patientfragment.PatientFragment
 import com.correro.alejandro.tfg.utils.executeTransaction
+import kotlinx.android.synthetic.main.activity_search_detail.*
 
 class SearchDetailActivity : AppCompatActivity() {
     val FRAGMENT_PATIENT = "FRAGMENT_PATIENT"
@@ -15,6 +16,7 @@ class SearchDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_detail)
+        setSupportActionBar(toolbar2)
         var userid = intent.getIntExtra(INTENT_USER,0)
         supportFragmentManager?.executeTransaction({ replace(R.id.frgDetail, PatientFragment().newInstance(userid), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT)
     }

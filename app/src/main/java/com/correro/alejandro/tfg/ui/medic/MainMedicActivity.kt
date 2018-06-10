@@ -37,5 +37,7 @@ class MainMedicActivity : AppCompatActivity() {
         }
         navMedic.selectedItemId = R.id.mnuDiary
     }
-
+    override fun onBackPressed() {
+        //nada
+    }
 }
