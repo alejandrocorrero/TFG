@@ -31,11 +31,16 @@ class ExpedientFragment : Fragment() {
         if (pref.getInt(Constants.TYPE_CONSTAN, 0) == 2) {
             mviewmodel.userMedic.observe(this, Observer { binding.patient = it })
         } else {
-            binding.patient = mviewmodel.user
+            mviewmodel.user.observe(this,Observer { binding.patient = it })
         }
         (activity!! as AppCompatActivity).supportActionBar!!.title=getString(R.string.ExpedientFragment_toolbar_tittle)
 
         return binding.root
     }
+    override fun onResume() {
+        mviewmodel.callHistorical()
+        mviewmodel.callChronics()
 
+        super.onResume()
+    }
 }

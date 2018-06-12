@@ -13,6 +13,8 @@ class Constants {
         const val CLIENT_SECRET = "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k"
         const val ADDRESS = "http://192.168.1.213/tfgapi/api/web/app_dev.php/"
         const val ADDRESS2 = "http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/"
+        //const val ADDRESS = "https://unquotable-resistan.000webhostapp.com/TFGapi/TFGapi/api/web/app_dev.php/"
+        //const val ADDRESS2 = "https://unquotable-resistan.000webhostapp.com/TFGapi/TFGapi/api/web/uploads/adjuntos/"
         const val TOKEN_CONSTANT= "TOKEN_CONSTANT"
         const val TYPE_CONSTAN= "TYPE_CONSTAN"
         const val HTTP_OK=200

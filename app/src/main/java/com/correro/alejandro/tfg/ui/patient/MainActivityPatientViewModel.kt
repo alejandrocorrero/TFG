@@ -36,10 +36,11 @@ import com.correro.alejandro.tfg.ui.patient.patientfragment.attachmentsfragment.
 
 
 class MainActivityPatientViewModel(application: Application) : AndroidViewModel(application) {
-    lateinit var user: User
-    lateinit var historical: ArrayList<Historical>
-    lateinit var chronics: ArrayList<Chronic>
-    var context= application
+    var user: MutableLiveData<User> = MutableLiveData()
+    var historical: MutableLiveData<ArrayList<Historical>> = MutableLiveData()
+    var chronics: MutableLiveData<ArrayList<Chronic>> = MutableLiveData()
+
+    var context = application
     private val apiService: ApiService = ApiClient.getInstance(application.applicationContext).getService()
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
     lateinit var errorMessage: MutableLiveData<String>
@@ -120,7 +121,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     private fun sethistorical(historicalResponse: HistoricalResponse) {
         if (historicalResponse.status == Constants.HTTP_OK) {
-            historical = historicalResponse.historicals
+            historical.value = historicalResponse.historicals
             apiService.getChronicsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCronics, this::setError)
 
         }
@@ -128,7 +129,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     private fun setCronics(chronicResponse: ChronicResponse) {
         if (chronicResponse.status == Constants.HTTP_OK) {
-            chronics = chronicResponse.chronics
+            chronics.value = chronicResponse.chronics
             status.value = true
 
         }
@@ -185,6 +186,34 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     private fun responseFile(file: FileWithType) {
         archivo.value = file
+    }
+
+    fun callUser() {
+        apiService.getUser(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseUser, this::setError)
+
+    }
+
+    private fun responseUser(userResponse: UserResponse) {
+        user.value = userResponse.user
+    }
+
+    fun callHistorical() {
+        apiService.getHistorical(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
+
+    }
+
+    private fun responseHistoricals(response: HistoricalResponse) {
+        historical.value = response.historicals
+    }
+
+    fun callChronics() {
+        apiService.getChronics(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseChronics, this::setError)
+
+    }
+
+    private fun responseChronics(response: ChronicResponse) {
+        chronics.value = response.chronics
+
     }
 
 }

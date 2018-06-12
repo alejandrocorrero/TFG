@@ -86,9 +86,12 @@ class PatientFragment : Fragment() {
                     viewgroup.progressBar9.visibility = View.INVISIBLE
                 })
             })
+
         } else {
-            viewgroup.lblName.text = String.format("%s %s", mviewmodel.user.nombre, mviewmodel.user.apellido)
-            Picasso.get().load(Constants.ADDRESS2 + mviewmodel.user.foto).into(viewgroup.imgPhoto);
+            mviewmodel.user.observe(this, Observer {  viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido);
+                Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
+            })
+
         }
     }
 
@@ -100,4 +103,4 @@ class PatientFragment : Fragment() {
         return myFragment
     }
 
-}// Required empty public constructor
+}

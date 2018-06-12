@@ -38,9 +38,10 @@ class MainActivityPatient : AppCompatActivity() {
         setContentView(R.layout.activity_main_patient)
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
 
-        mviewmodel.user = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
-        mviewmodel.historical = intent.getParcelableArrayListExtra<Historical>(INTENT_HISTORICAL) ?: throw IllegalStateException("field $INTENT_HISTORICAL missing in Intent")
-        mviewmodel.chronics = intent.getParcelableArrayListExtra<Chronic>(INTENT_CHRONICS) ?: throw IllegalStateException("field $INTENT_CHRONICS missing in Intent")
+        mviewmodel.user.value = intent.getParcelableExtra(INTENT_USER) ?: throw IllegalStateException("field $INTENT_USER missing in Intent")
+        mviewmodel.historical.value = intent.getParcelableArrayListExtra<Historical>(INTENT_HISTORICAL) ?: throw IllegalStateException("field $INTENT_HISTORICAL missing in Intent")
+        mviewmodel.chronics.value = intent.getParcelableArrayListExtra<Chronic>(INTENT_CHRONICS) ?: throw IllegalStateException("field $INTENT_CHRONICS missing in Intent")
+
         setSupportActionBar(toolbar2)
         navPatient.disableShiftMode()
         navPatient.setOnNavigationItemSelectedListener {

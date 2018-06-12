@@ -16,6 +16,12 @@ import com.correro.alejandro.tfg.ui.patient.MainActivityPatient
 import com.correro.alejandro.tfg.utils.Constants
 import com.correro.alejandro.tfg.utils.errorRequest
 import kotlinx.android.synthetic.main.activity_login.*
+import android.text.method.PasswordTransformationMethod
+import com.correro.alejandro.tfg.R.id.txtPassword
+import android.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
+import android.view.MotionEvent
+
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,13 +38,23 @@ class LoginActivity : AppCompatActivity() {
             loginButton2()
         }
         btnLogin.setOnClickListener { loginButton() }
-
+        imgVisibility.setOnTouchListener { v, event -> passwordIconVisivility(event)  }
         //TODO TEST
         txtDni.setText("12345678M")
         txtPassword.setText("1234")
 
     }
 
+    private fun passwordIconVisivility(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            imgVisibility.setImageDrawable(resources.getDrawable(R.drawable.ic_visibility_off_black_24dp))
+            txtPassword.transformationMethod = null
+        } else if (event.action == MotionEvent.ACTION_UP) {
+            imgVisibility.setImageDrawable(resources.getDrawable(R.drawable.ic_visibility_black_24dp))
+            txtPassword.transformationMethod = PasswordTransformationMethod()
+        }
+        return true
+    }
     private fun loginButton() {
         val animationLogin = imageView.drawable as AnimationDrawable
         animationLogin.start()

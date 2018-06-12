@@ -73,5 +73,11 @@ class AttachmentsFragment : Fragment() {
         activity!!.permissionWrite { activity!!.startActivityForResult(Intent.createChooser(intent, getString(R.string.AttachmentsFragment_photo)), 1) }
     }
 
+    override fun onResume() {
+        mviewmodel.callUser()
+        mviewmodel.callChronics()
+        mviewmodel.callHistorical()
 
+        super.onResume()
+    }
 }

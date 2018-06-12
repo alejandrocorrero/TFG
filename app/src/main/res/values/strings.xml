@@ -32,7 +32,8 @@
     <string name="HistorialFragment_toolbar_title">Historial</string>
     <string name="HistorialDetailActivity_toolbar_tittle">Detalle historial</string>
     <string name="ExpedientFragment_toolbar_tittle">Expediente</string>
-    <string name="AttachmentsFragment_toolbar_tittle">Attachments</string>
+    <string name="AttachmentsFragment_toolbar_tittle">Adjuntos</string>
     <string name="AttachmentsFragment_photo">Open photo</string>
     <string name="ConsultFragment_toolbar_tittle">Consultas</string>
+    <string name="ChronicFragmentTitle">Enfermedades Cronicas y alergias</string>
 </resources>

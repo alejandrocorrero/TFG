@@ -43,7 +43,7 @@ class ConsultFragment : Fragment() {
         mviewmodel.callConsults(); view.progressBar10.visibility = View.VISIBLE
         mviewmodel.consults.observe(this, Observer { t -> adapter.newItems(t!!); view.progressBar10.visibility = View.INVISIBLE })
         mviewmodel.errorMessage.observe(this, Observer { t -> activity!!.error(t!!, getString(R.string.Warning_message)); view.progressBar10.visibility = View.INVISIBLE })
-        view.fabAddConsult.setOnClickListener { ConsultActivity.start(activity!!, mviewmodel.user) }
+        view.fabAddConsult.setOnClickListener { ConsultActivity.start(activity!!, mviewmodel.user.value!!) }
         return view
     }
 
