@@ -137,7 +137,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
-            consults.value = consultsListResponse.consults
+            consults.value = consultsListResponse.data.consults
         } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }
@@ -166,7 +166,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
     private fun setAttachments(attachmentResponse: AttachmentResponse) {
-        this.attchments.value = attachmentResponse.attachments
+        this.attchments.value = attachmentResponse.dataAttachment.rows
 
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Sanica</string>
     <string name="mnuPatient">Expediente</string>
     <string name="mnuRecipes">Recetas</string>
     <string name="mnuCitation">Citas</string>
@@ -36,4 +36,5 @@
     <string name="AttachmentsFragment_photo">Open photo</string>
     <string name="ConsultFragment_toolbar_tittle">Consultas</string>
     <string name="ChronicFragmentTitle">Enfermedades Cronicas y alergias</string>
+    <string name="activity_citation_selectDay_hint">Pulsa para eleccionar un dia</string>
 </resources>

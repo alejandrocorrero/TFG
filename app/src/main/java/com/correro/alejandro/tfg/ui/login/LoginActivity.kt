@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
         mviewmodel.errorCode.observe(this, Observer<Int> { errorResponse -> errorRequest(errorResponse!!);animationLogin.stop() })
         progressBar.visibility = View.VISIBLE
         btnLogin.isEnabled = false
+
     }
 
     private fun loginButton2() {

@@ -76,7 +76,7 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             } else {
                 mviewmodel.createCitation(btnDay.text.toString(), adapter.items[mviewmodel.selectedItem])
                 mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error");v.isEnabled = true })
-                mviewmodel.citationCreated.observe(this, Observer { createdDialog("created", "Sucess");v.isEnabled = true })
+                mviewmodel.citationCreated.observe(this, Observer { createdDialog("La cita ha sido creada con exito", "Exito");v.isEnabled = true })
             }
         })
 
@@ -100,6 +100,9 @@ class CitationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 mviewmodel.horaryMedic[0].day.get(Calendar.MONTH),
                 mviewmodel.horaryMedic[0].day.get(Calendar.DAY_OF_MONTH)
         )
+        dpd.locale=Locale("es","ES")
+        dpd.setCancelText("Cancelar")
+        dpd.setOkText("Aceptar")
         var calendar = ArrayList<Calendar>()
         for (i in mviewmodel.horaryMedic) {
             calendar.add(i.day)

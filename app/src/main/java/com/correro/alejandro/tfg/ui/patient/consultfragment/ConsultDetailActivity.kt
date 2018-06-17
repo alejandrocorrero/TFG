@@ -30,6 +30,7 @@ import android.graphics.Paint.UNDERLINE_TEXT_FLAG
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import com.correro.alejandro.tfg.R.id.textView
 import com.correro.alejandro.tfg.data.api.models.consultpatientresponse.Consult
 
@@ -43,9 +44,11 @@ class ConsultDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_consult_detail)
         mviewmodel = ViewModelProviders.of(this).get(ConsultDetailActivityViewModel::class.java)
         mviewmodel.idConsult = intent.getIntExtra(EXTRA_ID_CONSULT, -1)
+        progressBar4.visibility= View.VISIBLE
         mviewmodel.getconsult()
         mviewmodel.consult.observe(this, Observer { initViews(it!!) })
         mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Error") })
+        setupToolbar()
 
 
     }
@@ -58,17 +61,17 @@ class ConsultDetailActivity : AppCompatActivity() {
 
     private fun initViews(consultInfo: ConsultInfo) {
         consultI = consultInfo.consult
-        var params = nstPhotos.layoutParams
+        var params = rcyPhotos.layoutParams
         if (consultInfo.attachments.size == 0)
             params.height = 0
-        nstPhotos.layoutParams = params
+        rcyPhotos.layoutParams = params
 
         adapter = ConsultDetailPhotoAdapter(setlist())
         rcyPhotos.layoutManager = GridLayoutManager(this, 2)
         rcyPhotos.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rcyPhotos.adapter = adapter
+        progressBar4.visibility= View.INVISIBLE
 
-        setupToolbar()
         for (a in consultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
         adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, consultInfo.respuestas)

@@ -85,7 +85,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
 
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
-            consults.value = consultsListResponse.consults
+            consults.value = consultsListResponse.data.consults
         } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }

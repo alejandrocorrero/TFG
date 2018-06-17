@@ -69,7 +69,7 @@ class SearchFragment : Fragment() {
         inflater!!.inflate(R.menu.search_menu, menu)
         searchView = menu!!.findItem(R.id.search).actionView as SearchView
         //searchView.isIconified = true
-
+        searchView.queryHint="Paciente..."
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
@@ -85,7 +85,6 @@ class SearchFragment : Fragment() {
         })
         super.onCreateOptionsMenu(menu, inflater)
     }
-//TODO CANCELAR LLAMDA ANTIGUA
     private fun processQuery(query: String?) {
         if (endCall) {
             mviewmodel.composite.dispose()

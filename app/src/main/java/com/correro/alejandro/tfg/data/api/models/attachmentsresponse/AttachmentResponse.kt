@@ -6,5 +6,5 @@ data class AttachmentResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val message: String,
     @SerializedName("type") val type: Int,
-    @SerializedName("data") val attachments: ArrayList<Attachment>
+    @SerializedName("data") val dataAttachment: DataAttachment
 )

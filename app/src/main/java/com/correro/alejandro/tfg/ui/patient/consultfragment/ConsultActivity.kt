@@ -105,7 +105,7 @@ class ConsultActivity : AppCompatActivity() {
 
     private fun createConsultResponse(it: Boolean?) {
         progressBar13.visibility = View.INVISIBLE; window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        createdDialog("Created EConsultDetail", "Success")
+        createdDialog("Consulta creada con exito", "Información")
 
     }
 

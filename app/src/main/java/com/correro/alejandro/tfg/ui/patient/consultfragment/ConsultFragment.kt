@@ -34,7 +34,7 @@ class ConsultFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         retainInstance = true
         val view = inflater.inflate(R.layout.fragment_consult, container, false)
-        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click() as ((ConsultsList, ViewDataBinding?) -> Unit)?)
+        adapter = GenericAdapter(BR.consultlist, R.layout.fragment_consult_item, click() as ((ConsultsList, ViewDataBinding?) -> Unit)?,null,ArrayList(),view.emptyView)
 
         view.rcyConsults.addItemDecoration(SimpleDividerItemDecoration(activity!!));
         view.rcyConsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)

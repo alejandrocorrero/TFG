@@ -6,5 +6,5 @@ data class ConsultsListResponse(
     @SerializedName("status") val status: Int,
     @SerializedName("message") val message: String,
     @SerializedName("type") val type: Int,
-    @SerializedName("data") val consults: ArrayList<ConsultsList>
+    @SerializedName("data") val data: DataConsults
 )

@@ -4,6 +4,6 @@
     <item
         android:id="@+id/mnuLogOut"
         android:icon="@drawable/ic_log_out"
-        android:title="Log out"
+        android:title="Desconectarse"
         app:showAsAction="ifRoom"/>
 </menu>
