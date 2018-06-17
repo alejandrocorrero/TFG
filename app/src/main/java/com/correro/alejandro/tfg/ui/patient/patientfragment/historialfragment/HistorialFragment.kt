@@ -34,7 +34,7 @@ class HistorialFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_historial, container, false)
         view.rcyHistoricals.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        var adapter = GenericAdapter(BR.historical, R.layout.fragment_historial_item, clickItem() as ((Historical, ViewDataBinding?) -> Unit)?, null, ArrayList(), view.emptyView)
+        var adapter = GenericAdapter(BR.historical, R.layout.fragment_historial_item, clickItem() as ((Historical, ViewDataBinding?) -> Unit)?, null, ArrayList<Historical?>(), view.emptyView)
         view.rcyHistoricals.adapter = adapter
         mviewmodel.historical.observe(this, Observer { adapter.newItems(it!!) })
         (activity as AppCompatActivity).supportActionBar!!.title = getString(R.string.HistorialFragment_toolbar_title)

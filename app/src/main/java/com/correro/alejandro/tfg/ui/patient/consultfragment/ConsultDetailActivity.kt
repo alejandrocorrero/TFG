@@ -33,6 +33,7 @@ import android.view.MenuItem
 import android.view.View
 import com.correro.alejandro.tfg.R.id.textView
 import com.correro.alejandro.tfg.data.api.models.consultpatientresponse.Consult
+import java.util.ArrayList
 
 
 class ConsultDetailActivity : AppCompatActivity() {
@@ -74,7 +75,7 @@ class ConsultDetailActivity : AppCompatActivity() {
 
         for (a in consultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
-        adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, consultInfo.respuestas)
+        adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, consultInfo.respuestas as ArrayList<Respuesta?>)
         var layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         layoutManager.reverseLayout = true
         rcyResponses.layoutManager = layoutManager

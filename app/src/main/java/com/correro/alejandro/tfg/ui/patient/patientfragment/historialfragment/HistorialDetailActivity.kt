@@ -39,7 +39,7 @@ class HistorialDetailActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         supportActionBar!!.setDisplayShowHomeEnabled(true);
 
-        rcyRecipesHistorial.adapter = GenericAdapter(BR.recipe, R.layout.fragment_recipes_item, null, null, mviewmodel.recipes)
+        rcyRecipesHistorial.adapter = GenericAdapter(BR.recipe, R.layout.fragment_recipes_item, null, null, mviewmodel.recipes as java.util.ArrayList<Recipe?>)
 
     }
 

@@ -34,7 +34,7 @@ class CitationFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
         callAPiCitation()
         views.fabAdd.setOnClickListener { startActivityForResult(Intent(activity, CitationActivity::class.java), 1) }
-        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList(), views.emptyView)
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList<Citation?>(), views.emptyView)
         views.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         views.rcyCitations.adapter = adapter
         (activity as AppCompatActivity).supportActionBar!!.title="Citas"

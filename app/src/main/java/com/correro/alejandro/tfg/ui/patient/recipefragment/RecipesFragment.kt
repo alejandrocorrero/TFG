@@ -42,7 +42,7 @@ class RecipesFragment : Fragment() {
         view!!.progressBar.visibility = View.INVISIBLE
         view!!.rcyRecipes.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view!!.rcyRecipes.adapter = RecipeAdapter(recipe)
-        view!!.rcyRecipes.adapter = GenericAdapter(BR.recipe,R.layout.fragment_recipes_item,null,null,recipe,view!!.emptyRecipes)
+        view!!.rcyRecipes.adapter = GenericAdapter(BR.recipe,R.layout.fragment_recipes_item,null,null,recipe as java.util.ArrayList<Recipe?>,view!!.emptyRecipes)
     }
 
 

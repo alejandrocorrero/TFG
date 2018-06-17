@@ -54,12 +54,12 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     val type = pref.getInt(Constants.TYPE_CONSTAN, 0)
     var userMedicId: Int = 0
     var selectedTab: Int = R.id.mnuPatient
-
-    fun callConsults() {
+    var maxConsults: Int = 0
+    fun callConsults(position :Int) {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
 
-        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT, ""),position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
@@ -138,6 +138,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
             consults.value = consultsListResponse.data.consults
+            maxConsults=consultsListResponse.data.count
         } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }

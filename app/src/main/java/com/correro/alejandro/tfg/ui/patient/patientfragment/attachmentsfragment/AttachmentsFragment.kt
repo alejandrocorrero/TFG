@@ -38,7 +38,7 @@ class AttachmentsFragment : Fragment() {
         mviewmodel = ViewModelProviders.of(activity!!).get(MainActivityPatientViewModel::class.java)
         view.progressBar3.visibility = View.VISIBLE
         mviewmodel.callAttchments()
-        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, click() as ((Attachment, ViewDataBinding?) -> Unit)?, null, ArrayList(), view.emptyView)
+        adapter = GenericAdapter(BR.attachment, R.layout.fragment_attachments_item, click() as ((Attachment, ViewDataBinding?) -> Unit)?, null, ArrayList<Attachment?>(), view.emptyView)
         view.rcyAttachment.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyAttachment.adapter = adapter
         mviewmodel.attchments.observe(this, Observer { setRcy(it, view) })

@@ -68,7 +68,7 @@ interface ApiService {
     fun downloadFile(@Header("Authorization") token: String, @Path("url") fileUrl: String): Observable<Response<ResponseBody>>
 
     @GET("api/patient/consults")
-    fun getConsults(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+    fun getConsults(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<ConsultsListResponse>
 
     @GET("api/patient/specialties")
     fun getSpecialties(@Header("Authorization") token: String): Observable<SpecialtiesResponse>
@@ -136,6 +136,7 @@ interface ApiService {
 
     @GET("api/medic/user/{user}/recipeshistorical/{id}")
     fun getRecipesHistoricalUserMedic(@Header("Authorization") token: String, @Path("id") id: Int, @Path("user") idUser: Int): Observable<RecipesResponse>
+
     @GET("api/medic/user/{user}/attachments")
     fun getAttachmentsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<AttachmentResponse>
 

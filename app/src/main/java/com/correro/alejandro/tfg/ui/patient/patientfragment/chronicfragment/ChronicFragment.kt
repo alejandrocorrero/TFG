@@ -28,7 +28,7 @@ class ChronicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_chronic, container, false)
         view.rcyChronics.addItemDecoration(SimpleDividerItemDecoration(activity!!));
         view.rcyChronics.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        val adapter = GenericAdapter(BR.chronic, R.layout.fragment_chronic_item, null, null, ArrayList<Chronic>(), view.emptyView)
+        val adapter = GenericAdapter(BR.chronic, R.layout.fragment_chronic_item, null, null, ArrayList<Chronic?>(), view.emptyView)
         view.rcyChronics.adapter = adapter
         mviewmodel.chronics.observe(this, Observer { adapter.newItems(it!!) })
         (activity as AppCompatActivity).supportActionBar!!.title = getString(R.string.ChronicFragmentTitle)

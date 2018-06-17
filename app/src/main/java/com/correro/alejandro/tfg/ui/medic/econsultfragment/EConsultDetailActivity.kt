@@ -32,6 +32,7 @@ import com.correro.alejandro.tfg.utils.permissionWrite
 
 
 import kotlinx.android.synthetic.main.activity_econsult_detail.*
+import java.util.ArrayList
 
 class EConsultDetailActivity : AppCompatActivity() {
     private lateinit var mviewmodel: EConsultDetailActivityViewModel
@@ -73,7 +74,7 @@ class EConsultDetailActivity : AppCompatActivity() {
         setupToolbar()
         for (a in econsultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
-        adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, econsultInfo.respuestas)
+        adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, econsultInfo.respuestas as ArrayList<Respuesta?>)
 
         var layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, true)
         rcyResponses.layoutManager = layoutManager
