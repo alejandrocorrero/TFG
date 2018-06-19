@@ -123,6 +123,7 @@ class ConsultDetailActivity : AppCompatActivity() {
     }
 
     private fun setresult(it: Respuesta?) {
+        txtResponse.text=null
         adapterResponses.items.add(0, it!!)
         adapterResponses.notifyItemInserted(0)
         rcyResponses.scrollToPosition(0)

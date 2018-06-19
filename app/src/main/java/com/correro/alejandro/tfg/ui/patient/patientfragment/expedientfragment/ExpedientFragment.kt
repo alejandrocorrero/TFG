@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_expedient.view.*
 class ExpedientFragment : Fragment() {
 
 
-
     private lateinit var mviewmodel: MainActivityPatientViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,16 +30,18 @@ class ExpedientFragment : Fragment() {
         if (pref.getInt(Constants.TYPE_CONSTAN, 0) == 2) {
             mviewmodel.userMedic.observe(this, Observer { binding.patient = it })
         } else {
-            mviewmodel.user.observe(this,Observer { binding.patient = it })
+            mviewmodel.user.observe(this, Observer { binding.patient = it })
         }
-        (activity!! as AppCompatActivity).supportActionBar!!.title=getString(R.string.ExpedientFragment_toolbar_tittle)
+        (activity!! as AppCompatActivity).supportActionBar!!.title = getString(R.string.ExpedientFragment_toolbar_tittle)
 
         return binding.root
     }
-    override fun onResume() {
-        mviewmodel.callHistorical()
-        mviewmodel.callChronics()
 
+    override fun onResume() {
+        if (mviewmodel.type == 1) {
+            mviewmodel.callHistorical(0)
+            mviewmodel.callChronics()
+        }
         super.onResume()
     }
 }

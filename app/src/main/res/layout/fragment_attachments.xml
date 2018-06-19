@@ -41,7 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Not attachments"
+        android:text="No tienes archivos adjuntos"
         android:visibility="invisible"
 
         app:layout_constraintBottom_toBottomOf="parent"

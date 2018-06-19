@@ -49,8 +49,8 @@ class EConsultAddViewmodel(application: Application) : AndroidViewModel(applicat
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
+            is HttpException -> errorMessage.value = "Prueba de nuevo"
+            is SocketTimeoutException -> errorMessage.value = "Prueba de nuevo"
             is IOException -> errorMessage.value = "IO error"
         }
     }

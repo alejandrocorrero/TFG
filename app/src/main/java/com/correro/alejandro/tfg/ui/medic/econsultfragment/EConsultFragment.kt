@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +23,14 @@ import com.correro.alejandro.tfg.databinding.FragmentEconsultItemBinding
 import com.correro.alejandro.tfg.ui.medic.MainMedicActivityViewModel
 import com.correro.alejandro.tfg.utils.GenericAdapter
 import com.correro.alejandro.tfg.utils.error
+import kotlinx.android.synthetic.main.fragment_e_consult.*
 import kotlinx.android.synthetic.main.fragment_e_consult.view.*
 
 class EConsultFragment : Fragment() {
 
     private lateinit var adapter: GenericAdapter<Econsult>
-
+    var isLoading = false
+    val visibleThreshold = 5;
     private lateinit var mviewmodel: MainMedicActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,16 +39,26 @@ class EConsultFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_e_consult, container, false)
         adapter = GenericAdapter(BR.econsult, R.layout.fragment_econsult__item, click() as ((Econsult, ViewDataBinding?) -> Unit)?)
-        view.rcyEconsults.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        var mLayoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        view.rcyEconsults.layoutManager = mLayoutManager
         view.rcyEconsults.adapter = adapter
+        view.rcyEconsults.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isLoading && mLayoutManager.itemCount <= (mLayoutManager.findLastVisibleItemPosition() + visibleThreshold) && dy > 0) {
+                    loadData();
+                    isLoading = true;
+                }
+            }
+        })
         view.fabAddEconsult.setOnClickListener { activity!!.startActivity(Intent(activity, EConsultAddActivity::class.java)) }
         view.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 view.progressBar8.visibility = View.VISIBLE
                 view.rcyEconsults.visibility = View.INVISIBLE
                 when (tab!!.position) {
-                    0 -> mviewmodel.getEConsults()
-                    1 -> mviewmodel.getEConsultSspecialty()
+                    0 -> mviewmodel.getEConsults(0)
+                    1 -> mviewmodel.getEConsultSspecialty(0)
 
                 }
                 mviewmodel.econsults.observe(activity!!, Observer { adapter.newItems(it!!); view.progressBar8.visibility = View.INVISIBLE; view.rcyEconsults.visibility = View.VISIBLE })
@@ -62,8 +75,8 @@ class EConsultFragment : Fragment() {
                 view.rcyEconsults.visibility = View.INVISIBLE
 
                 when (tab!!.position) {
-                    0 -> mviewmodel.getEConsults()
-                    1 -> mviewmodel.getEConsultSspecialty()
+                    0 -> mviewmodel.getEConsults(0)
+                    1 -> mviewmodel.getEConsultSspecialty(0)
 
                 }
                 mviewmodel.econsults.observe(activity!!, Observer {
@@ -77,7 +90,31 @@ class EConsultFragment : Fragment() {
         view.tabLayout.getTabAt(0)!!.select()
         return view
     }
+    private fun loadData() {
+        adapter.items.add(null)
+        rcyEconsults.post { adapter.notifyItemInserted(adapter.items.size - 1) }
+        when (tabLayout.selectedTabPosition) {
+            0 -> {
+                mviewmodel.getEConsults(adapter.items.size - 1)
+            }
+            1->{
+                mviewmodel.getEConsultSspecialty(adapter.items.size - 1)
 
+            }
+        }
+        mviewmodel.econsults.observe(this, Observer { t -> setValues(t!!) })
+    }
+
+    private fun setValues(data: ArrayList<Econsult>) {
+        adapter.items.removeAt(adapter.items.size - 1)
+        adapter.notifyItemRemoved(adapter.items.size - 1)
+        val total = mviewmodel.maxEConsults
+        val start = adapter.items.size
+        val end = start + 20
+        val size = if (total > end) end else total
+        isLoading = total == size
+        adapter.lastitems(isLoading, data)
+    }
     fun click(): ((Econsult, FragmentEconsultItemBinding) -> Unit)? {
         return { it: Econsult, _: FragmentEconsultItemBinding? ->
             EConsultDetailActivity.start(activity!!, it.id.toInt())

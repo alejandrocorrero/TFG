@@ -41,8 +41,8 @@ class EConsultDetailActivityViewModel(application: Application) : AndroidViewMod
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
+            is HttpException -> errorMessage.value = "Prueba de nuevo"
+            is SocketTimeoutException -> errorMessage.value = "Prueba de nuevo"
             is IOException -> errorMessage.value = "IO error"
         }
     }
@@ -85,7 +85,7 @@ class EConsultDetailActivityViewModel(application: Application) : AndroidViewMod
             apiService.createResponseEconsult(pref.getString(Constants.TOKEN_CONSTANT, ""), text, idEConsult).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setResponse, this::setError)
 
         } else {
-            errorMessage.value = "Try again"
+            errorMessage.value = "Prueba de nuevo"
         }
         return responseCreated
 

@@ -68,7 +68,7 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
 
     private fun responseHistoricals(historicalResponse: HistoricalResponse) {
-        this.historicalResponse = historicalResponse.historicals
+        this.historicalResponse = historicalResponse.dataHistorial.historicals
 
         apiService.getChronics(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseChronics, this::setError)
     }
@@ -82,7 +82,7 @@ class LoginActivityViewModel(application: Application) : AndroidViewModel(applic
 
     public fun responseValues(): MutableLiveData<Boolean> {
         allValues = MutableLiveData()
-        apiService.getHistorical(token).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
+        apiService.getHistorical(token,0).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
         return allValues
     }
 

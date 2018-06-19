@@ -89,7 +89,7 @@ class PatientFragment : Fragment() {
 
         } else {
             mviewmodel.user.observe(this, Observer {  viewgroup.lblName.text = String.format("%s %s", it!!.nombre, it.apellido);
-                Picasso.get().load("http://192.168.1.213/tfgapi/api/web/uploads/adjuntos/" + it.foto).into(viewgroup.imgPhoto);
+                Picasso.get().load(Constants.ADDRESS2 + it.foto).into(viewgroup.imgPhoto);
             })
 
         }

@@ -35,10 +35,12 @@ class ChronicFragment : Fragment() {
 
         return view
     }
-    override fun onResume() {
-        mviewmodel.callUser()
-        mviewmodel.callHistorical()
 
+    override fun onResume() {
+        if (mviewmodel.type == 1) {
+            mviewmodel.callUser()
+            mviewmodel.callHistorical(0)
+        }
         super.onResume()
     }
 }

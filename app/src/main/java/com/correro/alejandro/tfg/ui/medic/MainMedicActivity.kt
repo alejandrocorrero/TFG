@@ -1,15 +1,20 @@
 package com.correro.alejandro.tfg.ui.medic
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import com.correro.alejandro.tfg.R
 import android.view.MenuInflater
+import android.view.MenuItem
+import com.correro.alejandro.tfg.ui.login.LoginActivity
 import com.correro.alejandro.tfg.ui.medic.consultfragment.ConsultFragment
 import com.correro.alejandro.tfg.ui.medic.diaryfragment.DiaryFragment
 import com.correro.alejandro.tfg.ui.medic.econsultfragment.EConsultFragment
 import com.correro.alejandro.tfg.ui.medic.searchfragment.SearchFragment
+import com.correro.alejandro.tfg.utils.Constants
 import com.correro.alejandro.tfg.utils.disableShiftMode
 import com.correro.alejandro.tfg.utils.executeTransaction
 import kotlinx.android.synthetic.main.activity_main_medic.*
@@ -41,6 +46,25 @@ class MainMedicActivity : AppCompatActivity() {
 
         }
         navMedic.selectedItemId = mviewmodel.selectedTab
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        var inflater = MenuInflater(this)
+        inflater.inflate(R.menu.main_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.mnuLogOut -> logout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun logout() {
+        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit().putString(Constants.TOKEN_CONSTANT, null).apply()
+        getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit().putInt(Constants.TYPE_CONSTAN, 0).apply()
+        startActivity(Intent(this, LoginActivity::class.java))
     }
     override fun onBackPressed() {
         //nada

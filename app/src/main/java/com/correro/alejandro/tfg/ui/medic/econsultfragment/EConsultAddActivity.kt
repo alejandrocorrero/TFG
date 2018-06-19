@@ -119,7 +119,7 @@ class EConsultAddActivity : AppCompatActivity() {
 
                 mviewmodel.errorMessage.observe(this, Observer { error(it!!, "Warning") })
             }else{
-                error("Try again","Error")
+                error("Prueba de nuevo","Error")
             }
         }
     }

@@ -30,41 +30,46 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var users: MutableLiveData<ArrayList<MedicUser>>
-    lateinit var composite:CompositeDisposable
+    var composite: CompositeDisposable = CompositeDisposable()
+    var maxConsults = 0
+    var maxEConsults = 0
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
     var selectedTab: Int = R.id.mnuDiary
 
-    fun getEConsults() {
+    fun getEConsults(position: Int) {
         errorMessage = MutableLiveData()
         econsults = MutableLiveData()
-        apiService.getEConsults(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
+        apiService.getEConsults(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
 
     }
 
-    fun getEConsultSspecialty() {
+    fun getEConsultSspecialty(position: Int) {
         errorMessage = MutableLiveData()
         econsults = MutableLiveData()
-        apiService.getEConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
+        apiService.getEConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setEConsults, this::setError)
 
     }
+
     private fun setEConsults(econsultResponse: EconsultResponse) {
         if (econsultResponse.status == Constants.HTTP_OK) {
-            econsults.value = econsultResponse.econsults
+            econsults.value = econsultResponse.dataEconsults.consults
+            maxEConsults=econsultResponse.dataEconsults.count
         } else if (econsultResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = econsultResponse.message
         }
     }
-    fun getConsultsPatiens() {
+
+    fun getConsultsPatiens(position: Int) {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsPatiens(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsPatiens(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
-    fun getConsultSspecialty() {
+    fun getConsultSspecialty(position: Int) {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
-        apiService.getConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsultsSpecialty(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
@@ -78,14 +83,16 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     private fun setCitations(citationResponse: CitationResponse) {
         if (citationResponse.status == Constants.HTTP_OK) {
             citatitons.value = citationResponse.citations
-        }else if (citationResponse.status == Constants.HTTP_NOT_FOUND) {
+        } else if (citationResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = citationResponse.message
         }
     }
 
+
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
             consults.value = consultsListResponse.data.consults
+            maxConsults = consultsListResponse.data.count
         } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }
@@ -93,8 +100,8 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
+            is HttpException -> errorMessage.value = "Prueba de nuevo"
+            is SocketTimeoutException -> errorMessage.value = "Prueba de nuevo"
             is IOException -> errorMessage.value = "IO error"
         }
     }
@@ -103,7 +110,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     fun getUsers(filter: String?): MutableLiveData<ArrayList<MedicUser>> {
         users = MutableLiveData()
         errorMessage = MutableLiveData()
-        composite= CompositeDisposable()
+
         composite.add(apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError))
         return users
     }

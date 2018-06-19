@@ -43,7 +43,7 @@ class DiaryFragment : Fragment() {
         view.fabAdd.visibility=View.INVISIBLE
         (activity as AppCompatActivity).supportActionBar!!.title="Agenda para hoy"
 
-        adapter = GenericAdapter(BR.citation, R.layout.fragment_diary_item, click() as ((Citation, ViewDataBinding?) -> Unit)?,null,ArrayList<Citation?>(),view.emptyView)
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_diary_item, click() as ((Citation, ViewDataBinding?) -> Unit)?,null,ArrayList<Citation?>())
         view.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         view.rcyCitations.adapter = adapter
         return view
@@ -60,6 +60,7 @@ class DiaryFragment : Fragment() {
         if (list != null) {
             adapter.newItems(list)
         }
+        adapter.empty=view!!.emptyView
     }
 
 

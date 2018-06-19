@@ -36,7 +36,7 @@ interface ApiService {
     fun getUser(@Header("Authorization") token: String): Observable<UserResponse>
 
     @GET("api/patient/historical")
-    fun getHistorical(@Header("Authorization") token: String): Observable<HistoricalResponse>
+    fun getHistorical(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<HistoricalResponse>
 
     @GET("api/patient/chronic")
     fun getChronics(@Header("Authorization") token: String): Observable<ChronicResponse>
@@ -61,7 +61,7 @@ interface ApiService {
     fun createCitation(@Header("Authorization") token: String, @Field("day") day: String, @Field("time") time: String): Observable<CitationCreatedResponse>
 
     @GET("api/patient/attachments")
-    fun getAttachments(@Header("Authorization") token: String): Observable<AttachmentResponse>
+    fun getAttachments(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<AttachmentResponse>
 
     @Streaming
     @GET("api/patient/file/{url}")
@@ -91,10 +91,10 @@ interface ApiService {
 
     // ------------- MEDIC-----------
     @GET("api/medic/consultspatiens")
-    fun getConsultsPatiens(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+    fun getConsultsPatiens(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<ConsultsListResponse>
 
     @GET("api/medic/consultspecialty")
-    fun getConsultsSpecialty(@Header("Authorization") token: String): Observable<ConsultsListResponse>
+    fun getConsultsSpecialty(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<ConsultsListResponse>
 
     @GET("api/medic/consults/{id}")
     fun getConsultMedic(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<ConsultPatientResponse>
@@ -110,10 +110,10 @@ interface ApiService {
     fun getUsers(@Header("Authorization") token: String, @Query("filter") filter: String?): Observable<MedicUserResponse>
 
     @GET("api/medic/econsults")
-    fun getEConsults(@Header("Authorization") token: String): Observable<EconsultResponse>
+    fun getEConsults(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<EconsultResponse>
 
     @GET("api/medic/econsultspecialty")
-    fun getEConsultsSpecialty(@Header("Authorization") token: String): Observable<EconsultResponse>
+    fun getEConsultsSpecialty(@Header("Authorization") token: String, @Query("offset") position: Int): Observable<EconsultResponse>
 
     @GET("api/medic/econsults/{id}")
     fun getEconsultDetail(@Header("Authorization") token: String, @Path("id") idConsult: Int): Observable<EconsultDetailResponse>
@@ -129,7 +129,7 @@ interface ApiService {
     fun getUserMedic(@Header("Authorization") token: String, @Path("id") idUser: Int): Observable<UserResponse>
 
     @GET("api/medic/user/{user}/historical")
-    fun getHistoricalUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<HistoricalResponse>
+    fun getHistoricalUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int, @Query("offset") position: Int): Observable<HistoricalResponse>
 
     @GET("api/medic/user/{user}/chronic")
     fun getChronicsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<ChronicResponse>
@@ -138,7 +138,7 @@ interface ApiService {
     fun getRecipesHistoricalUserMedic(@Header("Authorization") token: String, @Path("id") id: Int, @Path("user") idUser: Int): Observable<RecipesResponse>
 
     @GET("api/medic/user/{user}/attachments")
-    fun getAttachmentsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int): Observable<AttachmentResponse>
+    fun getAttachmentsUserMedic(@Header("Authorization") token: String, @Path("user") idUser: Int, @Query("offset") position: Int): Observable<AttachmentResponse>
 
 
 }

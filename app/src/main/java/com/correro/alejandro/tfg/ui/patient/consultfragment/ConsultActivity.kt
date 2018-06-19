@@ -10,6 +10,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
@@ -107,6 +108,7 @@ class ConsultActivity : AppCompatActivity() {
         progressBar13.visibility = View.INVISIBLE; window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         createdDialog("Consulta creada con exito", "Información")
 
+
     }
 
     private fun click(): (ImageItem) -> Boolean {
@@ -175,10 +177,10 @@ class ConsultActivity : AppCompatActivity() {
 
     companion object {
         private const val INTENT_USER = "INTENT_USER"
-        fun start(context: Context, user: User) {
+        fun start(context: FragmentActivity, user: User,requestCode: Int) {
             val intent = Intent(context, ConsultActivity::class.java)
             intent.putExtra(INTENT_USER, user)
-            context.startActivity(intent)
+            context.startActivityForResult(intent,requestCode)
         }
     }
 }

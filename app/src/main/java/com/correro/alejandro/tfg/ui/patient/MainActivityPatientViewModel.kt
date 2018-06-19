@@ -55,11 +55,13 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     var userMedicId: Int = 0
     var selectedTab: Int = R.id.mnuPatient
     var maxConsults: Int = 0
-    fun callConsults(position :Int) {
+    var maxAttachments: Int = 0
+    var maxHistorical: Int = 0
+    fun callConsults(position: Int) {
         errorMessage = MutableLiveData()
         consults = MutableLiveData()
 
-        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT, ""),position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
+        apiService.getConsults(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setConsults, this::setError)
 
     }
 
@@ -86,13 +88,13 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         }
     }
 
-    fun callAttchments() {
+    fun callAttchments(position: Int) {
         attchments = MutableLiveData()
         errorMessage = MutableLiveData()
         if (type == 1) {
-            apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+            apiService.getAttachments(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
         } else {
-            apiService.getAttachmentsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
+            apiService.getAttachmentsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId,position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setAttachments, this::setError)
         }
     }
 
@@ -114,14 +116,14 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private fun setUserResponse(userResponse: UserResponse) {
         if (userResponse.status == Constants.HTTP_OK) {
             userMedic.value = userResponse.user
-            apiService.getHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::sethistorical, this::setError)
-
+            callHistorical(0);
         }
     }
 
     private fun sethistorical(historicalResponse: HistoricalResponse) {
         if (historicalResponse.status == Constants.HTTP_OK) {
-            historical.value = historicalResponse.historicals
+            historical.value = historicalResponse.dataHistorial.historicals
+            maxHistorical = historicalResponse.dataHistorial.count
             apiService.getChronicsUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCronics, this::setError)
 
         }
@@ -138,7 +140,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     private fun setConsults(consultsListResponse: ConsultsListResponse) {
         if (consultsListResponse.status == Constants.HTTP_OK) {
             consults.value = consultsListResponse.data.consults
-            maxConsults=consultsListResponse.data.count
+            maxConsults = consultsListResponse.data.count
         } else if (consultsListResponse.status == Constants.HTTP_NOT_FOUND) {
             errorMessage.value = consultsListResponse.message
         }
@@ -168,6 +170,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
     private fun setAttachments(attachmentResponse: AttachmentResponse) {
         this.attchments.value = attachmentResponse.dataAttachment.rows
+        this.maxAttachments = attachmentResponse.dataAttachment.count
 
     }
 
@@ -198,13 +201,17 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
         user.value = userResponse.user
     }
 
-    fun callHistorical() {
-        apiService.getHistorical(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
+    fun callHistorical(position: Int) {
+        if (type == 1)
+            apiService.getHistorical(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
+        else
+            apiService.getHistoricalUserMedic(pref.getString(Constants.TOKEN_CONSTANT, ""), userMedicId, position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::sethistorical, this::setError)
 
     }
 
     private fun responseHistoricals(response: HistoricalResponse) {
-        historical.value = response.historicals
+        historical.value = response.dataHistorial.historicals
+        maxHistorical = response.dataHistorial.count
     }
 
     fun callChronics() {

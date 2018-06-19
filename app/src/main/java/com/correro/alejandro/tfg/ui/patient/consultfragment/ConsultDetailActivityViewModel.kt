@@ -44,8 +44,8 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
+            is HttpException -> errorMessage.value = "Prueba de nuevo"
+            is SocketTimeoutException -> errorMessage.value = "Prueba de nuevo"
             is IOException -> errorMessage.value = "IO error"
         }
     }
@@ -93,7 +93,7 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
 
             }
         } else {
-            errorMessage.value = "Try again"
+            errorMessage.value = "Prueba de nuevo"
         }
         return responseCreated
 

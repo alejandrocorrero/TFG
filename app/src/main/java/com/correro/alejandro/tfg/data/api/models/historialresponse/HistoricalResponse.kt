@@ -7,5 +7,5 @@ data class HistoricalResponse(
 		@SerializedName("status") val status: Int,
 		@SerializedName("message") val message: String,
 		@SerializedName("type") val type: Int,
-		@SerializedName("data") val historicals: ArrayList<Historical>
+		@SerializedName("data") val dataHistorial: DataHistorial
 )

@@ -73,8 +73,8 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
 
     private fun setError(e: Throwable?) {
         when (e) {
-            is HttpException -> errorMessage.value = "Try again"
-            is SocketTimeoutException -> errorMessage.value = "Try again"
+            is HttpException -> errorMessage.value = "Prueba de nuevo"
+            is SocketTimeoutException -> errorMessage.value = "Prueba de nuevo"
             is IOException -> errorMessage.value = "IO error"
         }
     }
@@ -83,9 +83,9 @@ class CitationActivityViewModel(application: Application) : AndroidViewModel(app
         if (!::citationCreated.isInitialized) {
             citationCreated = MutableLiveData()
         }
-        if (!::errorMessage.isInitialized) {
+
             errorMessage = MutableLiveData()
-        }
+
         apiService.createCitation(pref.getString(Constants.TOKEN_CONSTANT,""), date, time).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setCreate, this::setError)
 
     }

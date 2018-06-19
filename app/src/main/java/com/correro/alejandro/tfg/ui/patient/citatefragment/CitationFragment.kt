@@ -32,11 +32,11 @@ class CitationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         views = inflater.inflate(R.layout.fragment_citation, container, false)
         mviewmodel = ViewModelProviders.of(this).get(MainActivityPatientViewModel::class.java)
-        callAPiCitation()
         views.fabAdd.setOnClickListener { startActivityForResult(Intent(activity, CitationActivity::class.java), 1) }
-        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList<Citation?>(), views.emptyView)
+        adapter = GenericAdapter(BR.citation, R.layout.fragment_citation_item, null, null, ArrayList<Citation?>())
         views.rcyCitations.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         views.rcyCitations.adapter = adapter
+        callAPiCitation()
         (activity as AppCompatActivity).supportActionBar!!.title="Citas"
 
         return views
@@ -49,8 +49,9 @@ class CitationFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK){
             callAPiCitation()
+        }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -59,6 +60,7 @@ class CitationFragment : Fragment() {
         if (list != null) {
             adapter.newItems(list)
         }
+        adapter.empty=view!!.emptyView
     }
 
 
