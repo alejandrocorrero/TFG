@@ -46,16 +46,24 @@ class MainActivityPatient : AppCompatActivity() {
         navPatient.disableShiftMode()
         navPatient.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.mnuPatient ->{supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT);mviewmodel.selectedTab=it.itemId}
-                R.id.mnuRecipes -> {supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, RecipesFragment(), FRAGMENT_RECIPES) }, FRAGMENT_RECIPES);mviewmodel.selectedTab=it.itemId}
-                R.id.mnuCitation ->{ supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, CitationFragment(), FRAGMENT_CITATION) }, FRAGMENT_CITATION);mviewmodel.selectedTab=it.itemId}
-                R.id.mnuConsultation -> {supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, ConsultFragment(), FRAGMENT_CONSULT) }, FRAGMENT_CONSULT);mviewmodel.selectedTab=it.itemId}
+                R.id.mnuPatient -> {
+                    supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, PatientFragment(), FRAGMENT_PATIENT) }, FRAGMENT_PATIENT);mviewmodel.selectedTab = it.itemId
+                }
+                R.id.mnuRecipes -> {
+                    supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, RecipesFragment(), FRAGMENT_RECIPES) }, FRAGMENT_RECIPES);mviewmodel.selectedTab = it.itemId
+                }
+                R.id.mnuCitation -> {
+                    supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, CitationFragment(), FRAGMENT_CITATION) }, FRAGMENT_CITATION);mviewmodel.selectedTab = it.itemId
+                }
+                R.id.mnuConsultation -> {
+                    supportFragmentManager?.executeTransaction({ replace(R.id.frmMainPatient, ConsultFragment(), FRAGMENT_CONSULT) }, FRAGMENT_CONSULT);mviewmodel.selectedTab = it.itemId
+                }
 
             }
             true
 
         }
-        navPatient.selectedItemId=mviewmodel.selectedTab
+        navPatient.selectedItemId = mviewmodel.selectedTab
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,6 +87,9 @@ class MainActivityPatient : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 5) {
+            supportFragmentManager.findFragmentByTag(FRAGMENT_CONSULT).onActivityResult(requestCode, resultCode, data)
+        }
         super.onActivityResult(requestCode, resultCode, data)
     }
 

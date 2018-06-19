@@ -125,8 +125,7 @@ class EConsultAddActivity : AppCompatActivity() {
     }
 
     private fun createEConsultResponse(it: Boolean?) {
-        createdDialog("Created EConsul", "Success")
-
+        createdDialog("Econsulta creada", "Éxito")
     }
 
     private fun click(): (ImageItem) -> Boolean {

@@ -1,6 +1,7 @@
 package com.correro.alejandro.tfg.ui.medic.econsultfragment
 
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -51,7 +52,7 @@ class EConsultFragment : Fragment() {
                 }
             }
         })
-        view.fabAddEconsult.setOnClickListener { activity!!.startActivity(Intent(activity, EConsultAddActivity::class.java)) }
+        view.fabAddEconsult.setOnClickListener { startActivityForResult(Intent(activity, EConsultAddActivity::class.java),10) }
         view.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 view.progressBar8.visibility = View.VISIBLE
@@ -89,6 +90,25 @@ class EConsultFragment : Fragment() {
         })
         view.tabLayout.getTabAt(0)!!.select()
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode==Activity.RESULT_OK){
+            view!!.progressBar8.visibility = View.VISIBLE
+            when (tabLayout.selectedTabPosition) {
+                0 -> {
+                    mviewmodel.getEConsults(0)
+                }
+                1->{
+                    mviewmodel.getEConsultSspecialty(0)
+
+                }
+            }
+
+            mviewmodel.econsults.observe(activity!!, Observer { adapter.newItems(it!!); view!!.progressBar8.visibility = View.INVISIBLE; view!!.rcyEconsults.visibility = View.VISIBLE })
+
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
     private fun loadData() {
         adapter.items.add(null)

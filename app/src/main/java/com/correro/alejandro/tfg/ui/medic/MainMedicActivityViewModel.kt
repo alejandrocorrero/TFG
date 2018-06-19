@@ -30,7 +30,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     lateinit var errorMessage: MutableLiveData<String>
     lateinit var citatitons: MutableLiveData<ArrayList<Citation>>
     lateinit var users: MutableLiveData<ArrayList<MedicUser>>
-    var composite: CompositeDisposable = CompositeDisposable()
+    lateinit var composite: CompositeDisposable
     var maxConsults = 0
     var maxEConsults = 0
     var pref = application.getSharedPreferences(Constants.PREFERENCES, 0)!!
@@ -110,7 +110,7 @@ class MainMedicActivityViewModel(application: Application) : AndroidViewModel(ap
     fun getUsers(filter: String?): MutableLiveData<ArrayList<MedicUser>> {
         users = MutableLiveData()
         errorMessage = MutableLiveData()
-
+        composite= CompositeDisposable()
         composite.add(apiService.getUsers(pref.getString(Constants.TOKEN_CONSTANT, ""), filter).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::setusers, this::setError))
         return users
     }

@@ -61,6 +61,9 @@ class MainMedicActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        supportFragmentManager.findFragmentByTag(FRAGMENT_ECONSULT).onActivityResult(requestCode, resultCode, data)
+    }
     private fun logout() {
         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit().putString(Constants.TOKEN_CONSTANT, null).apply()
         getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit().putInt(Constants.TYPE_CONSTAN, 0).apply()

@@ -23,11 +23,11 @@
     <string name="Warning_message">Aviso</string>
     <string name="person">ShowPerson</string>
     <string name="LoginActivity_medicLogin_dialog_message">¿Como deseas entrar?</string>
-    <string name="LoginActivity_medicLogin_dialog_tittle">Seleccion</string>
-    <string name="LoginActivity_medicLogin_dialog_positiveButton">Medico</string>
+    <string name="LoginActivity_medicLogin_dialog_tittle">Selección</string>
+    <string name="LoginActivity_medicLogin_dialog_positiveButton">Médico</string>
     <string name="LoginActivity_medicLogin_dialog_negativeButton">Usuario</string>
-    <string name="httpException_error">Try again</string>
-    <string name="SocketTimeOutException">Try again</string>
+    <string name="httpException_error">Prueba de nuevo</string>
+    <string name="SocketTimeOutException">Prueba de nuevo</string>
     <string name="IOException_error">IO error</string>
     <string name="HistorialFragment_toolbar_title">Historial</string>
     <string name="HistorialDetailActivity_toolbar_tittle">Detalle historial</string>

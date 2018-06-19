@@ -67,6 +67,7 @@ class ConsultFragment : Fragment() {
         if (requestCode == 5 && resultCode == RESULT_OK){
             view!!.progressBar10.visibility = View.VISIBLE
             mviewmodel.callConsults(0)
+            mviewmodel.consults.observe(this, Observer { t -> adapter.newItems(t!!); view!!.progressBar10.visibility = View.INVISIBLE})
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
