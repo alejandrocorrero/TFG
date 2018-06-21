@@ -43,7 +43,7 @@ class EConsultDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_econsult_detail);
-        title="Econsulta"
+        setupToolbar()
 
         mviewmodel = ViewModelProviders.of(this).get(EConsultDetailActivityViewModel::class.java)
         mviewmodel.idEConsult = intent.getIntExtra(EXTRA_ID_ECONSULT, -1)
@@ -59,9 +59,8 @@ class EConsultDetailActivity : AppCompatActivity() {
     private lateinit var adapterResponses: GenericAdapter<Respuesta>
 
 
-
     private fun initViews(econsultInfo: EconsultInfo) {
-        econsultI=econsultInfo.EConsult
+        econsultI = econsultInfo.EConsult
         var params = nstPhotos.layoutParams
         if (econsultInfo.attachments.size == 0)
             params.height = 0
@@ -71,7 +70,6 @@ class EConsultDetailActivity : AppCompatActivity() {
         rcyPhotos.layoutManager = GridLayoutManager(this, 2)
         rcyPhotos.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rcyPhotos.adapter = adapter
-        setupToolbar()
         for (a in econsultInfo.attachments)
             mviewmodel.downloadFile(a.adjunto, this).observe(this, Observer { it -> adapter.addItem(it) })
         adapterResponses = GenericAdapter(BR.response, R.layout.fragment_consult_medic_type_item, null, null, econsultInfo.respuestas as ArrayList<Respuesta?>)
@@ -85,12 +83,14 @@ class EConsultDetailActivity : AppCompatActivity() {
         mBinding.econsultdetail = econsultInfo.EConsult
 
     }
+
     private fun setupToolbar() {
         setSupportActionBar(toolbar2)
         supportActionBar!!.title = "Detalle Econsulta"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         supportActionBar!!.setDisplayShowHomeEnabled(true);
     }
+
     private var item: MenuItem? = null
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -103,7 +103,10 @@ class EConsultDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.mnuDetail -> SearchDetailActivity.start(this, econsultI.idPaciente.toInt())
+            R.id.mnuDetail -> {
+                if (::econsultI.isInitialized)
+                    SearchDetailActivity.start(this, econsultI.idPaciente.toInt())
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -118,6 +121,7 @@ class EConsultDetailActivity : AppCompatActivity() {
     }
 
     private fun setresult(it: Respuesta?) {
+        txtResponse.text=null
         adapterResponses.items.add(0, it!!)
         adapterResponses.notifyItemInserted(0)
         rcyResponses.scrollToPosition(0)
@@ -144,6 +148,7 @@ class EConsultDetailActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

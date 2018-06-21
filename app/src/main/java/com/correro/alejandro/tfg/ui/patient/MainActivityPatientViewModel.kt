@@ -108,7 +108,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
 
         archivo = MutableLiveData()
         errorMessage = MutableLiveData()
-        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> downloasFileResponse(t, v) }).subscribe(this::responseFile, this::setError)
+        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(Schedulers.io()).subscribeOn(Schedulers.io()).flatMap({ t -> downloasFileResponse(t, v) }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseFile, this::setError)
 
         return archivo
     }
@@ -193,6 +193,8 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
     fun callUser() {
+        errorMessage=MutableLiveData()
+
         apiService.getUser(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseUser, this::setError)
 
     }
@@ -202,6 +204,7 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
     fun callHistorical(position: Int) {
+        errorMessage= MutableLiveData()
         if (type == 1)
             apiService.getHistorical(pref.getString(Constants.TOKEN_CONSTANT, ""), position).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseHistoricals, this::setError)
         else
@@ -215,6 +218,8 @@ class MainActivityPatientViewModel(application: Application) : AndroidViewModel(
     }
 
     fun callChronics() {
+        errorMessage=MutableLiveData()
+
         apiService.getChronics(pref.getString(Constants.TOKEN_CONSTANT, "")).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::responseChronics, this::setError)
 
     }

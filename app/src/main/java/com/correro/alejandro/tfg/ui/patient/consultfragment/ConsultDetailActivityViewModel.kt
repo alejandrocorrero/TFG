@@ -59,7 +59,7 @@ class ConsultDetailActivityViewModel(application: Application) : AndroidViewMode
     fun downloadFile(url: String, v: Context): MutableLiveData<FileWithType> {
         archivo.add(MutableLiveData())
         var position = archivo.size - 1
-        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).subscribe({ f -> setfile(f, position) }, this::setError)
+        apiService.downloadFile(pref.getString(Constants.TOKEN_CONSTANT, ""), url).observeOn(Schedulers.io()).subscribeOn(Schedulers.io()).flatMap({ t -> test(t, v) }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe({ f -> setfile(f, position) }, this::setError)
         return archivo[position]
     }
 

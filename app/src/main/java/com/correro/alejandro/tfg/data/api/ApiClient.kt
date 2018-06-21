@@ -18,7 +18,7 @@ class ApiClient private constructor(context: Context) {
 
     init {
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
-        builder.addInterceptor(ChuckInterceptor(context))
+        //builder.addInterceptor(ChuckInterceptor(context))
         builder.connectTimeout(1, TimeUnit.MINUTES)
         builder.readTimeout(1, TimeUnit.MINUTES)
         val client: OkHttpClient = builder.build();
